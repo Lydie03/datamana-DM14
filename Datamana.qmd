@@ -1,25 +1,71 @@
 ---
-title: "Datamanaproj"
+title: "Data Management Project"
+author : Lou Dhiver and Lydie Lazure 
 format: html
 ---
+## Presentation of the project
+We have decided to test the environmental Kuznet's curve theory. The idea is that a country will pollute a lot for a while in order to develop, and then reach a sufficient level of economic development to decrease its carbon dioxyde emissions. We would then get an inverted u shaped line in the plan (GDP per capita, pollution). 
 
-## Quarto
+We wish to very the empirical accuracy of this theory, both by regions and periods of times. Does is apply to different economical structures ? Does it apply at any time over the years ? 
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+We will then consider the subject around a more human matter. Pollution to the cost of a population's health : an impact on GDP ? And if so, can we quantify it ? 
 
-## Running Code
+## Loading the datasets
+```{r}
+library(tidyr)
+library(vroom)
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+DALYs <- vroom::vroom("DALYs.csv")
+death_air_pollution <- vroom::vroom("death-air-pollution.csv")
+SDG <- vroom::vroom("SDG indicators.csv")
+GDP_per_capita <- vroom::vroom("GDPperCapita.csv", delim=",")
+```
+## Data cleaning
+
+### GDP per capita
+By trying to get the column names of this dataset, we observed that it did not load properly. There were the first four row of the Excel sheet presenting the data, hence compromising the understanding of the separator ",". We removed the first four rows that did not contain any data and got a proper dataset to work with. 
+```{r}
+GDP_per_capita_cleaned <- vroom::vroom("GDPperCapita.csv", skip = 4, delim=",") 
+```
+### DALYs
+This dataset is hard to work with in the sense that the columns have non explicit names. hence the following changes. 
 
 ```{r}
-1 + 1
+library(dplyr)
+
+DALYs <- DALYs %>%
+  rename(
+    Mean_Value = FactValueNumeric,
+    lowest_value = FactValueNumericLow,
+    highest_value = FactValueNumericHigh,
+    Sex = Dim1,
+    Country = Location
+  )
 ```
 
-You can add options to executable code like this 
+### Death air pollution adn SDG
+The observations are the same as for DALYs, hence the following changes.
 
 ```{r}
-#| echo: false
-2 * 2
+SDG <- SDG %>%
+  rename(
+    Mean_Value = FactValueNumeric,
+    lowest_value = FactValueNumericLow,
+    highest_value = FactValueNumericHigh,
+    Sex = Dim1,
+    Country = Location
+  )
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+death_air_pollution <- death_air_pollution %>%
+  rename(
+    Mean_Value = FactValueNumeric,
+    lowest_value = FactValueNumericLow,
+    highest_value = FactValueNumericHigh,
+    Sex = Dim1,
+    Country = Location
+  )
+```
+
+
