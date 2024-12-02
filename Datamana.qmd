@@ -43,7 +43,7 @@ DALYs <- DALYs %>%
   )
 ```
 
-### Death air pollution adn SDG
+### Death air pollution and SDG
 The observations are the same as for DALYs, hence the following changes.
 
 ```{r}
@@ -68,4 +68,107 @@ death_air_pollution <- death_air_pollution %>%
   )
 ```
 
+
+## Data description
+
+To answer our research question, we will need data around pollution, GDP per capita and health. 
+To this end, we will be working with databases from the World Health Organization, and the World Bank. 
+
+References are listed in the appendix. 
+
+### DALYs
+This aggregated indicator is extracted from the World Health Organization database. It is described as follows : "DALYs for a disease or health condition are the sum of the years of life lost to due to premature mortality (YLLs) and the years lived with a disability (YLDs) due to prevalent cases of the disease or health condition in a population". 
+We will mostly use the variable cross countries, classified into regions (Africa, Eastern Europe, Asia, North and South America), by sex (male/female), by year (2010 to 2019) and by cause of death (cancer, trachea etc.). 
+This will allow us to evaluate possible external factors, such as armed conflicts, that might have had an impact on spoecific regions during a specific year. 
+
+This dataset will then be compared to pollution to answer our final sub research question : can a country observe long term growth while polluting despite the negative externalities in terms of health ? 
+
+```{r}
+head(DALYs)
+summary(DALYs)
+
+library(ggplot2)
+
+# Grouping mean over time per country
+DALYs_unique <- DALYs %>%
+  group_by(ParentLocation) %>%
+  summarise(Mean_Value = mean(Mean_Value))
+
+# Graphical representation
+ggplot(data = DALYs_unique, aes(x = ParentLocation, y = Mean_Value, group = 1)) +
+  geom_line()
+```
+When we group the mean of DALYs values obver time per country, we get a rather interesting picture of the situation cross regions. It seems DAILYs are prevazlent in Africa, Eastern Mediterranea and South East Asia. This will allow us to define control groups and to consider levels of development compared to DALYs. 
+
+### Death air pollution
+This data set will be used to complete DALYs. It also comes from the World Health Organization and is organized with the same categories and classifications. 
+It will allow us to get a more precise analysis on the effect of carbone emissions on health. 
+
+```{r}
+head(death_air_pollution)
+summary(death_air_pollution)
+
+library(ggplot2)
+
+# Grouping mean over time per country
+death_air_pollution_unique <- death_air_pollution %>%
+  group_by(ParentLocation) %>%
+  summarise(Mean_Value = mean(Mean_Value))
+
+# Graphical representation
+ggplot(data = death_air_pollution_unique, aes(x = ParentLocation, y = Mean_Value, group = 1)) +
+  geom_line()
+```
+Here it seems deaths due to air pollution is prevalent in South East Asia and Western Pacific. 
+
+### SDG
+This dataset includes the measurement of fine particulate matter, that is to say the concentration of toxic elements in the air. Again, since the dataset comes from the World Health organization, the classification remains the same. It will allow us to get a cross country analysis, from 2010 to 2019.
+We will compare the degree to which some regions are polluted and their GDP over the year.
+
+```{r}
+head(SDG)
+summary(SDG)
+
+library(ggplot2)
+
+# Grouping mean over time per country
+SDG_unique <- SDG %>%
+  group_by(ParentLocation) %>%
+  summarise(Mean_Value = mean(Mean_Value))
+
+# Graphical representation
+ggplot(data = SDG_unique, aes(x = ParentLocation, y = Mean_Value, group = 1)) +
+  geom_line()
+```
+The pattern here is quite similar to DALYs. SDG is prevalent in Africa, Eastern Mediterrenea and South East Asia. 
+
+### GDP per capita
+GDP (Gross domestic product) is obtained with the following macroeconomics formula :
+`GDP=C+I+G+(X−M)`
+That is to say the aggregation of consumption (C), investments (I), government spendings (G) and the commercial balance (exportations minus importations).
+GDP per capita is the previous aggregate divided by the population size. Thiw choice will allow us to correct for countries size bias. 
+
+GDP will be our wealth indicator in the simulation of the Kuznet's environmental curve. 
+
+```{r}
+head(GDP_per_capita_cleaned)
+summary(GDP_per_capita_cleaned)
+
+library(ggplot2)
+
+## Filtering per region
+rows_to_keep <- c(182, 216, 231, 232, 237, 241, 260)
+
+GDP_per_capita_cleaned_filtered <- GDP_per_capita_cleaned %>%
+  slice(rows_to_keep)
+
+## Mean over time per region
+mean_values <- rowMeans(GDP_per_capita_cleaned_filtered[, 5:50], na.rm = TRUE)
+
+GDP_per_capita_cleaned_filtered$Mean_5_to_50 <- mean_values
+
+ggplot(data = GDP_per_capita_cleaned_filtered, aes(x = `Country Name`, y = Mean_5_to_50)) +
+  geom_line()
+
+```
 
