@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -99,7 +99,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <section id="phase-2-of-the-project" class="level1">
 <h1>Phase 2 of the project</h1>
@@ -135,10 +137,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-the-datasets" class="level2">
 <h2 class="anchored" data-anchor-id="loading-the-datasets">Loading the datasets</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>DALYs <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"DALYs.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: le package 'tidyr' a été compilé avec la version R 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: le package 'vroom' a été compilé avec la version R 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DALYs <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"DALYs.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 32940 Columns: 34
 ── Column specification ────────────────────────────────────────────────────────
@@ -151,7 +158,7 @@ dttm  (1): DateModified
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>death_air_pollution <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"death-air-pollution.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>death_air_pollution <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"death-air-pollution.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 32940 Columns: 34
 ── Column specification ────────────────────────────────────────────────────────
@@ -164,7 +171,7 @@ dttm  (1): DateModified
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SDG <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"SDG indicators.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SDG <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"SDG indicators.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 9450 Columns: 34
 ── Column specification ────────────────────────────────────────────────────────
@@ -177,7 +184,7 @@ dttm  (1): DateModified
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>GDP_per_capita <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"GDPperCapita.csv"</span>, <span class="at">delim=</span><span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>GDP_per_capita <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"GDPperCapita.csv"</span>, <span class="at">delim=</span><span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 Rows: 268 Columns: 3
@@ -196,7 +203,7 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <h3 class="anchored" data-anchor-id="gdp-per-capita">GDP per capita</h3>
 <p>By trying to get the column names of this dataset, we observed that it did not load properly. There were the first four row of the Excel sheet presenting the data, hence compromising the understanding of the separator “,”. We removed the first four rows that did not contain any data and got a proper dataset to work with.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>GDP_per_capita_cleaned <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"GDPperCapita.csv"</span>, <span class="at">skip =</span> <span class="dv">4</span>, <span class="at">delim=</span><span class="st">","</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>GDP_per_capita_cleaned <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"GDPperCapita.csv"</span>, <span class="at">skip =</span> <span class="dv">4</span>, <span class="at">delim=</span><span class="st">","</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 Rows: 266 Columns: 69
@@ -214,53 +221,611 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <h3 class="anchored" data-anchor-id="dalys">DALYs</h3>
 <p>This dataset is hard to work with in the sense that the columns have non explicit names. hence the following changes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
+<pre><code>Warning: le package 'dplyr' a été compilé avec la version R 4.3.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
+<pre><code>
+Attachement du package : 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Les objets suivants sont masqués depuis 'package:stats':
 
     filter, lag</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
+<pre><code>Les objets suivants sont masqués depuis 'package:base':
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>DALYs <span class="ot">&lt;-</span> DALYs <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Value =</span> FactValueNumeric,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lowest_value =</span> FactValueNumericLow,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_value =</span> FactValueNumericHigh,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex =</span> Dim1,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> Location</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>DALYs <span class="ot">&lt;-</span> DALYs <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Value =</span> FactValueNumeric,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lowest_value =</span> FactValueNumericLow,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_value =</span> FactValueNumericHigh,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex =</span> Dim1,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> Location</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="death-air-pollution-adn-sdg" class="level3">
-<h3 class="anchored" data-anchor-id="death-air-pollution-adn-sdg">Death air pollution adn SDG</h3>
+<section id="death-air-pollution-and-sdg" class="level3">
+<h3 class="anchored" data-anchor-id="death-air-pollution-and-sdg">Death air pollution and SDG</h3>
 <p>The observations are the same as for DALYs, hence the following changes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>SDG <span class="ot">&lt;-</span> SDG <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Value =</span> FactValueNumeric,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lowest_value =</span> FactValueNumericLow,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_value =</span> FactValueNumericHigh,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex =</span> Dim1,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> Location</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>SDG <span class="ot">&lt;-</span> SDG <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Value =</span> FactValueNumeric,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lowest_value =</span> FactValueNumericLow,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_value =</span> FactValueNumericHigh,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex =</span> Dim1,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> Location</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>death_air_pollution <span class="ot">&lt;-</span> death_air_pollution <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Value =</span> FactValueNumeric,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lowest_value =</span> FactValueNumericLow,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_value =</span> FactValueNumericHigh,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex =</span> Dim1,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> Location</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>death_air_pollution <span class="ot">&lt;-</span> death_air_pollution <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Value =</span> FactValueNumeric,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lowest_value =</span> FactValueNumericLow,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_value =</span> FactValueNumericHigh,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sex =</span> Dim1,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> Location</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="data-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-description">Data description</h2>
+<p>To answer our research question, we will need data around pollution, GDP per capita and health. To this end, we will be working with databases from the World Health Organization, and the World Bank.</p>
+<p>References are listed in the appendix.</p>
+<section id="dalys-1" class="level3">
+<h3 class="anchored" data-anchor-id="dalys-1">DALYs</h3>
+<p>This aggregated indicator is extracted from the World Health Organization database. It is described as follows : “DALYs for a disease or health condition are the sum of the years of life lost to due to premature mortality (YLLs) and the years lived with a disability (YLDs) due to prevalent cases of the disease or health condition in a population”. We will mostly use the variable cross countries, classified into regions (Africa, Eastern Europe, Asia, North and South America), by sex (male/female), by year (2010 to 2019) and by cause of death (cancer, trachea etc.). This will allow us to evaluate possible external factors, such as armed conflicts, that might have had an impact on spoecific regions during a specific year.</p>
+<p>This dataset will then be compared to pollution to answer our final sub research question : can a country observe long term growth while polluting despite the negative externalities in terms of health ?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(DALYs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 34
+  IndicatorCode Indicator            ValueType ParentLocationCode ParentLocation
+  &lt;chr&gt;         &lt;chr&gt;                &lt;chr&gt;     &lt;chr&gt;              &lt;chr&gt;         
+1 AIR_90        Ambient air polluti… numeric   AFR                Africa        
+2 AIR_90        Ambient air polluti… numeric   AFR                Africa        
+3 AIR_90        Ambient air polluti… numeric   AFR                Africa        
+4 AIR_90        Ambient air polluti… numeric   AFR                Africa        
+5 AIR_90        Ambient air polluti… numeric   AFR                Africa        
+6 AIR_90        Ambient air polluti… numeric   AMR                Americas      
+# ℹ 29 more variables: `Location type` &lt;chr&gt;, SpatialDimValueCode &lt;chr&gt;,
+#   Country &lt;chr&gt;, `Period type` &lt;chr&gt;, Period &lt;dbl&gt;, IsLatestYear &lt;lgl&gt;,
+#   `Dim1 type` &lt;chr&gt;, Sex &lt;chr&gt;, Dim1ValueCode &lt;chr&gt;, `Dim2 type` &lt;chr&gt;,
+#   Dim2 &lt;chr&gt;, Dim2ValueCode &lt;chr&gt;, `Dim3 type` &lt;lgl&gt;, Dim3 &lt;lgl&gt;,
+#   Dim3ValueCode &lt;lgl&gt;, DataSourceDimValueCode &lt;lgl&gt;, DataSource &lt;lgl&gt;,
+#   FactValueNumericPrefix &lt;lgl&gt;, Mean_Value &lt;dbl&gt;, FactValueUoM &lt;lgl&gt;,
+#   FactValueNumericLowPrefix &lt;lgl&gt;, lowest_value &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(DALYs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> IndicatorCode       Indicator          ValueType         ParentLocationCode
+ Length:32940       Length:32940       Length:32940       Length:32940      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ ParentLocation     Location type      SpatialDimValueCode   Country         
+ Length:32940       Length:32940       Length:32940        Length:32940      
+ Class :character   Class :character   Class :character    Class :character  
+ Mode  :character   Mode  :character   Mode  :character    Mode  :character  
+                                                                             
+                                                                             
+                                                                             
+ Period type            Period     IsLatestYear     Dim1 type        
+ Length:32940       Min.   :2010   Mode :logical   Length:32940      
+ Class :character   1st Qu.:2012   FALSE:29646     Class :character  
+ Mode  :character   Median :2014   TRUE :3294      Mode  :character  
+                    Mean   :2014                                     
+                    3rd Qu.:2017                                     
+                    Max.   :2019                                     
+     Sex            Dim1ValueCode       Dim2 type             Dim2          
+ Length:32940       Length:32940       Length:32940       Length:32940      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Dim2ValueCode      Dim3 type        Dim3         Dim3ValueCode 
+ Length:32940       Mode:logical   Mode:logical   Mode:logical  
+ Class :character   NA's:32940     NA's:32940     NA's:32940    
+ Mode  :character                                               
+                                                                
+                                                                
+                                                                
+ DataSourceDimValueCode DataSource     FactValueNumericPrefix
+ Mode:logical           Mode:logical   Mode:logical          
+ NA's:32940             NA's:32940     NA's:32940            
+                                                             
+                                                             
+                                                             
+                                                             
+   Mean_Value       FactValueUoM   FactValueNumericLowPrefix  lowest_value    
+ Min.   :   0.061   Mode:logical   Mode:logical              Min.   :   0.00  
+ 1st Qu.:  52.150   NA's:32940     NA's:32940                1st Qu.:  14.87  
+ Median : 187.100                                            Median :  75.00  
+ Mean   : 450.487                                            Mean   : 257.82  
+ 3rd Qu.: 554.300                                            3rd Qu.: 288.23  
+ Max.   :4981.000                                            Max.   :3949.00  
+ FactValueNumericHighPrefix highest_value        Value          
+ Mode:logical               Min.   :   0.13   Length:32940      
+ NA's:32940                 1st Qu.:  96.76   Class :character  
+                            Median : 310.70   Mode  :character  
+                            Mean   : 660.89                     
+                            3rd Qu.: 815.10                     
+                            Max.   :7738.00                     
+ FactValueTranslationID FactComments     Language        
+ Mode:logical           Mode:logical   Length:32940      
+ NA's:32940             NA's:32940     Class :character  
+                                       Mode  :character  
+                                                         
+                                                         
+                                                         
+  DateModified                
+ Min.   :2024-10-02 22:00:00  
+ 1st Qu.:2024-10-02 22:00:00  
+ Median :2024-10-02 22:00:00  
+ Mean   :2024-10-02 22:00:00  
+ 3rd Qu.:2024-10-02 22:00:00  
+ Max.   :2024-10-02 22:00:00  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: le package 'ggplot2' a été compilé avec la version R 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping mean over time per country</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>DALYs_unique <span class="ot">&lt;-</span> DALYs <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ParentLocation) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Value =</span> <span class="fu">mean</span>(Mean_Value))</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphical representation</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> DALYs_unique, <span class="fu">aes</span>(<span class="at">x =</span> ParentLocation, <span class="at">y =</span> Mean_Value, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Datamana_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When we group the mean of DALYs values obver time per country, we get a rather interesting picture of the situation cross regions. It seems DAILYs are prevazlent in Africa, Eastern Mediterranea and South East Asia. This will allow us to define control groups and to consider levels of development compared to DALYs.</p>
+</section>
+<section id="death-air-pollution" class="level3">
+<h3 class="anchored" data-anchor-id="death-air-pollution">Death air pollution</h3>
+<p>This data set will be used to complete DALYs. It also comes from the World Health Organization and is organized with the same categories and classifications. It will allow us to get a more precise analysis on the effect of carbone emissions on health.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(death_air_pollution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 34
+  IndicatorCode Indicator            ValueType ParentLocationCode ParentLocation
+  &lt;chr&gt;         &lt;chr&gt;                &lt;chr&gt;     &lt;chr&gt;              &lt;chr&gt;         
+1 AIR_41        Ambient air polluti… numeric   AMR                Americas      
+2 AIR_41        Ambient air polluti… numeric   AMR                Americas      
+3 AIR_41        Ambient air polluti… numeric   AMR                Americas      
+4 AIR_41        Ambient air polluti… numeric   AMR                Americas      
+5 AIR_41        Ambient air polluti… numeric   AFR                Africa        
+6 AIR_41        Ambient air polluti… numeric   AFR                Africa        
+# ℹ 29 more variables: `Location type` &lt;chr&gt;, SpatialDimValueCode &lt;chr&gt;,
+#   Country &lt;chr&gt;, `Period type` &lt;chr&gt;, Period &lt;dbl&gt;, IsLatestYear &lt;lgl&gt;,
+#   `Dim1 type` &lt;chr&gt;, Sex &lt;chr&gt;, Dim1ValueCode &lt;chr&gt;, `Dim2 type` &lt;chr&gt;,
+#   Dim2 &lt;chr&gt;, Dim2ValueCode &lt;chr&gt;, `Dim3 type` &lt;lgl&gt;, Dim3 &lt;lgl&gt;,
+#   Dim3ValueCode &lt;lgl&gt;, DataSourceDimValueCode &lt;lgl&gt;, DataSource &lt;lgl&gt;,
+#   FactValueNumericPrefix &lt;lgl&gt;, Mean_Value &lt;dbl&gt;, FactValueUoM &lt;lgl&gt;,
+#   FactValueNumericLowPrefix &lt;lgl&gt;, lowest_value &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(death_air_pollution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> IndicatorCode       Indicator          ValueType         ParentLocationCode
+ Length:32940       Length:32940       Length:32940       Length:32940      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ ParentLocation     Location type      SpatialDimValueCode   Country         
+ Length:32940       Length:32940       Length:32940        Length:32940      
+ Class :character   Class :character   Class :character    Class :character  
+ Mode  :character   Mode  :character   Mode  :character    Mode  :character  
+                                                                             
+                                                                             
+                                                                             
+ Period type            Period     IsLatestYear     Dim1 type        
+ Length:32940       Min.   :2010   Mode :logical   Length:32940      
+ Class :character   1st Qu.:2012   FALSE:29646     Class :character  
+ Mode  :character   Median :2014   TRUE :3294      Mode  :character  
+                    Mean   :2014                                     
+                    3rd Qu.:2017                                     
+                    Max.   :2019                                     
+     Sex            Dim1ValueCode       Dim2 type             Dim2          
+ Length:32940       Length:32940       Length:32940       Length:32940      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Dim2ValueCode      Dim3 type        Dim3         Dim3ValueCode 
+ Length:32940       Mode:logical   Mode:logical   Mode:logical  
+ Class :character   NA's:32940     NA's:32940     NA's:32940    
+ Mode  :character                                               
+                                                                
+                                                                
+                                                                
+ DataSourceDimValueCode DataSource     FactValueNumericPrefix
+ Mode:logical           Mode:logical   Mode:logical          
+ NA's:32940             NA's:32940     NA's:32940            
+                                                             
+                                                             
+                                                             
+                                                             
+   Mean_Value        FactValueUoM   FactValueNumericLowPrefix
+ Min.   :      0.0   Mode:logical   Mode:logical             
+ 1st Qu.:     52.0   NA's:32940     NA's:32940               
+ Median :    354.8                                           
+ Mean   :   5121.4                                           
+ 3rd Qu.:   1850.0                                           
+ Max.   :1326431.0                                           
+  lowest_value       FactValueNumericHighPrefix highest_value      
+ Min.   :      0.0   Mode:logical               Min.   :      0.0  
+ 1st Qu.:     17.2   NA's:32940                 1st Qu.:     93.0  
+ Median :    154.9                              Median :    581.7  
+ Mean   :   3393.6                              Mean   :   7018.0  
+ 3rd Qu.:    965.8                              3rd Qu.:   2793.2  
+ Max.   :1051895.0                              Max.   :1650242.0  
+    Value           FactValueTranslationID FactComments     Language        
+ Length:32940       Mode:logical           Mode:logical   Length:32940      
+ Class :character   NA's:32940             NA's:32940     Class :character  
+ Mode  :character                                         Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+  DateModified                
+ Min.   :2024-10-02 22:00:00  
+ 1st Qu.:2024-10-02 22:00:00  
+ Median :2024-10-02 22:00:00  
+ Mean   :2024-10-02 22:00:00  
+ 3rd Qu.:2024-10-02 22:00:00  
+ Max.   :2024-10-02 22:00:00  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping mean over time per country</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>death_air_pollution_unique <span class="ot">&lt;-</span> death_air_pollution <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ParentLocation) <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Value =</span> <span class="fu">mean</span>(Mean_Value))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphical representation</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> death_air_pollution_unique, <span class="fu">aes</span>(<span class="at">x =</span> ParentLocation, <span class="at">y =</span> Mean_Value, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Datamana_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here it seems deaths due to air pollution is prevalent in South East Asia and Western Pacific.</p>
+</section>
+<section id="sdg" class="level3">
+<h3 class="anchored" data-anchor-id="sdg">SDG</h3>
+<p>This dataset includes the measurement of fine particulate matter, that is to say the concentration of toxic elements in the air. Again, since the dataset comes from the World Health organization, the classification remains the same. It will allow us to get a cross country analysis, from 2010 to 2019. We will compare the degree to which some regions are polluted and their GDP over the year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SDG)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 34
+  IndicatorCode Indicator            ValueType ParentLocationCode ParentLocation
+  &lt;chr&gt;         &lt;chr&gt;                &lt;chr&gt;     &lt;chr&gt;              &lt;chr&gt;         
+1 SDGPM25       Concentrations of f… text      AFR                Africa        
+2 SDGPM25       Concentrations of f… text      AMR                Americas      
+3 SDGPM25       Concentrations of f… text      EUR                Europe        
+4 SDGPM25       Concentrations of f… text      AMR                Americas      
+5 SDGPM25       Concentrations of f… text      AMR                Americas      
+6 SDGPM25       Concentrations of f… text      EUR                Europe        
+# ℹ 29 more variables: `Location type` &lt;chr&gt;, SpatialDimValueCode &lt;chr&gt;,
+#   Country &lt;chr&gt;, `Period type` &lt;chr&gt;, Period &lt;dbl&gt;, IsLatestYear &lt;lgl&gt;,
+#   `Dim1 type` &lt;chr&gt;, Sex &lt;chr&gt;, Dim1ValueCode &lt;chr&gt;, `Dim2 type` &lt;lgl&gt;,
+#   Dim2 &lt;lgl&gt;, Dim2ValueCode &lt;lgl&gt;, `Dim3 type` &lt;lgl&gt;, Dim3 &lt;lgl&gt;,
+#   Dim3ValueCode &lt;lgl&gt;, DataSourceDimValueCode &lt;lgl&gt;, DataSource &lt;lgl&gt;,
+#   FactValueNumericPrefix &lt;lgl&gt;, Mean_Value &lt;dbl&gt;, FactValueUoM &lt;lgl&gt;,
+#   FactValueNumericLowPrefix &lt;lgl&gt;, lowest_value &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(SDG)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> IndicatorCode       Indicator          ValueType         ParentLocationCode
+ Length:9450        Length:9450        Length:9450        Length:9450       
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ ParentLocation     Location type      SpatialDimValueCode   Country         
+ Length:9450        Length:9450        Length:9450         Length:9450       
+ Class :character   Class :character   Class :character    Class :character  
+ Mode  :character   Mode  :character   Mode  :character    Mode  :character  
+                                                                             
+                                                                             
+                                                                             
+ Period type            Period     IsLatestYear     Dim1 type        
+ Length:9450        Min.   :2010   Mode :logical   Length:9450       
+ Class :character   1st Qu.:2012   FALSE:8505      Class :character  
+ Mode  :character   Median :2014   TRUE :945       Mode  :character  
+                    Mean   :2014                                     
+                    3rd Qu.:2017                                     
+                    Max.   :2019                                     
+     Sex            Dim1ValueCode      Dim2 type        Dim2        
+ Length:9450        Length:9450        Mode:logical   Mode:logical  
+ Class :character   Class :character   NA's:9450      NA's:9450     
+ Mode  :character   Mode  :character                                
+                                                                    
+                                                                    
+                                                                    
+ Dim2ValueCode  Dim3 type        Dim3         Dim3ValueCode 
+ Mode:logical   Mode:logical   Mode:logical   Mode:logical  
+ NA's:9450      NA's:9450      NA's:9450      NA's:9450     
+                                                            
+                                                            
+                                                            
+                                                            
+ DataSourceDimValueCode DataSource     FactValueNumericPrefix   Mean_Value   
+ Mode:logical           Mode:logical   Mode:logical           Min.   : 4.59  
+ NA's:9450              NA's:9450      NA's:9450              1st Qu.:11.92  
+                                                              Median :19.57  
+                                                              Mean   :23.54  
+                                                              3rd Qu.:30.98  
+                                                              Max.   :97.49  
+ FactValueUoM   FactValueNumericLowPrefix  lowest_value  
+ Mode:logical   Mode:logical              Min.   : 1.41  
+ NA's:9450      NA's:9450                 1st Qu.: 7.85  
+                                          Median :13.79  
+                                          Mean   :16.23  
+                                          3rd Qu.:20.34  
+                                          Max.   :70.24  
+ FactValueNumericHighPrefix highest_value       Value          
+ Mode:logical               Min.   :  5.26   Length:9450       
+ NA's:9450                  1st Qu.: 15.95   Class :character  
+                            Median : 24.48   Mode  :character  
+                            Mean   : 35.48                     
+                            3rd Qu.: 49.69                     
+                            Max.   :175.60                     
+ FactValueTranslationID FactComments     Language        
+ Mode:logical           Mode:logical   Length:9450       
+ NA's:9450              NA's:9450      Class :character  
+                                       Mode  :character  
+                                                         
+                                                         
+                                                         
+  DateModified                
+ Min.   :2022-08-11 22:00:00  
+ 1st Qu.:2022-08-11 22:00:00  
+ Median :2022-08-11 22:00:00  
+ Mean   :2022-08-11 22:00:00  
+ 3rd Qu.:2022-08-11 22:00:00  
+ Max.   :2022-08-11 22:00:00  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping mean over time per country</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>SDG_unique <span class="ot">&lt;-</span> SDG <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ParentLocation) <span class="sc">%&gt;%</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Value =</span> <span class="fu">mean</span>(Mean_Value))</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphical representation</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SDG_unique, <span class="fu">aes</span>(<span class="at">x =</span> ParentLocation, <span class="at">y =</span> Mean_Value, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Datamana_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The pattern here is quite similar to DALYs. SDG is prevalent in Africa, Eastern Mediterrenea and South East Asia.</p>
+</section>
+<section id="gdp-per-capita-1" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-per-capita-1">GDP per capita</h3>
+<p>GDP (Gross domestic product) is obtained with the following macroeconomics formula : <code>GDP=C+I+G+(X−M)</code> That is to say the aggregation of consumption (C), investments (I), government spendings (G) and the commercial balance (exportations minus importations). GDP per capita is the previous aggregate divided by the population size. Thiw choice will allow us to correct for countries size bias.</p>
+<p>GDP will be our wealth indicator in the simulation of the Kuznet’s environmental curve.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(GDP_per_capita_cleaned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 69
+  `Country Name`  `Country Code` `Indicator Name` `Indicator Code` `1960` `1961`
+  &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;
+1 Aruba           ABW            GDP per capita … NY.GDP.PCAP.CD      NA     NA 
+2 Africa Eastern… AFE            GDP per capita … NY.GDP.PCAP.CD     162.   166.
+3 Afghanistan     AFG            GDP per capita … NY.GDP.PCAP.CD      NA     NA 
+4 Africa Western… AFW            GDP per capita … NY.GDP.PCAP.CD     122.   128.
+5 Angola          AGO            GDP per capita … NY.GDP.PCAP.CD      NA     NA 
+6 Albania         ALB            GDP per capita … NY.GDP.PCAP.CD      NA     NA 
+# ℹ 63 more variables: `1962` &lt;dbl&gt;, `1963` &lt;dbl&gt;, `1964` &lt;dbl&gt;, `1965` &lt;dbl&gt;,
+#   `1966` &lt;dbl&gt;, `1967` &lt;dbl&gt;, `1968` &lt;dbl&gt;, `1969` &lt;dbl&gt;, `1970` &lt;dbl&gt;,
+#   `1971` &lt;dbl&gt;, `1972` &lt;dbl&gt;, `1973` &lt;dbl&gt;, `1974` &lt;dbl&gt;, `1975` &lt;dbl&gt;,
+#   `1976` &lt;dbl&gt;, `1977` &lt;dbl&gt;, `1978` &lt;dbl&gt;, `1979` &lt;dbl&gt;, `1980` &lt;dbl&gt;,
+#   `1981` &lt;dbl&gt;, `1982` &lt;dbl&gt;, `1983` &lt;dbl&gt;, `1984` &lt;dbl&gt;, `1985` &lt;dbl&gt;,
+#   `1986` &lt;dbl&gt;, `1987` &lt;dbl&gt;, `1988` &lt;dbl&gt;, `1989` &lt;dbl&gt;, `1990` &lt;dbl&gt;,
+#   `1991` &lt;dbl&gt;, `1992` &lt;dbl&gt;, `1993` &lt;dbl&gt;, `1994` &lt;dbl&gt;, `1995` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(GDP_per_capita_cleaned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Country Name       Country Code       Indicator Name     Indicator Code    
+ Length:266         Length:266         Length:266         Length:266        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+      1960             1961              1962              1963        
+ Min.   :  25.1   Min.   :  27.27   Min.   :  27.95   Min.   :  25.81  
+ 1st Qu.: 116.3   1st Qu.: 121.19   1st Qu.: 126.23   1st Qu.: 130.84  
+ Median : 217.6   Median : 202.92   Median : 206.58   Median : 218.86  
+ Mean   : 489.3   Mean   : 505.31   Mean   : 556.33   Mean   : 588.84  
+ 3rd Qu.: 507.7   3rd Qu.: 571.43   3rd Qu.: 628.69   3rd Qu.: 632.28  
+ Max.   :2999.9   Max.   :3059.16   Max.   :4833.83   Max.   :4520.62  
+ NA's   :128      NA's   :124       NA's   :122       NA's   :122      
+      1964              1965              1966              1967        
+ Min.   :  17.33   Min.   :  15.11   Min.   :  11.79   Min.   :  16.52  
+ 1st Qu.: 138.25   1st Qu.: 146.09   1st Qu.: 155.36   1st Qu.: 156.71  
+ Median : 237.91   Median : 264.11   Median : 267.33   Median : 273.87  
+ Mean   : 638.10   Mean   : 681.93   Mean   : 726.14   Mean   : 745.96  
+ 3rd Qu.: 752.06   3rd Qu.: 851.92   3rd Qu.: 896.74   3rd Qu.: 870.34  
+ Max.   :4448.05   Max.   :4081.42   Max.   :4228.74   Max.   :4325.96  
+ NA's   :122       NA's   :112       NA's   :111       NA's   :108      
+      1968             1969              1970               1971         
+ Min.   :  21.5   Min.   :  21.45   Min.   :   20.66   Min.   :   21.04  
+ 1st Qu.: 163.4   1st Qu.: 169.63   1st Qu.:  205.22   1st Qu.:  209.13  
+ Median : 294.8   Median : 297.20   Median :  349.02   Median :  375.48  
+ Mean   : 777.8   Mean   : 842.12   Mean   : 1015.76   Mean   : 1117.18  
+ 3rd Qu.: 876.9   3rd Qu.: 910.65   3rd Qu.: 1342.99   3rd Qu.: 1408.89  
+ Max.   :4684.6   Max.   :5020.00   Max.   :12077.76   Max.   :13315.98  
+ NA's   :107      NA's   :107       NA's   :85         NA's   :84        
+      1972               1973               1974               1975         
+ Min.   :   23.19   Min.   :   24.68   Min.   :   41.19   Min.   :   34.97  
+ 1st Qu.:  226.59   1st Qu.:  273.43   1st Qu.:  327.32   1st Qu.:  362.90  
+ Median :  420.81   Median :  538.96   Median :  694.98   Median :  719.72  
+ Mean   : 1298.34   Mean   : 1650.70   Mean   : 2148.70   Mean   : 2325.55  
+ 3rd Qu.: 1810.38   3rd Qu.: 2307.85   3rd Qu.: 2613.70   3rd Qu.: 2968.36  
+ Max.   :16169.87   Max.   :20857.06   Max.   :23684.09   Max.   :27894.49  
+ NA's   :84         NA's   :84         NA's   :84         NA's   :80        
+      1976               1977               1978               1979         
+ Min.   :   38.94   Min.   :   27.68   Min.   :   29.06   Min.   :   29.01  
+ 1st Qu.:  388.88   1st Qu.:  435.39   1st Qu.:  487.56   1st Qu.:  540.44  
+ Median :  741.12   Median :  854.99   Median : 1009.22   Median : 1139.15  
+ Mean   : 2528.92   Mean   : 2772.03   Mean   : 3141.96   Mean   : 3721.80  
+ 3rd Qu.: 3113.34   3rd Qu.: 3427.07   3rd Qu.: 3884.50   3rd Qu.: 4569.48  
+ Max.   :31282.77   Max.   :35186.23   Max.   :37681.44   Max.   :45087.21  
+ NA's   :80         NA's   :77         NA's   :78         NA's   :77        
+      1980               1981               1982               1983        
+ Min.   :   31.02   Min.   :   32.57   Min.   :   42.63   Min.   :   39.0  
+ 1st Qu.:  581.33   1st Qu.:  631.42   1st Qu.:  613.69   1st Qu.:  578.3  
+ Median : 1254.66   Median : 1316.31   Median : 1282.38   Median : 1314.2  
+ Mean   : 4196.99   Mean   : 4071.23   Mean   : 3887.92   Mean   : 3751.0  
+ 3rd Qu.: 5700.43   3rd Qu.: 5315.13   3rd Qu.: 5126.18   3rd Qu.: 4818.7  
+ Max.   :50900.26   Max.   :44841.23   Max.   :41461.45   Max.   :39040.9  
+ NA's   :69         NA's   :68         NA's   :66         NA's   :65       
+      1984               1985              1986               1987        
+ Min.   :   36.06   Min.   :   40.1   Min.   :   42.13   Min.   :    0.0  
+ 1st Qu.:  556.75   1st Qu.:  534.6   1st Qu.:  528.20   1st Qu.:  565.7  
+ Median : 1245.93   Median : 1189.9   Median : 1257.39   Median : 1369.7  
+ Mean   : 3683.07   Mean   : 3670.8   Mean   : 4242.01   Mean   : 4787.5  
+ 3rd Qu.: 4784.21   3rd Qu.: 4734.4   3rd Qu.: 5642.63   3rd Qu.: 5562.8  
+ Max.   :36516.69   Max.   :37590.4   Max.   :51943.19   Max.   :62341.7  
+ NA's   :63         NA's   :61        NA's   :61         NA's   :54       
+      1988              1989              1990               1991         
+ Min.   :    0.0   Min.   :    0.0   Min.   :   52.75   Min.   :   22.85  
+ 1st Qu.:  568.5   1st Qu.:  578.1   1st Qu.:  651.48   1st Qu.:  635.11  
+ Median : 1311.0   Median : 1410.7   Median : 1553.56   Median : 1483.10  
+ Mean   : 5150.7   Mean   : 5218.0   Mean   : 5792.62   Mean   : 5830.17  
+ 3rd Qu.: 5860.3   3rd Qu.: 6044.6   3rd Qu.: 6509.06   3rd Qu.: 6191.52  
+ Max.   :67133.2   Max.   :66829.0   Max.   :81813.02   Max.   :81158.91  
+ NA's   :50        NA's   :46        NA's   :30         NA's   :30        
+      1992               1993               1994               1995         
+ Min.   :   30.11   Min.   :   53.48   Min.   :   62.21   Min.   :   62.92  
+ 1st Qu.:  573.39   1st Qu.:  565.80   1st Qu.:  586.71   1st Qu.:  681.82  
+ Median : 1417.17   Median : 1450.28   Median : 1505.48   Median : 1940.03  
+ Mean   : 6089.03   Mean   : 5861.34   Mean   : 6207.01   Mean   : 6999.50  
+ 3rd Qu.: 6533.53   3rd Qu.: 6241.10   3rd Qu.: 6283.81   3rd Qu.: 6692.55  
+ Max.   :88882.55   Max.   :82983.96   Max.   :87042.27   Max.   :99431.74  
+ NA's   :27         NA's   :23         NA's   :22         NA's   :19        
+      1996               1997              1998              1999         
+ Min.   :   72.32   Min.   :  107.4   Min.   :  126.9   Min.   :   99.76  
+ 1st Qu.:  723.60   1st Qu.:  730.4   1st Qu.:  702.4   1st Qu.:  617.96  
+ Median : 1954.66   Median : 1889.0   Median : 1871.8   Median : 1821.99  
+ Mean   : 7221.53   Mean   : 7098.2   Mean   : 7240.6   Mean   : 7533.10  
+ 3rd Qu.: 6958.74   3rd Qu.: 7566.6   3rd Qu.: 7780.7   3rd Qu.: 7633.20  
+ Max.   :98927.68   Max.   :88844.9   Max.   :91111.0   Max.   :89742.50  
+ NA's   :19         NA's   :19        NA's   :17        NA's   :16        
+      2000              2001              2002              2003         
+ Min.   :  123.0   Min.   :  119.3   Min.   :  110.5   Min.   :   114.4  
+ 1st Qu.:  638.2   1st Qu.:  626.7   1st Qu.:  694.2   1st Qu.:   773.0  
+ Median : 1806.7   Median : 1860.6   Median : 2092.1   Median :  2373.1  
+ Mean   : 7511.5   Mean   : 7518.1   Mean   : 8116.0   Mean   :  9338.8  
+ 3rd Qu.: 7865.1   3rd Qu.: 8162.9   3rd Qu.: 9247.8   3rd Qu.:  9893.9  
+ Max.   :81763.8   Max.   :82410.4   Max.   :90151.6   Max.   :111309.9  
+ NA's   :15        NA's   :14        NA's   :10        NA's   :10        
+      2004               2005               2006               2007         
+ Min.   :   128.5   Min.   :   151.2   Min.   :   166.3   Min.   :   170.7  
+ 1st Qu.:   934.5   1st Qu.:  1079.2   1st Qu.:  1237.9   1st Qu.:  1379.8  
+ Median :  2822.9   Median :  3237.4   Median :  3736.2   Median :  4394.5  
+ Mean   : 10641.1   Mean   : 11523.9   Mean   : 12874.9   Mean   : 14667.2  
+ 3rd Qu.: 11138.7   3rd Qu.: 13438.7   3rd Qu.: 14986.4   3rd Qu.: 16744.6  
+ Max.   :125435.9   Max.   :130819.0   Max.   :143289.1   Max.   :184639.8  
+ NA's   :10         NA's   :10         NA's   :9          NA's   :9         
+      2008               2009               2010               2011         
+ Min.   :   194.7   Min.   :   204.5   Min.   :   222.7   Min.   :   236.4  
+ 1st Qu.:  1550.7   1st Qu.:  1432.1   1st Qu.:  1648.1   1st Qu.:  1861.5  
+ Median :  5039.9   Median :  4744.1   Median :  5337.3   Median :  6106.0  
+ Mean   : 15718.2   Mean   : 14044.4   Mean   : 14751.8   Mean   : 16272.4  
+ 3rd Qu.: 18897.0   3rd Qu.: 16359.4   3rd Qu.: 16487.5   3rd Qu.: 19426.3  
+ Max.   :204097.1   Max.   :168957.1   Max.   :161780.8   Max.   :179369.3  
+ NA's   :8          NA's   :8          NA's   :8          NA's   :5         
+      2012               2013               2014               2015         
+ Min.   :   238.2   Min.   :   241.6   Min.   :   257.8   Min.   :   289.4  
+ 1st Qu.:  1902.1   1st Qu.:  2083.4   1st Qu.:  2158.9   1st Qu.:  2001.7  
+ Median :  6441.9   Median :  6755.1   Median :  6904.6   Median :  6192.5  
+ Mean   : 16164.6   Mean   : 16745.4   Mean   : 17075.3   Mean   : 15440.5  
+ 3rd Qu.: 19459.9   3rd Qu.: 19824.3   3rd Qu.: 20314.2   3rd Qu.: 18210.4  
+ Max.   :165497.1   Max.   :185055.5   Max.   :195772.7   Max.   :170338.7  
+ NA's   :7          NA's   :7          NA's   :6          NA's   :8         
+      2016               2017               2018               2019       
+ Min.   :   242.5   Min.   :   244.2   Min.   :   232.1   Min.   :   217  
+ 1st Qu.:  2019.3   1st Qu.:  2041.9   1st Qu.:  2202.3   1st Qu.:  2221  
+ Median :  6014.6   Median :  6395.7   Median :  6847.1   Median :  6897  
+ Mean   : 15753.1   Mean   : 16555.2   Mean   : 17539.9   Mean   : 17501  
+ 3rd Qu.: 18688.8   3rd Qu.: 20264.3   3rd Qu.: 22059.0   3rd Qu.: 22438  
+ Max.   :174412.5   Max.   :173611.7   Max.   :193968.1   Max.   :199383  
+ NA's   :8          NA's   :8          NA's   :8          NA's   :8       
+      2020               2021               2022             2023         
+ Min.   :   216.8   Min.   :   221.2   Min.   :   259   Min.   :   199.6  
+ 1st Qu.:  2155.3   1st Qu.:  2404.2   1st Qu.:  2387   1st Qu.:  2308.7  
+ Median :  6198.9   Median :  7240.7   Median :  7634   Median :  7330.0  
+ Mean   : 16272.8   Mean   : 18718.2   Mean   : 18863   Mean   : 16484.9  
+ 3rd Qu.: 19185.7   3rd Qu.: 22119.5   3rd Qu.: 21176   3rd Qu.: 22147.2  
+ Max.   :182537.4   Max.   :235132.8   Max.   :240862   Max.   :128259.4  
+ NA's   :9          NA's   :10         NA's   :16       NA's   :33        
+  ...69        
+ Mode:logical  
+ NA's:266      
+               
+               
+               
+               
+               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Filtering per region</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>rows_to_keep <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">182</span>, <span class="dv">216</span>, <span class="dv">231</span>, <span class="dv">232</span>, <span class="dv">237</span>, <span class="dv">241</span>, <span class="dv">260</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>GDP_per_capita_cleaned_filtered <span class="ot">&lt;-</span> GDP_per_capita_cleaned <span class="sc">%&gt;%</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(rows_to_keep)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Mean over time per region</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>mean_values <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(GDP_per_capita_cleaned_filtered[, <span class="dv">5</span><span class="sc">:</span><span class="dv">50</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>GDP_per_capita_cleaned_filtered<span class="sc">$</span>Mean_5_to_50 <span class="ot">&lt;-</span> mean_values</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> GDP_per_capita_cleaned_filtered, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>, <span class="at">y =</span> Mean_5_to_50)) <span class="sc">+</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Datamana_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -347,10 +912,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -360,8 +942,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -373,7 +964,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -417,6 +1131,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -442,6 +1157,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -502,6 +1243,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

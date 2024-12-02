@@ -197,3 +197,4 @@ ggplot(data = GDP_per_capita_cleaned_filtered, aes(x = `Country Name`, y = Mean_
 
 ```
 
+,opcesz
