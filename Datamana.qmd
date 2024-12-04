@@ -31,9 +31,9 @@ Among its most renowned resources is the World Development Indicators (WDI) data
 ## Presentation of the project
 We have decided to test the environmental Kuznet's curve theory. The idea is that a country will pollute a lot for a while in order to develop, and then reach a sufficient level of economic development to decrease its carbon dioxyde emissions. We would then get an inverted u shaped line in the plan (GDP per capita, pollution). 
 
-We wish to very the empirical accuracy of this theory, both by regions and periods of times. Does is apply to different economical structures ? Does it apply at any time over the years ? 
+We wish to verify the empirical accuracy of this theory, both by region and time periods. Does it apply to different economic structures ? Does it apply at any time over the years ? 
 
-We will then consider the subject around a more human matter. Pollution to the cost of a population's health : an impact on GDP ? And if so, can we quantify it ? 
+We will then consider the subject from a more human perspective. Pollution and its cost to a population's health : does it impact GDP ? And if so, can we quantify it ? 
 
 ## Loading the datasets
 ```{r}
@@ -95,7 +95,6 @@ death_air_pollution <- death_air_pollution %>%
 
 
 ## Data description
-
 To answer our research question, we will need data around pollution, GDP per capita and health. 
 To this end, we will be working with databases from the World Health Organization, and the World Bank. 
 
@@ -117,13 +116,21 @@ library(ggplot2)
 # Grouping mean over time per country
 DALYs_unique <- DALYs %>%
   group_by(ParentLocation) %>%
-  summarise(Mean_Value = mean(Mean_Value))
+  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
 
 # Graphical representation
-ggplot(data = DALYs_unique, aes(x = ParentLocation, y = Mean_Value, group = 1)) +
-  geom_line()
+ggplot(data = DALYs_unique, aes(x = ParentLocation, y = Mean_Value, fill = ParentLocation)) +
+  geom_bar(stat = "identity", color = "black") + 
+  labs(
+    title = "Distribution of Mean DALYs by Parent Location",
+    x = "Parent Location",
+    y = "Mean DALYs (Disability-Adjusted Life Years)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set3") 
 ```
-When we group the mean of DALYs values obver time per country, we get a rather interesting picture of the situation cross regions. It seems DAILYs are prevazlent in Africa, Eastern Mediterranea and South East Asia. This will allow us to define control groups and to consider levels of development compared to DALYs. 
+When we group the mean of DALYs values over time per country, we get a rather interesting picture of the situation cross regions. It seems DALYs are prevalent in Africa, Eastern Mediterranean and South-East Asia. This will allow us to define control groups and to consider levels of development compared to DALYs. 
 
 ### Death air pollution
 This data set will be used to complete DALYs. It also comes from the World Health Organization and is organized with the same categories and classifications. 
@@ -138,11 +145,19 @@ library(ggplot2)
 # Grouping mean over time per country
 death_air_pollution_unique <- death_air_pollution %>%
   group_by(ParentLocation) %>%
-  summarise(Mean_Value = mean(Mean_Value))
+  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
 
 # Graphical representation
-ggplot(data = death_air_pollution_unique, aes(x = ParentLocation, y = Mean_Value, group = 1)) +
-  geom_line()
+ggplot(data = death_air_pollution_unique, aes(x = ParentLocation, y = Mean_Value, fill = ParentLocation)) +
+  geom_bar(stat = "identity", color = "black") + 
+  labs(
+    title = "Distribution of mean deaths due to air pollution by Parent Location",
+    x = "Parent Location",
+    y = "Mean deaths due to air pollution"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set3") 
 ```
 Here it seems deaths due to air pollution is prevalent in South East Asia and Western Pacific. 
 
@@ -159,19 +174,27 @@ library(ggplot2)
 # Grouping mean over time per country
 SDG_unique <- SDG %>%
   group_by(ParentLocation) %>%
-  summarise(Mean_Value = mean(Mean_Value))
+  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
 
 # Graphical representation
-ggplot(data = SDG_unique, aes(x = ParentLocation, y = Mean_Value, group = 1)) +
-  geom_line()
+ggplot(data = SDG_unique, aes(x = ParentLocation, y = Mean_Value, fill = ParentLocation)) +
+  geom_bar(stat = "identity", color = "black") + # Barres remplies
+  labs(
+    title = "Average Fine Particulate Matter by Country (2010-2019)",
+    x = "Parent Location",
+    y = "Average Fine Particulate Matter (µg/m³)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set3")
 ```
-The pattern here is quite similar to DALYs. SDG is prevalent in Africa, Eastern Mediterrenea and South East Asia. 
+The pattern here is quite similar to DALYs. SDG is prevalent in Africa, Eastern Mediterranean and South-East Asia. 
 
 ### GDP per capita
 GDP (Gross domestic product) is obtained with the following macroeconomics formula :
 `GDP=C+I+G+(X−M)`
-That is to say the aggregation of consumption (C), investments (I), government spendings (G) and the commercial balance (exportations minus importations).
-GDP per capita is the previous aggregate divided by the population size. Thiw choice will allow us to correct for countries size bias. 
+That is to say the aggregation of consumption (C), investments (I), government spending (G) and the commercial balance (exports minus imports).
+GDP per capita is the previous aggregate divided by the population size. This choice will allow us to correct for countries size bias. 
 
 GDP will be our wealth indicator in the simulation of the Kuznet's environmental curve. 
 
@@ -196,5 +219,3 @@ ggplot(data = GDP_per_capita_cleaned_filtered, aes(x = `Country Name`, y = Mean_
   geom_line()
 
 ```
-
-,opcesz
