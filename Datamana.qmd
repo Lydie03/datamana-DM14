@@ -216,6 +216,10 @@ mean_values <- rowMeans(GDP_per_capita_cleaned_filtered[, 5:50], na.rm = TRUE)
 GDP_per_capita_cleaned_filtered$Mean_5_to_50 <- mean_values
 
 ggplot(data = GDP_per_capita_cleaned_filtered, aes(x = `Country Name`, y = Mean_5_to_50)) +
-  geom_line()
+  geom_point() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+We chose to use the aggregations made by the world bank to get a broad view of GDP per capita across the world. We can draw in that sense our first intuitions. It seems regions of the world have a very unequal distribution of wealth, especially compared to the OECD countries. Low incomes seem to match low revenue activities such as agriculture or textile industries, when the OECD countries group services and technologies. Hence supposedly a higher pollution rate induced by low income countries prevalent economical activities.If we refer to our previous graphical representations, we can note however that it is not the case for Africa : agriculture does not pollute as much as textile industries in The East and Pacific Asia. 
+
