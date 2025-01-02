@@ -110,8 +110,11 @@ This will allow us to evaluate possible external factors, such as armed conflict
 This dataset will then be compared to pollution to answer our final sub research question : can a country observe long term growth while polluting despite the negative externalities in terms of health ? 
 
 ```{r}
-head(DALYs)
-summary(DALYs)
+# Data summary
+
+table(DALYs$Country, DALYs$Period, DALYs$Mean_Value) ## Still searching for better answer
+
+# Data graphical representations
 
 library(ggplot2)
 
