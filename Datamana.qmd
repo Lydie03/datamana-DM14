@@ -116,9 +116,11 @@ This dataset will then be compared to pollution to answer our final sub research
 # Data summary per year
 library(dplyr)
 
+# So we know how many countries total
 unique_countries <- unique(DALYs$Country)
 countries <- length(unique_countries)
 
+# Statistical tools calculation
 mean <- DALYs %>%
   group_by(DALYs$Period) %>%
   summarise(mean_value = mean(Mean_Value, na.rm = TRUE))
@@ -135,7 +137,6 @@ sd <- DALYs %>%
 
 
 summary_table <- data.frame(
-  "Number Of Countries" = countries,
   "Mean DALY" = mean,
   "Median DALY" = median_value,
   "Standard Deviation" = sd
@@ -144,13 +145,42 @@ summary_table <- data.frame(
 # Print the table
 print(summary_table)
 ```
-COMMENT HERE (idea = not relevent, better to understand within regions)
+It seems values are fairly constant over the nine years considered in our dataset. It seems grouping by countries might be more relevant. 
 
 ##### Data summary per country
 ```{r}
+# Data summary per year
+library(dplyr)
 
+unique_countries <- unique(DALYs$Country)
+countries <- length(unique_countries)
+
+mean <- DALYs %>%
+  group_by(DALYs$Country) %>%
+  summarise(mean_value = mean(Mean_Value, na.rm = TRUE)) %>%
+  arrange(desc(mean_value))
+
+median_value <- DALYs %>%
+  group_by(DALYs$Country) %>%
+  summarise(median_value = median(Mean_Value, na.rm = TRUE)) 
+median_value
+
+sd <- DALYs %>%
+  group_by(DALYs$Country) %>%
+  summarise(sd = median(Mean_Value, na.rm = TRUE)) 
+
+
+
+summary_table <- data.frame(
+  "Mean DALY" = mean,
+  "Median DALY" = median_value,
+  "Standard Deviation" = sd
+)
+
+# Print the table
+print(summary_table)
 ```
-COMMENT HERE (idea = inequalities, maybe suggest some kind of a grouping)
+This summary allow us to highlight major discrepancies between regions. Arranged from highest to lowest DALYs mean, we get that mostly developing countries appear first, prevalent in textile and raw product importations. Lowest are more developed countries, prevalent in services. This will allow us to determine whether this indicates a causality with GDP level and growth.
 
 ##### Data visual representations
 
