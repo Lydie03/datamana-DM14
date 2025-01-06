@@ -167,7 +167,7 @@ median_value
 
 sd <- DALYs %>%
   group_by(DALYs$Country) %>%
-  summarise(sd = median(Mean_Value, na.rm = TRUE)) 
+  summarise(sd = sd(Mean_Value, na.rm = TRUE)) 
 
 
 
@@ -214,10 +214,36 @@ The data summary allows us to get a broad view of the indicator over the world a
 This data set will be used to complete DALYs. It also comes from the World Health Organization and is organized with the same categories and classifications. 
 It will allow us to get a more precise analysis on the effect of carbone emissions on health. 
 
-```{r}
-head(death_air_pollution)
-summary(death_air_pollution)
+#### Data summary and visual representation
 
+##### Summary per year
+
+##### Summary per country
+```{r}
+death_air_pollution_unique <- death_air_pollution %>%
+  group_by(ParentLocation) %>%
+  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
+
+median <- death_air_pollution %>%
+  group_by(ParentLocation) %>%
+  summarise(median = median(median_value, na.rm = TRUE))
+
+sd <- death_air_pollution %>%
+  group_by(ParentLocation) %>%
+  summarise(sd = sd(median_value, na.rm = TRUE))
+
+summary_table <- data.frame(
+  "Mean of deaths due to pollution" = mean,
+  "Median of deaths due to pollution" = median_value,
+  "Standard Deviation of deaths due to pollution" = sd
+)
+
+# Print the table
+print(summary_table)
+```
+
+##### Visual representation
+```{r}
 library(ggplot2)
 
 # Grouping mean over time per country
@@ -243,10 +269,22 @@ Here it seems deaths due to air pollution is prevalent in South East Asia and We
 This dataset includes the measurement of fine particulate matter, that is to say the concentration of toxic elements in the air. Again, since the dataset comes from the World Health organization, the classification remains the same. It will allow us to get a cross country analysis, from 2010 to 2019.
 We will compare the degree to which some regions are polluted and their GDP over the year.
 
-```{r}
-head(SDG)
-summary(SDG)
+#### Summary and visual representation of the data
 
+##### Summary per year
+```{r}
+
+```
+COMMENTS
+
+##### Summary per country 
+```{r}
+
+```
+COMMENTS 
+
+##### Visual representation
+```{r}
 library(ggplot2)
 
 # Grouping mean over time per country
@@ -276,10 +314,22 @@ GDP per capita is the previous aggregate divided by the population size. This ch
 
 GDP will be our wealth indicator in the simulation of the Kuznet's environmental curve. 
 
-```{r}
-head(GDP_per_capita_cleaned)
-summary(GDP_per_capita_cleaned)
+#### Summary and visual representation of the data
 
+##### Summary per year
+```{r}
+
+```
+COMMENT
+
+##### Summary per country 
+```{r}
+
+```
+COMMENT 
+
+##### Visual representation
+```{r}
 library(ggplot2)
 
 ## Filtering by region
