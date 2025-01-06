@@ -109,13 +109,52 @@ This will allow us to evaluate possible external factors, such as armed conflict
 
 This dataset will then be compared to pollution to answer our final sub research question : can a country observe long term growth while polluting despite the negative externalities in terms of health ? 
 
+#### Data summary and representation
+
+##### Data summary per year
 ```{r}
-# Data summary
-c("Number Of Countries", "Mean DALY", "Median DALY", "Standard deviation", "DALY variable type")
-c(lenght(DALYs$Country), mean(DALYs$Indicator), median(DALYs$Indicator, na.rm=FALSE), sd(DALYs$Indicator, na.rm=FALSE), typeof(DALYs$Indicator))
+# Data summary per year
+library(dplyr)
 
-table(DALYs$Country, DALYs$Period, DALYs$Mean_Value) ## Still searching for better answer
+unique_countries <- unique(DALYs$Country)
+countries <- length(unique_countries)
 
+mean <- DALYs %>%
+  group_by(DALYs$Period) %>%
+  summarise(mean_value = mean(Mean_Value, na.rm = TRUE))
+
+median_value <- DALYs %>%
+  group_by(DALYs$Period) %>%
+  summarise(median_value = median(Mean_Value, na.rm = TRUE)) 
+median_value
+
+sd <- DALYs %>%
+  group_by(DALYs$Period) %>%
+  summarise(sd = median(Mean_Value, na.rm = TRUE)) 
+
+
+
+summary_table <- data.frame(
+  "Number Of Countries" = countries,
+  "Mean DALY" = mean,
+  "Median DALY" = median_value,
+  "Standard Deviation" = sd
+)
+
+# Print the table
+print(summary_table)
+```
+COMMENT HERE (idea = not relevent, better to understand within regions)
+
+##### Data summary per country
+```{r}
+
+```
+COMMENT HERE (idea = inequalities, maybe suggest some kind of a grouping)
+
+##### Data visual representations
+
+```{r}
 # Data graphical representations
 
 library(ggplot2)
@@ -138,6 +177,8 @@ ggplot(data = DALYs_unique, aes(x = ParentLocation, y = Mean_Value, fill = Paren
   scale_fill_brewer(palette = "Set3") 
 ```
 When we group the mean of DALYs values over time per country, we get a rather interesting picture of the situation cross regions. It seems DALYs are prevalent in Africa, Eastern Mediterranean and South-East Asia. This will allow us to define control groups and to consider levels of development compared to DALYs. 
+
+The data summary allows us to get a broad view of the indicator over the world and over the short period of time considered (9 years, from 2010 to 2019)
 
 ### Death air pollution
 This data set will be used to complete DALYs. It also comes from the World Health Organization and is organized with the same categories and classifications. 
