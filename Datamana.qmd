@@ -221,16 +221,16 @@ It will allow us to get a more precise analysis on the effect of carbone emissio
 ##### Summary per country
 ```{r}
 death_air_pollution_unique <- death_air_pollution %>%
-  group_by(ParentLocation) %>%
+  group_by(Country) %>%
   summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
 
 median <- death_air_pollution %>%
-  group_by(ParentLocation) %>%
-  summarise(median = median(median_value, na.rm = TRUE))
+  group_by(Country) %>%
+  summarise(median = median(Mean_Value, na.rm = TRUE))
 
 sd <- death_air_pollution %>%
-  group_by(ParentLocation) %>%
-  summarise(sd = sd(median_value, na.rm = TRUE))
+  group_by(Country) %>%
+  summarise(sd = sd(Mean_Value, na.rm = TRUE))
 
 summary_table <- data.frame(
   "Mean of deaths due to pollution" = mean,
