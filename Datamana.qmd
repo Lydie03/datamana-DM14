@@ -156,31 +156,28 @@ unique_countries <- unique(DALYs$Country)
 countries <- length(unique_countries)
 
 mean <- DALYs %>%
-  group_by(DALYs$Country) %>%
+  group_by(Country) %>%
   summarise(mean_value = mean(Mean_Value, na.rm = TRUE)) %>%
   arrange(desc(mean_value))
 
 median_value <- DALYs %>%
-  group_by(DALYs$Country) %>%
+  group_by(Country) %>%
   summarise(median_value = median(Mean_Value, na.rm = TRUE)) 
 median_value
 
 sd <- DALYs %>%
-  group_by(DALYs$Country) %>%
+  group_by(Country) %>%
   summarise(sd = sd(Mean_Value, na.rm = TRUE)) 
 
-
-
-summary_table <- data.frame(
-  "Mean DALY" = mean,
-  "Median DALY" = median_value,
-  "Standard Deviation" = sd
-)
+summary_table <- mean %>% 
+  inner_join(median, by = "Country") %>%
+  inner_join(sd, by = "Country") %>%
+  arrange(desc(mean_value))
 
 # Print the table
-print(summary_table)
+kable(summary_table, caption = "Summary Statistics of DALYs")
 ```
-This summary allow us to highlight major discrepancies between regions. Arranged from highest to lowest DALYs mean, we get that mostly developing countries appear first, prevalent in textile and raw product importations. Lowest are more developed countries, prevalent in services. This will allow us to determine whether this indicates a causality with GDP level and growth.
+This summary allow us to highlight major discrepancies between regions. Arranged from highest to lowest DALYs mean, we get that the first countries with most years lost due to prematured deaths are Afghanistan, Tajikistan and Chad. Last three are Finland, Australia and Iceland. We can consequently draw the hypothesis that there might be a negative relationship between the number of DALYs and a country's GDP. 
 
 ##### Data visual representations
 
@@ -216,8 +213,6 @@ It will allow us to get a more precise analysis on the effect of carbone emissio
 
 #### Data summary and visual representation
 
-##### Summary per year
-
 ##### Summary per country
 ```{r}
 death_air_pollution_unique <- death_air_pollution %>%
@@ -232,16 +227,15 @@ sd <- death_air_pollution %>%
   group_by(Country) %>%
   summarise(sd = sd(Mean_Value, na.rm = TRUE))
 
-summary_table <- data.frame(
-  "Mean of deaths due to pollution" = mean,
-  "Median of deaths due to pollution" = median_value,
-  "Standard Deviation of deaths due to pollution" = sd
-)
+summary_table <- death_air_pollution_unique %>% 
+  inner_join(median, by = "Country") %>%
+  inner_join(sd, by = "Country") %>%
+  arrange(Mean_Value)
 
 # Print the table
-print(summary_table)
+kable(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
 ```
-
+Arranged from countries 
 ##### Visual representation
 ```{r}
 library(ggplot2)
@@ -270,12 +264,6 @@ This dataset includes the measurement of fine particulate matter, that is to say
 We will compare the degree to which some regions are polluted and their GDP over the year.
 
 #### Summary and visual representation of the data
-
-##### Summary per year
-```{r}
-
-```
-COMMENTS
 
 ##### Summary per country 
 ```{r}
@@ -329,7 +317,7 @@ COMMENT
 COMMENT 
 
 ##### Visual representation
-```{r}7
+```{r}
 library(ggplot2)
 
 ## Filtering by region
@@ -358,4 +346,10 @@ ggplot(data = GDP_per_capita_cleaned_filtered, aes(x = `Country Name`, y = Mean_
 We chose to use the aggregations made by the world bank to get a broad view of GDP per capita across the world. We can draw in that sense our first intuitions. It seems regions of the world have a very unequal distribution of wealth, especially compared to the OECD countries. Low incomes seem to match low revenue activities such as agriculture or textile industries, when the OECD countries match group services and technologies. Hence supposedly a higher pollution rate induced by low income countries prevalent economical activities.If we refer to our previous graphical representations, we can note however that it is not the case for Africa : agriculture does not pollute as much as textile industries in The East and Pacific Asia. 
 
 *ZIP on Moodle*
+
+## Partie avec juste PIB et pollution
+## Courbe de Kuznets et économétrie
+
+## Partie 
+
 
