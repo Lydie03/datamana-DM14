@@ -235,7 +235,9 @@ summary_table <- death_air_pollution_unique %>%
 # Print the table
 kable(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
 ```
-Arranged from countries 
+Arranged by the number of deaths due to air pollution, we get first two countries are China, India and China and last three ones St Vincent, Samoa and St Lucia. These observations might require to correct the amount of deaths with the population size.
+
+
 ##### Visual representation
 ```{r}
 library(ggplot2)
@@ -267,9 +269,31 @@ We will compare the degree to which some regions are polluted and their GDP over
 
 ##### Summary per country 
 ```{r}
+library(dplyr)
 
+mean <- SDG %>%
+  group_by(Country) %>%
+  summarise(mean_value = mean(Mean_Value, na.rm = TRUE)) %>%
+  arrange(desc(mean_value))
+
+median_value <- SDG %>%
+  group_by(Country) %>%
+  summarise(median_value = median(Mean_Value, na.rm = TRUE)) 
+median_value
+
+sd <- SDG %>%
+  group_by(Country) %>%
+  summarise(sd = sd(Mean_Value, na.rm = TRUE)) 
+
+summary_table <- mean %>% 
+  inner_join(median, by = "Country") %>%
+  inner_join(sd, by = "Country") %>%
+  arrange(desc(mean_value))
+
+# Print the table
+kable(summary_table, caption = "Summary Statistics of SDG")
 ```
-COMMENTS 
+It appears here that the countries showing most toxic concentration are Afghanistan, Tajikistan an Kuweit. We get here a partially similar result as for the DALYs, hence a potential correlation to consider in our models. 
 
 ##### Visual representation
 ```{r}
@@ -303,12 +327,6 @@ GDP per capita is the previous aggregate divided by the population size. This ch
 GDP will be our wealth indicator in the simulation of the Kuznet's environmental curve. 
 
 #### Summary and visual representation of the data
-
-##### Summary per year
-```{r}
-
-```
-COMMENT
 
 ##### Summary per country 
 ```{r}
