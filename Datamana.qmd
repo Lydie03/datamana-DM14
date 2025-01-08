@@ -55,18 +55,18 @@ By trying to get the column names of this dataset, we observed that it did not l
 GDP_per_capita_cleaned <- vroom::vroom("GDPperCapita.csv", skip = 4, delim=",") 
 ```
 ### DALYs
-This dataset is hard to work with in the sense that the columns have non explicit names. hence the following changes. 
+This dataset is hard to work with in the sense that the columns have non explicit names. Hence the following changes. 
 
 ```{r}
 library(dplyr)
 
 DALYs <- DALYs %>%
   rename(
-    Mean_Value = FactValueNumeric,
-    lowest_value = FactValueNumericLow,
-    highest_value = FactValueNumericHigh,
-    Sex = Dim1,
-    Country = Location
+    Mean_Value = "FactValueNumeric",
+    lowest_value = "FactValueNumericLow",
+    highest_value = "FactValueNumericHigh",
+    Sex = "Dim1",
+    Country = "Location"
   )
 ```
 
@@ -230,7 +230,7 @@ summary_table <- death_air_pollution_unique %>%
   arrange(Mean_Value)
 
 # Print the table
-kable(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
+table(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
 ```
 Arranged by the number of deaths due to air pollution, we get first two countries are China, India and China and last three ones St Vincent, Samoa and St Lucia. These observations might require to correct the amount of deaths with the population size.
 
@@ -388,9 +388,22 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 
 *ZIP on Moodle*
 
-## Partie avec juste PIB et pollution
-## Courbe de Kuznets et économétrie
+## PIB and gas emission : Kuznets curve (EKC)
+### Econometrically 
+```{r}
+merged_data <- DALYs %>%
+  inner_join(GDP_per_capita_cleaned, by = c("Country", "Period")) %>%
+  inner_join(death_air_pollution, by = c("Country", "Period"))
+```
 
-## Partie 
+### Graphical representation 
+Now, let's see if we can find the graphical representation of the EKC theory. 
+```{r}
+
+```
+
+
+## Conclusion 
+
 
 
