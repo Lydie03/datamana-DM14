@@ -329,7 +329,7 @@ COMMENT
 COMMENT 
 
 ##### Visual representation
-```{r}
+```{r}7
 library(ggplot2)
 
 ## Filtering by region
