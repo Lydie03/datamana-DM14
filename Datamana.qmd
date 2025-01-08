@@ -45,16 +45,18 @@ library(vroom)
 DALYs <- vroom::vroom("DALYs.csv")
 death_air_pollution <- vroom::vroom("death-air-pollution.csv")
 SDG <- vroom::vroom("SDG indicators.csv")
-GDP_per_capita <- vroom::vroom("GDPperCapita.csv", delim=",")
+GDP_per_capita <- vroom::vroom("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_76.csv", skip=4, delim=",", col_names=TRUE)
+
 ```
 ## Data cleaning
 
 ### GDP per capita
 By trying to get the column names of this dataset, we observed that it did not load properly. There were the first four row of the Excel sheet presenting the data, hence compromising the understanding of the separator ",". We removed the first four rows that did not contain any data and got a proper dataset to work with. 
 ```{r}
-GDP_per_capita_cleaned <- vroom::vroom("GDPperCapita.csv", skip = 4, delim=",") 
+GDP_per_capita_cleaned <- vroom::vroom("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_76.csv", skip = 4, delim=",") 
 ```
 ```{r}
+library (dplyr)
 GDP_per_capita_cleaned <- GDP_per_capita_cleaned %>%
   rename (
     Country = "Country Name"
@@ -171,13 +173,10 @@ It seems values are fairly constant over the nine years considered in our datase
 
 ##### Data summary per country
 ```{r}
-# Data summary per year
-library(dplyr)
-
-mean <- DALYs %>%
+# Data summary per country
+mean_DALYs <- DALYs %>%
   group_by(Country) %>%
-  summarise(mean_value = mean(Mean_Value, na.rm = TRUE)) %>%
-  arrange(desc(mean_value))
+  summarise(mean_value = mean(Mean_Value, na.rm = TRUE))
 
 median_value <- DALYs %>%
   group_by(Country) %>%
@@ -186,15 +185,18 @@ median_value
 
 sd <- DALYs %>%
   group_by(Country) %>%
-  summarise(sd = sd(Mean_Value, na.rm = TRUE)) 
+  summarise(sd = median(Mean_Value, na.rm = TRUE)) 
 
-summary_table <- mean %>% 
-  inner_join(median, by = "Country") %>%
-  inner_join(sd, by = "Country") %>%
-  arrange(desc(mean_value))
+
+
+summary_table <- data.frame(
+  "Mean DALY" = mean_DALYs,
+  "Median DALY" = median_value,
+  "Standard Deviation" = sd
+)
 
 # Print the table
-kable(summary_table, caption = "Summary Statistics of DALYs")
+print(summary_table)
 ```
 This summary allow us to highlight major discrepancies between regions. Arranged from highest to lowest DALYs mean, we get that the first countries with most years lost due to prematured deaths are Afghanistan, Tajikistan and Chad. Last three are Finland, Australia and Iceland. We can consequently draw the hypothesis that there might be a negative relationship between the number of DALYs and a country's GDP. 
 
@@ -234,9 +236,12 @@ It will allow us to get a more precise analysis on the effect of carbone emissio
 
 ##### Summary per country
 ```{r}
+library(knitr)
+
 death_air_pollution_unique <- death_air_pollution %>%
   group_by(Country) %>%
-  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
+  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE)) %>%
+  arrange(desc(Mean_Value))
 
 median <- death_air_pollution %>%
   group_by(Country) %>%
@@ -252,9 +257,9 @@ summary_table <- death_air_pollution_unique %>%
   arrange(Mean_Value)
 
 # Print the table
-table(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
+kable(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
 ```
-Arranged by the number of deaths due to air pollution, we get first two countries are China, India and China and last three ones St Vincent, Samoa and St Lucia. These observations might require to correct the amount of deaths with the population size.
+Arranged by the number of deaths due to air pollution, we get first two countries are China, India and China and last three ones St Vincent, Samoa and St Lucia. 
 
 
 ##### Visual representation
@@ -350,29 +355,30 @@ GDP will be our wealth indicator in the simulation of the Kuznet's environmental
 ##### Summary per country 
 ```{r}
 library(dplyr)
+library(knitr)
 
-mean_gdp <- GDP_per_capita_cleaned %>%
+mean_gdp <- GDP_per_capita %>%
   rowwise() %>% 
   mutate(Mean_GDP = mean(c_across(`1960`:`2005`), na.rm = TRUE)) %>% 
   ungroup() %>% 
   select(`Country Name`, Mean_GDP)
 
-median_gdp <- GDP_per_capita_cleaned %>% 
+median_gdp <- GDP_per_capita %>% 
   rowwise() %>% 
   mutate(Median_GDP = median(c_across(`1960`:`2005`), na.rm = TRUE)) %>% 
   ungroup() %>% 
   select(`Country Name`, Median_GDP)
 
-sd_gdp <- GDP_per_capita_cleaned %>% 
+sd_gdp <- GDP_per_capita %>% 
   rowwise() %>% 
   mutate(sd_GDP = median(c_across(`1960`:`2005`), na.rm = TRUE)) %>% 
   ungroup() %>% 
   select(`Country Name`, sd_GDP)
 
-summary_table <- mean %>% 
-  inner_join(median, by = "Country") %>%
-  inner_join(sd, by = "Country") %>%
-  arrange(desc(mean_value))
+summary_table <- mean_gdp %>% 
+  inner_join(median_gdp, by = "Country Name") %>%
+  inner_join(sd_gdp, by = "Country Name") %>%
+  arrange(desc(Mean_GDP))
 
 # Print the table
 kable(summary_table, caption = "Summary Statistics of GDP per country")
@@ -385,7 +391,7 @@ library(ggplot2)
 
 ## Filtering by region
 rows_to_keep <- c(182, 216, 231, 232, 237, 241, 260)
-GDP_per_capita_cleaned_filtered <- GDP_per_capita_cleaned |> 
+GDP_per_capita_cleaned_filtered <- GDP_per_capita |> 
   slice(rows_to_keep)
 
 ## Calculating mean over the specified period for each region
@@ -410,13 +416,27 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 
 *ZIP on Moodle*
 
-## PIB and gas emission : Kuznets curve (EKC)
+## GDP and gas emission : Kuznets curve (EKC)
 ### Econometrically 
 ```{r}
-merged_data <- DALYs %>%
-  inner_join(GDP_per_capita_cleaned, by = c("Country", "Period")) %>%
-  inner_join(death_air_pollution, by = c("Country", "Period"))
+library(dplyr)
+
+# merged_data <- DALYs %>%
+#   inner_join(GDP_per_capita_cleaned, by = c("Country", "Period")) %>%
+#   inner_join(death_air_pollution, by = c("Country", "Period"))
+
+## Proposition de correction
+Merged_data <-  DALYs %>%
+   inner_join(mean_gdp, by = c("Country Name")) %>%
+   inner_join(mean_DALYs, by = c("Country Name"))
 ```
+## Working on GDP and ambient air pollution (DALYs)
+
+We are now trying to link air pollution to GDP. We will first consider their respective means, then the most recent year available (2022).
+```{r}
+
+```
+
 
 ### Graphical representation 
 Now, let's see if we can find the graphical representation of the EKC theory. 
@@ -440,6 +460,7 @@ model <- lm(Mean_Value ~ Mean_GDP, data = merged_data)
 summary(model)
 
 ```
+
 Second option : mean of GDP over the years 
 ```{r}
 # Mean PIB between 1960 to 2023
