@@ -54,6 +54,15 @@ By trying to get the column names of this dataset, we observed that it did not l
 ```{r}
 GDP_per_capita_cleaned <- vroom::vroom("GDPperCapita.csv", skip = 4, delim=",") 
 ```
+```{r}
+GDP_per_capita_cleaned <- GDP_per_capita_cleaned %>%
+  rename (
+    Country = "Country Name"
+  )
+# we save a new base to have regular name for the columns 
+write.csv(GDP_per_capita_cleaned, "GDP_per_capita_modified.csv", row.names = FALSE)
+```
+
 ### DALYs
 This dataset is hard to work with in the sense that the columns have non explicit names. Hence the following changes. 
 
@@ -68,6 +77,8 @@ DALYs <- DALYs %>%
     Sex = "Dim1",
     Country = "Location"
   )
+# we save a new base to have regular name for the columns 
+write.csv(DALYs, "DALYs_modified.csv", row.names = FALSE)
 ```
 
 ### Death air pollution and SDG
@@ -76,23 +87,34 @@ The observations are the same as for DALYs, hence the following changes.
 ```{r}
 SDG <- SDG %>%
   rename(
-    Mean_Value = FactValueNumeric,
-    lowest_value = FactValueNumericLow,
-    highest_value = FactValueNumericHigh,
-    Sex = Dim1,
-    Country = Location
+    Mean_Value = "FactValueNumeric",
+    lowest_value = "FactValueNumericLow",
+    highest_value = "FactValueNumericHigh",
+    Sex = "Dim1",
+    Country = "Location"
   )
+# we save a new base to have regular name for the columns 
+write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
 ```
 
 ```{r}
 death_air_pollution <- death_air_pollution %>%
   rename(
-    Mean_Value = FactValueNumeric,
-    lowest_value = FactValueNumericLow,
-    highest_value = FactValueNumericHigh,
-    Sex = Dim1,
-    Country = Location
+    Mean_Value = "FactValueNumeric",
+    lowest_value = "FactValueNumericLow",
+    highest_value = "FactValueNumericHigh",
+    Sex = "Dim1",
+    Country = "Location"
   )
+# we save a new base to have regular name for the columns 
+write.csv(death_air_pollution, "death_air_pollution_modified.csv", row.names = FALSE)
+```
+
+```{r}
+DALYs1 <- vroom::vroom("DALYs_modified.csv")
+death_air_pollution1 <- vroom::vroom("death_air_pollution_modified.csv")
+SDG1 <- vroom::vroom("SDG_modified.csv")
+GDP_per_capita1 <- vroom::vroom("GDP_per_capita_modified.csv", delim=",")
 ```
 
 
@@ -398,10 +420,48 @@ merged_data <- DALYs %>%
 
 ### Graphical representation 
 Now, let's see if we can find the graphical representation of the EKC theory. 
+
+First option : choose one year (2020)
 ```{r}
+# Sélectionner le PIB pour l'année 2020
+GDP_per_capita_selected <- GDP_per_capita1 %>%
+  select(Country, Mean_GDP = `2020`)
+
+# Fusionner avec les autres datasets
+merged_data <- GDP_per_capita_selected %>%
+  inner_join(death_air_pollution1, by = "Country") %>%
+  inner_join(SDG1, by = "Country") %>%
+  inner_join(DALYs1, by = "Country")
+
+# Calculer la régression linéaire entre le PIB et la pollution
+model <- lm(Mean_Value ~ Mean_GDP, data = merged_data)
+
+# Afficher le résumé du modèle
+summary(model)
 
 ```
+Second option : mean of GDP over the years 
+```{r}
+# Mean PIB between 1960 to 2023
+GDP_per_capita_selected <- GDP_per_capita1 %>%
+  select(Country, matches("^19|^20")) %>%  # Choose all columns from 1960 to 2023
+  rowwise() %>%
+  mutate(Mean_GDP = mean(c_across(starts_with("19"):starts_with("20")), na.rm = TRUE)) %>%  
+  ungroup() %>%
+  select(Country, Mean_GDP)
 
+# Merge all data sets 
+merged_data <- GDP_per_capita_selected %>%
+  inner_join(death_air_pollution1, by = "Country") %>%
+  inner_join(SDG1, by = "Country") %>%
+  inner_join(DALYs1, by = "Country")
+
+# Calculation of the regression between GDP and air pollution 
+model <- lm(Mean_Value ~ Mean_GDP, data = merged_data)
+
+# Summary of the model 
+summary(model)
+```
 
 ## Conclusion 
 
