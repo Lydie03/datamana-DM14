@@ -152,9 +152,6 @@ It seems values are fairly constant over the nine years considered in our datase
 # Data summary per year
 library(dplyr)
 
-unique_countries <- unique(DALYs$Country)
-countries <- length(unique_countries)
-
 mean <- DALYs %>%
   group_by(Country) %>%
   summarise(mean_value = mean(Mean_Value, na.rm = TRUE)) %>%
@@ -330,9 +327,35 @@ GDP will be our wealth indicator in the simulation of the Kuznet's environmental
 
 ##### Summary per country 
 ```{r}
+library(dplyr)
 
+mean_gdp <- GDP_per_capita_cleaned %>%
+  rowwise() %>% 
+  mutate(Mean_GDP = mean(c_across(`1960`:`2005`), na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  select(`Country Name`, Mean_GDP)
+
+median_gdp <- GDP_per_capita_cleaned %>% 
+  rowwise() %>% 
+  mutate(Median_GDP = median(c_across(`1960`:`2005`), na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  select(`Country Name`, Median_GDP)
+
+sd_gdp <- GDP_per_capita_cleaned %>% 
+  rowwise() %>% 
+  mutate(sd_GDP = median(c_across(`1960`:`2005`), na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  select(`Country Name`, sd_GDP)
+
+summary_table <- mean %>% 
+  inner_join(median, by = "Country") %>%
+  inner_join(sd, by = "Country") %>%
+  arrange(desc(mean_value))
+
+# Print the table
+kable(summary_table, caption = "Summary Statistics of GDP per country")
 ```
-COMMENT 
+
 
 ##### Visual representation
 ```{r}
