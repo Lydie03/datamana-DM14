@@ -447,6 +447,32 @@ ggplot(Merged_data, aes(x = Mean_GDP, y = Mean_Value.x)) +
   ) +
   theme_minimal()  # au résultat on voit que la base "merged" est vide 
 ```
+### other try : merge with code for each country 
+```{r}
+# Identifier les codes pays présents dans chaque dataset
+common_codes <- Reduce(intersect, list(`GDP_per_capita`$`Country Code`, SDG$SpatialDimValueCode, death_air_pollution$SpatialDimValueCode, DALYs$SpatialDimValueCode))
+
+
+# Filtrer les bases de données avec les codes communs
+GDP_filtered <- GDP_per_capita[GDP_per_capita$`Country Code` %in% common_codes, ]
+SDG_filtered <- SDG[SDG$`SpatialDimValueCode` %in% common_codes, ]
+death_air_pollution_filtered <- death_air_pollution[death_air_pollution$`SpatialDimValueCode` %in% common_codes, ]
+DALYs_filtered <- DALYs[DALYs$`SpatialDimValueCode` %in% common_codes, ]
+
+# Fusionner les bases filtrées
+merged_data <- merge(GDP_filtered, SDG_filtered, by.x = "Country Code", by.y = "SpatialDimValueCode", all = TRUE)
+merged_data <- merge(merged_data, death_air_pollution_filtered, by.x = "Country Code", by.y = "SpatialDimValueCode", all = TRUE)
+merged_data <- merge(merged_data, DALYs_filtered, by.x = "Country Code", by.y = "SpatialDimValueCode", all = TRUE)
+
+```
+
+
+
+
+
+
+
+
 ## Working on GDP and ambient air pollution
 
 We are now trying to link air pollution to GDP. We will first consider their respective means, then the most recent year available (2022).
