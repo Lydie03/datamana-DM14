@@ -187,8 +187,6 @@ sd <- DALYs %>%
   group_by(Country) %>%
   summarise(sd = median(Mean_Value, na.rm = TRUE)) 
 
-
-
 summary_table <- data.frame(
   "Mean DALY" = mean_DALYs,
   "Median DALY" = median_value,
@@ -295,14 +293,14 @@ We will compare the degree to which some regions are polluted and their GDP over
 ```{r}
 library(dplyr)
 
-mean <- SDG %>%
+mean_SDG <- SDG %>%
   group_by(Country) %>%
   summarise(mean_value = mean(Mean_Value, na.rm = TRUE)) %>%
   arrange(desc(mean_value))
 
 median_value <- SDG %>%
   group_by(Country) %>%
-  summarise(median_value = median(Mean_Value, na.rm = TRUE)) 
+  summarise(median_value = median(Mean_Value, na.rm = TRUE))
 median_value
 
 sd <- SDG %>%
@@ -420,69 +418,42 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 ### Econometrically 
 ```{r}
 library(dplyr)
+DALYs <- DALYs |> rename("Country Name" = "Country")
+mean_DALYs <- mean_DALYs |> rename("Country Name" = "Country")
+death_air_pollution_unique <- death_air_pollution_unique |> rename("Country Name" = "ParentLocation")
+mean_SDG <- mean_SDG |> rename("Country Name" = "Country")
 
-# merged_data <- DALYs %>%
-#   inner_join(GDP_per_capita_cleaned, by = c("Country", "Period")) %>%
-#   inner_join(death_air_pollution, by = c("Country", "Period"))
-
-## Proposition de correction
 Merged_data <-  DALYs %>%
    inner_join(mean_gdp, by = c("Country Name")) %>%
-   inner_join(mean_DALYs, by = c("Country Name"))
+   inner_join(mean_DALYs, by = c("Country Name")) %>%
+  inner_join(death_air_pollution_unique, by = c("Country Name"))%>% 
+  inner_join(mean_SDG, by = c("Country Name"))
 ```
-## Working on GDP and ambient air pollution (DALYs)
+
+### Linear regression between GDP and air pollution (SDG) 
+```{r}
+model <- lm(Mean_Value.x ~ Mean_GDP, data = Merged_data)
+#problem with the values in the merged data base 
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(Merged_data, aes(x = Mean_GDP, y = Mean_Value.x)) +
+  geom_point() +  # Ajoute les points du nuage
+  labs(
+    x = "GDP",
+    y = "SDG" 
+  ) +
+  theme_minimal()  # au résultat on voit que la base "merged" est vide 
+```
+## Working on GDP and ambient air pollution
 
 We are now trying to link air pollution to GDP. We will first consider their respective means, then the most recent year available (2022).
-```{r}
-
-```
-
 
 ### Graphical representation 
 Now, let's see if we can find the graphical representation of the EKC theory. 
 
-First option : choose one year (2020)
-```{r}
-# Sélectionner le PIB pour l'année 2020
-GDP_per_capita_selected <- GDP_per_capita1 %>%
-  select(Country, Mean_GDP = `2020`)
-
-# Fusionner avec les autres datasets
-merged_data <- GDP_per_capita_selected %>%
-  inner_join(death_air_pollution1, by = "Country") %>%
-  inner_join(SDG1, by = "Country") %>%
-  inner_join(DALYs1, by = "Country")
-
-# Calculer la régression linéaire entre le PIB et la pollution
-model <- lm(Mean_Value ~ Mean_GDP, data = merged_data)
-
-# Afficher le résumé du modèle
-summary(model)
-
-```
-
-Second option : mean of GDP over the years 
-```{r}
-# Mean PIB between 1960 to 2023
-GDP_per_capita_selected <- GDP_per_capita1 %>%
-  select(Country, matches("^19|^20")) %>%  # Choose all columns from 1960 to 2023
-  rowwise() %>%
-  mutate(Mean_GDP = mean(c_across(starts_with("19"):starts_with("20")), na.rm = TRUE)) %>%  
-  ungroup() %>%
-  select(Country, Mean_GDP)
-
-# Merge all data sets 
-merged_data <- GDP_per_capita_selected %>%
-  inner_join(death_air_pollution1, by = "Country") %>%
-  inner_join(SDG1, by = "Country") %>%
-  inner_join(DALYs1, by = "Country")
-
-# Calculation of the regression between GDP and air pollution 
-model <- lm(Mean_Value ~ Mean_GDP, data = merged_data)
-
-# Summary of the model 
-summary(model)
-```
 
 ## Conclusion 
 
