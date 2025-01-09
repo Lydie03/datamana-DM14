@@ -62,7 +62,7 @@ GDP_per_capita_cleaned <- GDP_per_capita_cleaned %>%
     Country = "Country Name"
   )
 # we save a new base to have regular name for the columns 
-write.csv(GDP_per_capita_cleaned, "GDP_per_capita_modified.csv", row.names = FALSE)
+# NE FONCTIONNE PAS write.csv(GDP_per_capita_cleaned, "GDP_per_capita_modified.csv", row.names = FALSE)
 ```
 
 ### DALYs
@@ -80,7 +80,12 @@ DALYs <- DALYs %>%
     Country = "Location"
   )
 # we save a new base to have regular name for the columns 
-write.csv(DALYs, "DALYs_modified.csv", row.names = FALSE)
+# write.csv(DALYs, "DALYs_modified.csv", row.names = FALSE)
+
+# DALYs <- DALYs %>%
+#   rename (
+#    Country = "Country Name"
+#   )
 ```
 
 ### Death air pollution and SDG
@@ -96,6 +101,7 @@ SDG <- SDG %>%
     Country = "Location"
   )
 # we save a new base to have regular name for the columns 
+library(dplyr)
 write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
 ```
 
@@ -237,21 +243,21 @@ It will allow us to get a more precise analysis on the effect of carbone emissio
 library(knitr)
 
 death_air_pollution_unique <- death_air_pollution %>%
-  group_by(Country) %>%
-  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE)) %>%
+  group_by(Location) %>%
+  summarise(Mean_Value = mean(FactValueNumeric, na.rm = TRUE)) %>%
   arrange(desc(Mean_Value))
 
 median <- death_air_pollution %>%
-  group_by(Country) %>%
-  summarise(median = median(Mean_Value, na.rm = TRUE))
+  group_by(Location) %>%
+  summarise(median = median(FactValueNumeric, na.rm = TRUE))
 
 sd <- death_air_pollution %>%
-  group_by(Country) %>%
-  summarise(sd = sd(Mean_Value, na.rm = TRUE))
+  group_by(Location) %>%
+  summarise(sd = sd(FactValueNumeric, na.rm = TRUE))
 
 summary_table <- death_air_pollution_unique %>% 
-  inner_join(median, by = "Country") %>%
-  inner_join(sd, by = "Country") %>%
+  inner_join(median, by = "Location") %>%
+  inner_join(sd, by = "Location") %>%
   arrange(Mean_Value)
 
 # Print the table
@@ -266,11 +272,11 @@ library(ggplot2)
 
 # Grouping mean over time per country
 death_air_pollution_unique <- death_air_pollution %>%
-  group_by(ParentLocation) %>%
-  summarise(Mean_Value = mean(Mean_Value, na.rm = TRUE))
+  group_by(Location) %>%
+  summarise(Mean_Value = mean(FactValueNumeric, na.rm = TRUE))
 
 # Graphical representation
-ggplot(data = death_air_pollution_unique, aes(x = ParentLocation, y = Mean_Value, fill = ParentLocation)) +
+ggplot(data = death_air_pollution_unique, aes(x = Location, y = Mean_Value, fill = Location)) +
   geom_bar(stat = "identity", color = "black") + 
   labs(
     title = "Distribution of mean deaths due to air pollution by Parent Location",
@@ -280,6 +286,7 @@ ggplot(data = death_air_pollution_unique, aes(x = ParentLocation, y = Mean_Value
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_fill_brewer(palette = "Set3") 
+
 ```
 Here it seems deaths due to air pollution is prevalent in South East Asia and Western Pacific. 
 
@@ -416,24 +423,34 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 
 ## GDP and gas emission : Kuznets curve (EKC)
 ### Econometrically 
+BLOC CORRIGE 
 ```{r}
 library(dplyr)
-DALYs <- DALYs |> rename("Country Name" = "Country")
-mean_DALYs <- mean_DALYs |> rename("Country Name" = "Country")
-death_air_pollution_unique <- death_air_pollution_unique |> rename("Country Name" = "ParentLocation")
-mean_SDG <- mean_SDG |> rename("Country Name" = "Country")
+DALYs <- DALYs |> 
+  rename("Country" = "Country Name")
+
+mean_gdp <- mean_gdp |> 
+  rename("Country" = "Country Name")
+
+mean_DALYs <- mean_DALYs |> 
+  rename("Country" = "Country Name")
+
+death_air_pollution_unique <- death_air_pollution_unique |> 
+  rename("Country" = "Location")
+
+mean_SDG <- mean_SDG |> 
+  rename("Country" = "Country Name")
 
 Merged_data <-  DALYs %>%
-   inner_join(mean_gdp, by = c("Country Name")) %>%
-   inner_join(mean_DALYs, by = c("Country Name")) %>%
-  inner_join(death_air_pollution_unique, by = c("Country Name"))%>% 
-  inner_join(mean_SDG, by = c("Country Name")) #la base finale est vide car les noms des pays ne sont pas les mêmes... 
+   inner_join(mean_gdp, by = c("Country")) %>%
+   inner_join(mean_DALYs, by = c("Country")) %>%
+  inner_join(death_air_pollution_unique, by = c("Country"))%>% 
+  inner_join(mean_SDG, by = c("Country"))
 ``` 
 
 ### Linear regression between GDP and air pollution (SDG) 
 ```{r}
 model <- lm(Mean_Value.x ~ Mean_GDP, data = Merged_data)
-#problem with the values in the merged data base 
 ```
 
 ```{r}
@@ -441,11 +458,12 @@ library(ggplot2)
 
 ggplot(Merged_data, aes(x = Mean_GDP, y = Mean_Value.x)) +
   geom_point() +  # Ajoute les points du nuage
+  geom_smooth(method = "lm", se = FALSE) +
   labs(
     x = "GDP",
     y = "SDG" 
   ) +
-  theme_minimal()  # au résultat on voit que la base "merged" est vide 
+  theme_minimal()
 ```
 ### other try : merge with code for each country 
 ```{r}
