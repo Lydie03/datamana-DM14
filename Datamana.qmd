@@ -427,8 +427,8 @@ Merged_data <-  DALYs %>%
    inner_join(mean_gdp, by = c("Country Name")) %>%
    inner_join(mean_DALYs, by = c("Country Name")) %>%
   inner_join(death_air_pollution_unique, by = c("Country Name"))%>% 
-  inner_join(mean_SDG, by = c("Country Name"))
-```
+  inner_join(mean_SDG, by = c("Country Name")) #la base finale est vide car les noms des pays ne sont pas les mêmes... 
+``` 
 
 ### Linear regression between GDP and air pollution (SDG) 
 ```{r}
