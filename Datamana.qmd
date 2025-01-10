@@ -502,6 +502,11 @@ residuals <- residuals(model2)
 
 plot(model2)
 ```
+** Proposition autre régression linéaire pour interpétation** 
+```{r}
+model2 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
+summary(model2)
+```
 #### Checking for multicolinearity
 
 #### Explanatory power and tests
