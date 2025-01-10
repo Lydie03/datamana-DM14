@@ -574,7 +574,15 @@ Let's draw a simple model GDP over gas emissions.
 We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs. 
 
 ```{r}
-Burkina_Faso_GDP <- 
+Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
+Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
+
+Burkina_Faso_SDG <- SDG %>% filter(`Country` == "Burkina Faso")
+Burkina_Faso_SDG <- Burkina_Faso_SDG %>% filter(Sex == "Total")
+Burkina_Faso_SDG <- Burkina_Faso_SDG %>% select(Period, `Mean_Value`)
+long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
+                                    
+                                    # Specify which columns to pivot names_to = "Variable", # Name of the new column for the original column names values_to = "Value" # Name of the new column for the original values )
 ```
 
 
