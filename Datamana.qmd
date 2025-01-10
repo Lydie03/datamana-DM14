@@ -515,7 +515,8 @@ library(ggplot2)
 fitted_values <- fitted(model2)
 residuals <- residuals(model2)
 
-plot(model2)
+library(interactions)
+interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 ** Proposition autre régression linéaire pour interpétation** 
 ```{r}
@@ -547,6 +548,12 @@ fitted_values <- fitted(model3)
 residuals <- residuals(model3)
 
 plot(model3)
+
+library (interactions)
+
+interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.points = TRUE, interval = TRUE) + 
+  labs( title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs" ) +
+  theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
 #### Checking for multicolinearity
