@@ -460,6 +460,7 @@ model <- lm(SDGs ~ Mean_GDP, data = Merged_data)
 summary(model)
 ```
 ** COMMENTAIRES DES COEFFS **
+
 This model overall is not the most appropriate, considering our very low R squared. 
 
 ```{r}
@@ -491,6 +492,12 @@ residuals <- residuals(model2)
 
 plot(model2)
 ```
+#### Checking for multicolinearity
+
+#### Explanatory power and tests
+##### Fisher test
+##### Chi-2
+
 
 ### A second model - time series
 In order to improve our first analysis, we will try here to consider the evolution over time in both GDP and SDGs. In other words, has GDP growth been correlated to less pollution ? 
