@@ -493,6 +493,21 @@ Our fitted line implies a quite straightforward relationship between GDP and gas
 model2 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model2)
 ```
+#### Analysis 
+Coefficient interpretation : 
+The intercept is equal to 4756, which significate that for SDGs and number of deaths due to air pollution equal to zero, the predicted value for GDP is 4756. 
+
+The coefficient for the deaths due to air pollution is -0.009627, an increase of one death due to air pollution lead to a decrease of the GDP of -0.009627. This means that a very weak negative relation between GDP and deaths due to air pollution, which is quite logical, as the death of one person leads to the loss of a potential workforce. 
+
+The coefficient for the SDGs is equal to -1.978. An increase of one unity of the SDGs lead to a decrease of -1.978 of the GDP. This significates that when a country is more respecting the sustainable development goals, its GDP decrease. The interpretation of this is that pollution is leading to more wealth. 
+
+The coefficient for the interaction between the number of deaths due to air pollution and the SDG is 4.479e-06. This interaction is very weak but positive. 
+
+Significativity of the coefficients : 
+The p-value is <2e-16 for all coefficients, which means they are highly significant, the relationships between the variables (deaths due to pollution, SDGs, and average GDP) are statistically significant and unlikely to be due to chance.
+
+Model fit : 
+This model overall is not the most appropriate, considering our very low R squared (5.56%) and a high residual standard error (5396). This indicates that other factors influence GDP.
 
 ```{r}
 library(ggplot2)
@@ -510,7 +525,7 @@ summary(model3)
 ##### Analysis 
 Coefficient interpretation : 
 The intercept is equal to 552,8, which means that when the deaths due to air pollution and the GDP are equal to zero, the predicted value of the SDGs is 552.8. 
-The coefficient for the deaths due to air pollution is 3.821e-04, an increase of one death due to air pollution lead to an increase of the SDGs of 0.0003821. This means that a very weak positive relation between SDGs and deaths due to air pollution, whih is quite counterintuitive as an augmentation of the deaths due to air pollution should come from a decrease of the respect of the SDGs, so more pollution. 
+The coefficient for the deaths due to air pollution is 3.821e-04, an increase of one death due to air pollution lead to an increase of the SDGs of 0.0003821. This means that a very weak positive relation between SDGs and deaths due to air pollution, which is quite counterintuitive as an augmentation of the deaths due to air pollution should come from a decrease of the respect of the SDGs, so more pollution. 
 Other factors could explain this relation. 
 
 The coefficient for the mean of GDP is equal to -0.02639. An increase of one unity of the PIB lead to a decrease of -0.02639 of the SDGs. This significates that when a country is becoming richer, it is less respecting the goals of the SDGs, especially in the pollution field. 
@@ -533,8 +548,6 @@ residuals <- residuals(model3)
 
 plot(model3)
 ```
-
-
 
 #### Checking for multicolinearity
 
