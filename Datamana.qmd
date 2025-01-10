@@ -504,9 +504,20 @@ plot(model2)
 ```
 ** Proposition autre régression linéaire pour interpétation** 
 ```{r}
-model2 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
-summary(model2)
+model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
+summary(model3)
 ```
+```{r}
+library(ggplot2)
+
+fitted_values <- fitted(model3)
+residuals <- residuals(model3)
+
+plot(model3)
+```
+
+
+
 #### Checking for multicolinearity
 
 #### Explanatory power and tests
