@@ -422,8 +422,10 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 *ZIP on Moodle*
 
 ## GDP and gas emission : Kuznets curve (EKC)
-### Econometrically 
-BLOC CORRIGE 
+
+### A first model - global view on gas emissions and GDP
+
+We first proceed to merging our data. For a first global view on our data, we used the means over time (2009 to 2019) for GDP per capita and SDGs, grouped by country. We will first make no distinction between countries and time to get a broad view and then precise our analysis. 
 ```{r}
 library(dplyr)
 DALYs <- DALYs |> 
@@ -448,12 +450,12 @@ Merged_data <-  DALYs %>%
   inner_join(mean_SDG, by = c("Country"))
 ``` 
 
-### Linear regression between GDP and air pollution (SDG) 
 ```{r}
 model <- lm(Mean_Value.x ~ Mean_GDP, data = Merged_data)
 summary(model)
 ```
-#### Analysis : 
+** COMMENTAIRES DES COEFFS **
+This model overall is nto the most appropriate, considering our very low R squared. 
 
 ```{r}
 library(ggplot2)
@@ -464,10 +466,20 @@ ggplot(Merged_data, aes(x = Mean_GDP, y = Mean_Value.x)) +
   theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" ) +
   labs(
     x = "GDP",
-    y = "SDG" 
+    y = "SDG",
+    title ="Regression model (1) : SDG ~ GDP"
   ) +
   theme_minimal()
 ```
+Our fitted line implies a quite straightforward relationship between GDP and gas emissions : the richer a country is, the less it will pollute. However, this is not enough to answer our question : has pollution been necessary ? In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country. It allows us however to get a first global impression on the relationship GDP has with SDGs. 
+
+### A second model - time series
+In order to improve our first analysis, we will try here to consider the evolution over time in both GDP and SDGs. In other words, has GDP growth been correlated to less pollution ? 
+To proceed to this analysis, we first compute a new data table, this time not with means, but values for years 2009 to 2019 for each indicator. 
+```{r}
+
+```
+
 
 #### Analysis 
 
