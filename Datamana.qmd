@@ -459,9 +459,18 @@ Merged_data <- Merged_data %>%
 model <- lm(SDGs ~ Mean_GDP, data = Merged_data)
 summary(model)
 ```
-** COMMENTAIRES DES COEFFS **
+##### Analysis : 
+Coefficient interpretation : 
+The intercept has a value of 554.7, which significate that for a GDP equal to zero, the predicted value for SDGs is 554.7. 
+The slope coefficient, of -0.02692. It significates that for an increase of 1 of the GDP, we witness a decrease of -0.02692 of the SDGs. 
+This number show a negative relation between the GDP and the SDGs, as to when a country become richer, he is less likely to match the sustainable development goals (SDGs). 
 
-This model overall is not the most appropriate, considering our very low R squared. 
+Coefficient significativity : 
+We witness a t and p-value very low (<2e-16), which mean that the relation between GDP and SDG is not due to randomness. 
+
+Model fit : 
+This model overall is not the most appropriate, considering our very low R squared (0,05283). This indicates that other factors influence SDGs. 
+We also have 32400 observations deleted due to missingness, which can affect the calculation of the linear regression. 
 
 ```{r}
 library(ggplot2)
@@ -484,6 +493,7 @@ Our fitted line implies a quite straightforward relationship between GDP and gas
 model2 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model2)
 ```
+
 ```{r}
 library(ggplot2)
 
