@@ -508,6 +508,7 @@ model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
 summary(model3)
 ```
 ##### Analysis 
+Coefficient interpretation : 
 The intercept is equal to 552,8, which means that when the deaths due to air pollution and the GDP are equal to zero, the predicted value of the SDGs is 552.8. 
 The coefficient for the deaths due to air pollution is 3.821e-04, an increase of one death due to air pollution lead to an increase of the SDGs of 0.0003821. This means that a very weak positive relation between SDGs and deaths due to air pollution, whih is quite counterintuitive as an augmentation of the deaths due to air pollution should come from a decrease of the respect of the SDGs, so more pollution. 
 Other factors could explain this relation. 
@@ -517,7 +518,12 @@ The coefficient for the mean of GDP is equal to -0.02639. An increase of one uni
 The coefficient for the interaction between the number of deaths due to air pollution and the mean of the GDP is -2.58e-07. This interaction is very weak but negative. 
 This indicates that the combined effect of deaths due to pollution and average GDP on the SDGs is slightly influenced by the interaction between the two variables, but the effect remains relatively weak. It suggests that there isn't a strong synergy between these two factors in the model.
 
+Coefficient significativity : 
+We witness a t and p-value very low (<2e-16), which mean that the relation between GDP, SDG and the number of deaths due to air pollution is not due to randomness. 
 
+Model fit : 
+This model overall is not the most appropriate, considering our very low R squared (0.05331). This indicates that other factors influence SDGs.
+We also have 32400 observations deleted due to missingness, which can affect the calculation of the linear regression.
 
 ```{r}
 library(ggplot2)
