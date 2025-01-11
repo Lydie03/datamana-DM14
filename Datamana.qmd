@@ -1,13 +1,14 @@
 ---
 title: "Data Management Project"
 author : Lou Dhiver and Lydie Lazure 
-format: html
+output: pdf_document
 ---
+
 # Phase 2 of the project
 
 ### Github project :
 
-https://github.com/Lydie03/datamana-DM14 
+https://github.com/Lydie03/datamana-DM14
 
 ### Sources for data sets :
 
@@ -18,26 +19,37 @@ https://github.com/Lydie03/datamana-DM14
 
 #### World Health Organization (WHO) :
 
-The World Health Organization (WHO) was created in 1948 and is responsible for public health on an international level. In particular, the organization provides health related data across the world. 
+The World Health Organization (WHO) was created in 1948 and is responsible for public health on an international level.
+In particular, the organization provides health related data across the world.
 
-Through its Global Health Observatory (GHO), WHO offers an extensive repository of data on key health indicators, including life expectancy, maternal and child health, disease prevalence, vaccination coverage, and environmental factors like air and water quality. 
+Through its Global Health Observatory (GHO), WHO offers an extensive repository of data on key health indicators, including life expectancy, maternal and child health, disease prevalence, vaccination coverage, and environmental factors like air and water quality.
 
-These will allow us to assess the accuracy of the Kuznets curve, in particular in terms of health and sustainability. 
+These will allow us to assess the accuracy of the Kuznets curve, in particular in terms of health and sustainability.
 
 #### World Bank :
 
-The institution was created in 1945. It is an international financing institution that loans to developing countries, with the aim to provide economic development support. 
+The institution was created in 1945.
+It is an international financing institution that loans to developing countries, with the aim to provide economic development support.
 
-The World Bank provides a wide range of data for us to use. It covers over 200 countries with indicators such as GDP, education, gender inequality or infrastructure. 
+The World Bank provides a wide range of data for us to use.
+It covers over 200 countries with indicators such as GDP, education, gender inequality or infrastructure.
 
 ## Presentation of the project
-We have decided to test the environmental Kuznet's curve theory. The idea is that a country will pollute a lot for a while in order to develop, and then reach a sufficient level of economic development to decrease its carbon dioxyde emissions. We would then get an inverted u shaped line in the plan (GDP per capita, pollution). 
 
-We wish to verify the empirical accuracy of this theory, both by region and time periods. Does it apply to different economic structures ? Does it apply at any time over the years ? 
+We have decided to test the environmental Kuznet's curve theory.
+The idea is that a country will pollute a lot for a while in order to develop, and then reach a sufficient level of economic development to decrease its carbon dioxyde emissions.
+We would then get an inverted u shaped line in the plan (GDP per capita, pollution).
 
-We will then consider the subject from a more human perspective. Pollution and its cost to a population's health : does it impact GDP ? And if so, can we quantify it ? 
+We wish to verify the empirical accuracy of this theory, both by region and time periods.
+Does it apply to different economic structures ?
+Does it apply at any time over the years ?
+
+We will then consider the subject from a more human perspective.
+Pollution and its cost to a population's health : does it impact GDP ?
+And if so, can we quantify it ?
 
 ## Loading the datasets
+
 ```{r}
 library(tidyr)
 library(vroom)
@@ -48,12 +60,18 @@ SDG <- vroom::vroom("SDG indicators.csv")
 GDP_per_capita <- vroom::vroom("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_76.csv", skip=4, delim=",", col_names=TRUE)
 
 ```
+
 ## Data cleaning
 
 ### GDP per capita
-By trying to get the column names of this dataset, we observed that it did not load properly. There were the first four row of the Excel sheet presenting the data, hence compromising the understanding of the separator ",". We removed the first four rows that did not contain any data and got a proper dataset to work with. 
 
-Also, the columns are too numerous and do not appear correctly (they end at 2005 instead of 2023). We consequently suppress all columns for values previous to 2005 so we can match dates considered in out other datasets. 
+By trying to get the column names of this dataset, we observed that it did not load properly.
+There were the first four row of the Excel sheet presenting the data, hence compromising the understanding of the separator ",".
+We removed the first four rows that did not contain any data and got a proper dataset to work with.
+
+Also, the columns are too numerous and do not appear correctly (they end at 2005 instead of 2023).
+We consequently suppress all columns for values previous to 2005 so we can match dates considered in out other datasets.
+
 ```{r}
 library(readr)
 library(dplyr)
@@ -71,8 +89,11 @@ GDP_clean <- GDP_clean %>%
 ```
 
 ### DALYs
-This dataset is hard to work with in the sense that the columns have non explicit names. Hence the following changes.
-Dim1 becomes Sex, and FactValueNumericHigh (Low) beacome Mean_Value, Lowest_Value, Highest_Value. To align with the rest of our data, Location becomes Country. 
+
+This dataset is hard to work with in the sense that the columns have non explicit names.
+Hence the following changes.
+Dim1 becomes Sex, and FactValueNumericHigh (Low) beacome Mean_Value, Lowest_Value, Highest_Value.
+To align with the rest of our data, Location becomes Country.
 
 ```{r}
 library(dplyr)
@@ -91,6 +112,7 @@ colnames(DALYs)
 ```
 
 ### Death air pollution and SDG
+
 The observations are the same as for DALYs, hence the following changes.
 
 ```{r}
@@ -121,21 +143,25 @@ write.csv(death_air_pollution, "death_air_pollution_modified.csv", row.names = F
 ```
 
 ## Data description
-To answer our research question, we will need data around pollution, GDP per capita and health. 
-To this end, we will be working with databases from the World Health Organization, and the World Bank. 
 
-References are listed in the appendix. 
+To answer our research question, we will need data around pollution, GDP per capita and health.
+To this end, we will be working with databases from the World Health Organization, and the World Bank.
+
+References are listed in the appendix.
 
 ### DALYs
-This aggregated indicator is extracted from the World Health Organization database. It is described as follows : "DALYs for a disease or health condition are the sum of the years of life lost to due to premature mortality (YLLs) and the years lived with a disability (YLDs) due to prevalent cases of the disease or health condition in a population". 
-We will mostly use the variable cross countries, classified into regions (Africa, Eastern Europe, Asia, North and South America), by sex (male/female), by year (2010 to 2019) and by cause of death (cancer, trachea etc.). 
-This will allow us to evaluate possible external factors, such as armed conflicts, that might have had an impact on specific regions during a specific year. 
 
-This dataset will then be compared to pollution to answer our final sub research question : can a country observe long term growth while polluting despite the negative externalities in terms of health ? 
+This aggregated indicator is extracted from the World Health Organization database.
+It is described as follows : "DALYs for a disease or health condition are the sum of the years of life lost to due to premature mortality (YLLs) and the years lived with a disability (YLDs) due to prevalent cases of the disease or health condition in a population".
+We will mostly use the variable cross countries, classified into regions (Africa, Eastern Europe, Asia, North and South America), by sex (male/female), by year (2010 to 2019) and by cause of death (cancer, trachea etc.).
+This will allow us to evaluate possible external factors, such as armed conflicts, that might have had an impact on specific regions during a specific year.
+
+This dataset will then be compared to pollution to answer our final sub research question : can a country observe long term growth while polluting despite the negative externalities in terms of health ?
 
 #### Data summary and representation
 
 ##### Data summary per year
+
 ```{r}
 # Data summary per year
 library(dplyr)
@@ -169,9 +195,12 @@ summary_table <- data.frame(
 # Print the table
 print(summary_table)
 ```
-It seems values are fairly constant over the nine years considered in our dataset. It seems grouping by countries might be more relevant. 
+
+It seems values are fairly constant over the nine years considered in our dataset.
+It seems grouping by countries might be more relevant.
 
 ##### Data summary per country
+
 ```{r}
 # Data summary per country
 mean_DALYs <- DALYs %>%
@@ -196,7 +225,11 @@ summary_table <- data.frame(
 # Print the table
 print(summary_table)
 ```
-This summary allow us to highlight major discrepancies between regions. Arranged from highest to lowest DALYs mean, we get that the first countries with most years lost due to prematured deaths are Afghanistan, Tajikistan and Chad. Last three are Finland, Australia and Iceland. We can consequently draw the hypothesis that there might be a negative relationship between the number of DALYs and a country's GDP. 
+
+This summary allow us to highlight major discrepancies between regions.
+Arranged from highest to lowest DALYs mean, we get that the first countries with most years lost due to prematured deaths are Afghanistan, Tajikistan and Chad.
+Last three are Finland, Australia and Iceland.
+We can consequently draw the hypothesis that there might be a negative relationship between the number of DALYs and a country's GDP.
 
 ##### Data visual representations
 
@@ -222,17 +255,23 @@ ggplot(data = DALYs_unique, aes(x = ParentLocation, y = Mean_Value, fill = Paren
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_fill_brewer(palette = "Set3") 
 ```
-When we group the mean of DALYs values over time per country, we get a rather interesting picture of the situation cross regions. It seems DALYs are prevalent in Africa, Eastern Mediterranean and South-East Asia. This will allow us to define control groups and to consider levels of development compared to DALYs. 
+
+When we group the mean of DALYs values over time per country, we get a rather interesting picture of the situation cross regions.
+It seems DALYs are prevalent in Africa, Eastern Mediterranean and South-East Asia.
+This will allow us to define control groups and to consider levels of development compared to DALYs.
 
 The data summary allows us to get a broad view of the indicator over the world and over the short period of time considered (9 years, from 2010 to 2019)
 
 ### Death air pollution
-This data set will be used to complete DALYs. It also comes from the World Health Organization and is organized with the same categories and classifications. 
-It will allow us to get a more precise analysis on the effect of carbone emissions on health. 
+
+This data set will be used to complete DALYs.
+It also comes from the World Health Organization and is organized with the same categories and classifications.
+It will allow us to get a more precise analysis on the effect of carbone emissions on health.
 
 #### Data summary and visual representation
 
 ##### Summary per country
+
 ```{r}
 library(knitr)
 
@@ -257,10 +296,11 @@ summary_table <- death_air_pollution_unique %>%
 # Print the table
 kable(summary_table, caption = "Summary Statistics of Deaths Due to Pollution per Country")
 ```
-Arranged by the number of deaths due to air pollution, we get first two countries are China, India and China and last three ones St Vincent, Samoa and St Lucia. 
 
+Arranged by the number of deaths due to air pollution, we get first two countries are China, India and China and last three ones St Vincent, Samoa and St Lucia.
 
 ##### Visual representation
+
 ```{r}
 library(ggplot2)
 
@@ -276,15 +316,20 @@ ggplot(death_air_pollution_unique, aes(x = reorder(ParentLocation, Mean_Value), 
   labs(title = "Mean Value of Deaths Due to Air Pollution by Parent Location", x = "Parent Location", y = "Mean Value") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 8), plot.title = element_text(size = 14, face = "bold"), axis.title.x = element_text(size = 12, face = "bold"), axis.title.y = element_text(size = 12, face = "bold"))
 ```
-Here it seems deaths due to air pollution is prevalent in South East Asia and Western Pacific. 
+
+Here it seems deaths due to air pollution is prevalent in South East Asia and Western Pacific.
 
 ### SDG
-This dataset includes the measurement of fine particulate matter, that is to say the concentration of toxic elements in the air. Again, since the dataset comes from the World Health organization, the classification remains the same. It will allow us to get a cross country analysis, from 2010 to 2019.
+
+This dataset includes the measurement of fine particulate matter, that is to say the concentration of toxic elements in the air.
+Again, since the dataset comes from the World Health organization, the classification remains the same.
+It will allow us to get a cross country analysis, from 2010 to 2019.
 We will compare the degree to which some regions are polluted and their GDP over the year.
 
 #### Summary and visual representation of the data
 
-##### Summary per country 
+##### Summary per country
+
 ```{r}
 library(dplyr)
 
@@ -309,9 +354,12 @@ summary_table <- mean_SDG %>%
 # Print the table
 kable(summary_table, caption = "Summary Statistics of SDG")
 ```
-It appears here that the countries showing most toxic concentration are Afghanistan, Tajikistan an Kuweit. We get here a partially similar result as for the DALYs, hence a potential correlation to consider in our models. 
+
+It appears here that the countries showing most toxic concentration are Afghanistan, Tajikistan an Kuweit.
+We get here a partially similar result as for the DALYs, hence a potential correlation to consider in our models.
 
 ##### Visual representation
+
 ```{r}
 library(ggplot2)
 
@@ -332,19 +380,22 @@ ggplot(data = SDG_unique, aes(x = ParentLocation, y = Mean_Value, fill = ParentL
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_fill_brewer(palette = "Set3")
 ```
-The pattern here is quite similar to DALYs. SDG is prevalent in Africa, Eastern Mediterranean and South-East Asia. 
+
+The pattern here is quite similar to DALYs.
+SDG is prevalent in Africa, Eastern Mediterranean and South-East Asia.
 
 ### GDP per capita
-GDP (Gross domestic product) is obtained with the following macroeconomics formula :
-`GDP=C+I+G+(X−M)`
-That is to say the aggregation of consumption (C), investments (I), government spending (G) and the commercial balance (exports minus imports).
-GDP per capita is the previous aggregate divided by the population size. This choice will allow us to correct for countries size bias. 
 
-GDP will be our wealth indicator in the simulation of the Kuznet's environmental curve. 
+GDP (Gross domestic product) is obtained with the following macroeconomics formula : `GDP=C+I+G+(X−M)` That is to say the aggregation of consumption (C), investments (I), government spending (G) and the commercial balance (exports minus imports).
+GDP per capita is the previous aggregate divided by the population size.
+This choice will allow us to correct for countries size bias.
+
+GDP will be our wealth indicator in the simulation of the Kuznet's environmental curve.
 
 #### Summary and visual representation of the data
 
-##### Summary per country 
+##### Summary per country
+
 ```{r}
 library(dplyr)
 library(knitr)
@@ -376,8 +427,8 @@ summary_table <- mean_gdp %>%
 kable(summary_table, caption = "Summary Statistics of GDP per country - from 2009 to 2019")
 ```
 
-
 ##### Visual representation
+
 ```{r}
 library(ggplot2)
 
@@ -404,7 +455,12 @@ ggplot(data = GDP_per_capita_cleaned_filtered, aes(x = `Country`, y = Mean_5_to_
     axis.text.x = element_text(angle = 45, hjust = 1) 
   )
 ```
-We chose to use the aggregations made by the world bank to get a broad view of GDP per capita across the world. We can draw in that sense our first intuitions. It seems regions of the world have a very unequal distribution of wealth, especially compared to the OECD countries. Low incomes seem to match low revenue activities such as agriculture or textile industries, when the OECD countries match group services and technologies. Hence supposedly a higher pollution rate induced by low income countries prevalent economical activities.If we refer to our previous graphical representations, we can note however that it is not the case for Africa : agriculture does not pollute as much as textile industries in The East and Pacific Asia. 
+
+We chose to use the aggregations made by the world bank to get a broad view of GDP per capita across the world.
+We can draw in that sense our first intuitions.
+It seems regions of the world have a very unequal distribution of wealth, especially compared to the OECD countries.
+Low incomes seem to match low revenue activities such as agriculture or textile industries, when the OECD countries match group services and technologies.
+Hence supposedly a higher pollution rate induced by low income countries prevalent economical activities.If we refer to our previous graphical representations, we can note however that it is not the case for Africa : agriculture does not pollute as much as textile industries in The East and Pacific Asia.
 
 *ZIP on Moodle*
 
@@ -412,7 +468,10 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 
 ### A first model - global view on gas emissions and GDP
 
-We first proceed to merging our data. For a first global view on our data, we used the means over time (2009 to 2019) for GDP per capita and SDGs, grouped by country. We will first make no distinction between countries and time to get a broad view and then precise our analysis. 
+We first proceed to merging our data.
+For a first global view on our data, we used the means over time (2009 to 2019) for GDP per capita and SDGs, grouped by country.
+We will first make no distinction between countries and time to get a broad view and then precise our analysis.
+
 ```{r}
 library(dplyr)
 DALYs <- DALYs |> 
@@ -440,23 +499,24 @@ Merged_data <- Merged_data %>%
   rename(SDGs = `Mean_Value.x`) %>%
   rename (deaths_due_to_pollution = `Mean_Value.y`)
 
-``` 
+```
 
 ```{r}
 model <- lm(SDGs ~ Mean_GDP, data = Merged_data)
 summary(model)
 ```
-##### Analysis : 
-Interpretation of Coefficients
-The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
 
-The slope coefficient is -0.008020, indicating that for every 1-unit increase in GDP, the SDG score decreases by 0.008020. This suggests a weak negative relationship between GDP and SDGs, implying that as a country becomes wealthier, it is less likely to meet the Sustainable Development Goals (SDGs).
+##### Analysis :
 
-Significance of Coefficients
-The t-value and p-value are both very low (<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
+Interpretation of Coefficients The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
 
-Model Fit
-While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726). This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
+The slope coefficient is -0.008020, indicating that for every 1-unit increase in GDP, the SDG score decreases by 0.008020.
+This suggests a weak negative relationship between GDP and SDGs, implying that as a country becomes wealthier, it is less likely to meet the Sustainable Development Goals (SDGs).
+
+Significance of Coefficients The t-value and p-value are both very low (\<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
+
+Model Fit While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
+This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
 
 ```{r}
 library(ggplot2)
@@ -472,28 +532,45 @@ ggplot(Merged_data, aes(x = Mean_GDP, y = SDGs)) +
   ) +
   theme_minimal()
 ```
-Our fitted line implies a quite straightforward relationship between GDP and gas emissions : the richer a country is, the less it will pollute. However, this is not enough to answer our question : has pollution been necessary ? In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country. It allows us however to get a first global impression on the relationship GDP has with SDGs. 
+
+Our fitted line implies a quite straightforward relationship between GDP and gas emissions : the richer a country is, the less it will pollute.
+However, this is not enough to answer our question : has pollution been necessary ?
+In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country.
+It allows us however to get a first global impression on the relationship GDP has with SDGs.
 
 ### Considering GDP as a function of SDGs and deaths due to air pollution
+
 ```{r}
 model2 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model2)
 ```
-#### Analysis 
+
+#### Analysis
+
 ##### Interpretation of Coefficients :
-The intercept has a value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted GDP is 16,780. However, since these values cannot realistically be zero, the intercept has limited real-world interpretability.  
 
-The slope coefficient for deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, GDP decreases by 0.02846. This suggests a negative relationship between pollution-related mortality and economic performance, which is quite logical, as the death of one person leads to the loss of a potential workforce. 
+The intercept has a value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted GDP is 16,780.
+However, since these values cannot realistically be zero, the intercept has limited real-world interpretability.
 
-The slope coefficient for SDGs is -7.213, meaning that for every 1-unit increase in the SDG score, GDP decreases by 7.213. This suggests that, within this model, higher SDG performance is associated with lower GDP levels. This means that when a country is more respectful of the sustainable development goals, its GDP decrease. The interpretation of this is that pollution is leading to more wealth. 
+The slope coefficient for deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, GDP decreases by 0.02846.
+This suggests a negative relationship between pollution-related mortality and economic performance, which is quite logical, as the death of one person leads to the loss of a potential workforce.
 
-The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated. However, the effect size is very small.  
+The slope coefficient for SDGs is -7.213, meaning that for every 1-unit increase in the SDG score, GDP decreases by 7.213.
+This suggests that, within this model, higher SDG performance is associated with lower GDP levels.
+This means that when a country is more respectful of the sustainable development goals, its GDP decrease.
+The interpretation of this is that pollution is leading to more wealth.
+
+The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated.
+However, the effect size is very small.
 
 ##### Significance of Coefficients :
-The t-values for all coefficients are large in magnitude, and the p-values are extremely low (<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.  
 
-##### Model Fit : 
-While the relationships between GDP, pollution-related deaths, and SDGs are statistically significant, the low R-squared value (0.05905) suggests that these variables explain only 5.9% of the variation in GDP. This indicates that GDP is influenced by many other factors not included in this model.
+The t-values for all coefficients are large in magnitude, and the p-values are extremely low (\<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.
+
+##### Model Fit :
+
+While the relationships between GDP, pollution-related deaths, and SDGs are statistically significant, the low R-squared value (0.05905) suggests that these variables explain only 5.9% of the variation in GDP.
+This indicates that GDP is influenced by many other factors not included in this model.
 
 ```{r}
 library(ggplot2)
@@ -504,7 +581,9 @@ residuals <- residuals(model2)
 library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
-** Proposition autre régression linéaire pour interpétation** 
+
+\*\* Proposition autre régression linéaire pour interpétation\*\*
+
 ```{r}
 model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
 summary(model3)
@@ -512,42 +591,64 @@ summary(model3)
 model4 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model4)
 ```
-#### Analysis 
-##### Model 3 
-##### Interpretation of Coefficients  
-The intercept has an estimated value of 556.3, meaning that when both deaths due to pollution and GDP are zero, the predicted SDG score is 556.3. However, as these variables cannot realistically be zero, this intercept does not have a direct real-world interpretation.
 
-The coefficient for the deaths due to pollution is 0.001295, indicating that for every 1-unit increase in pollution-related deaths, the SDG score increases by 0.001295. This suggests a positive relationship between pollution-related mortality and SDG scores, which could reflect the presence of interventions or responses tied to public health measures that may impact SDG outcomes.
+#### Analysis
 
-The coefficient for the mean of the GDP is -0.007771, meaning that for every 1-unit increase in GDP, the SDG score decreases by 0.007771. This suggests a negative relationship between GDP and SDG performance, possibly reflecting the prioritization of economic growth over certain SDG objectives, particularly those related to sustainability or inequality.
+##### Model 3
 
-The interaction term between deaths due to pollution and Mean GDP has a coefficient of -1.799e-07, suggesting that as GDP increases, the positive relationship between deaths due to pollution and SDGs slightly decreases. This indicates a small mitigating effect of GDP on the relationship between pollution-related deaths and SDG performance.
+##### Interpretation of Coefficients
 
-##### Significance of Coefficients  
-All coefficients are statistically significant, as indicated by their extremely low p-values (< 2e-16). This means that the relationships between SDGs, deaths due to pollution, and GDP are unlikely to be due to random chance, and all terms are crucial in explaining SDG scores.
+The intercept has an estimated value of 556.3, meaning that when both deaths due to pollution and GDP are zero, the predicted SDG score is 556.3.
+However, as these variables cannot realistically be zero, this intercept does not have a direct real-world interpretation.
 
-##### Model Fit  
-The R-squared value is 0.05911, indicating that only 5.91% of the variation in SDGs is explained by deaths due to pollution, GDP, and their interaction. This suggests that the model does not capture most of the variation in SDG scores, and other factors not included in the model likely play a more significant role in determining SDG performance.
+The coefficient for the deaths due to pollution is 0.001295, indicating that for every 1-unit increase in pollution-related deaths, the SDG score increases by 0.001295.
+This suggests a positive relationship between pollution-related mortality and SDG scores, which could reflect the presence of interventions or responses tied to public health measures that may impact SDG outcomes.
 
-The F-statistic is 1.086e+05, with a p-value of <2.2e-16, indicating that the overall model is statistically significant. However, the relatively low R-squared suggests that while the model is significant, it may not explain much of the variation in SDGs.
+The coefficient for the mean of the GDP is -0.007771, meaning that for every 1-unit increase in GDP, the SDG score decreases by 0.007771.
+This suggests a negative relationship between GDP and SDG performance, possibly reflecting the prioritization of economic growth over certain SDG objectives, particularly those related to sustainability or inequality.
 
-##### Model 4 
-##### Interpretation of Coefficients  
-The intercept has an estimated value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted Mean GDP is 16,780. However, as these values cannot realistically be zero, this intercept has limited real-world interpretability.
+The interaction term between deaths due to pollution and Mean GDP has a coefficient of -1.799e-07, suggesting that as GDP increases, the positive relationship between deaths due to pollution and SDGs slightly decreases.
+This indicates a small mitigating effect of GDP on the relationship between pollution-related deaths and SDG performance.
 
-The coefficient for the deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, Mean GDP decreases by 0.02846. This suggests a negative relationship between pollution-related mortality and economic performance, meaning that higher deaths due to pollution are associated with lower GDP.
+##### Significance of Coefficients
 
-The coefficient for SDGs is -7.213, meaning that for every 1-unit increase in SDG score, Mean GDP decreases by 7.213. This suggests that, within this model, higher SDG performance is associated with lower GDP levels, though this could reflect underlying structural factors, such as the costs associated with achieving certain SDG targets.
+All coefficients are statistically significant, as indicated by their extremely low p-values (\< 2e-16).
+This means that the relationships between SDGs, deaths due to pollution, and GDP are unlikely to be due to random chance, and all terms are crucial in explaining SDG scores.
 
-The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated. However, the effect size is very small, indicating that while the interaction has some effect, it does not substantially alter the relationship between pollution-related deaths and GDP.
+##### Model Fit
 
-##### Significance of Coefficients  
-The t-values for all coefficients are large in magnitude, and the p-values are extremely low (<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.
+The R-squared value is 0.05911, indicating that only 5.91% of the variation in SDGs is explained by deaths due to pollution, GDP, and their interaction.
+This suggests that the model does not capture most of the variation in SDG scores, and other factors not included in the model likely play a more significant role in determining SDG performance.
 
-##### Model Fit  
+The F-statistic is 1.086e+05, with a p-value of \<2.2e-16, indicating that the overall model is statistically significant.
+However, the relatively low R-squared suggests that while the model is significant, it may not explain much of the variation in SDGs.
+
+##### Model 4
+
+##### Interpretation of Coefficients
+
+The intercept has an estimated value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted Mean GDP is 16,780.
+However, as these values cannot realistically be zero, this intercept has limited real-world interpretability.
+
+The coefficient for the deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, Mean GDP decreases by 0.02846.
+This suggests a negative relationship between pollution-related mortality and economic performance, meaning that higher deaths due to pollution are associated with lower GDP.
+
+The coefficient for SDGs is -7.213, meaning that for every 1-unit increase in SDG score, Mean GDP decreases by 7.213.
+This suggests that, within this model, higher SDG performance is associated with lower GDP levels, though this could reflect underlying structural factors, such as the costs associated with achieving certain SDG targets.
+
+The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated.
+However, the effect size is very small, indicating that while the interaction has some effect, it does not substantially alter the relationship between pollution-related deaths and GDP.
+
+##### Significance of Coefficients
+
+The t-values for all coefficients are large in magnitude, and the p-values are extremely low (\<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.
+
+##### Model Fit
+
 The R-squared value is 0.05905, meaning that these variables explain only 5.91% of the variation in Mean GDP. This indicates that other factors not included in this model likely have a much larger influence on GDP.
 
-The F-statistic is 1.084e+05 with a p-value of <2.2e-16, showing that the model as a whole is statistically significant. However, the relatively low R-squared suggests that although the model is significant, it does not explain much of the variation in GDP.
+The F-statistic is 1.084e+05 with a p-value of \<2.2e-16, showing that the model as a whole is statistically significant.
+However, the relatively low R-squared suggests that although the model is significant, it does not explain much of the variation in GDP.
 
 ```{r}
 library(ggplot2)
@@ -567,15 +668,21 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
 #### Checking for multicolinearity
 
 #### Explanatory power and tests
+
 ##### Fisher test
+
 ##### Chi-2
 
 ### Working on specific countries to correct from mean imprecisions
-We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada. Those choices allow use to reporesent three UN categories of countries income (very low, medium, high). We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data. 
 
-#### The case of Burkina Faso 
-Let's draw a simple model GDP over gas emissions. 
-We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs. 
+We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada.
+Those choices allow use to reporesent three UN categories of countries income (very low, medium, high).
+We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data.
+
+#### The case of Burkina Faso
+
+Let's draw a simple model GDP over gas emissions.
+We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs.
 
 ```{r}
 Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
@@ -601,32 +708,61 @@ long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
                                 
 ```
 
-
 #### The case of Mexico
-
 
 #### The case of Canada
 
-#### Analysis 
+#### Analysis
 
-## Conclusion 
+## Conclusion
 
-## REferences 
+## References
 
-1. Stern, D. I. (2004). *The Rise and Fall of the Environmental Kuznets Curve*. *World Development*, 32(8), 1419–1439. https://doi.org/10.1016/j.worlddev.2004.03.004
+1.  Stern, D. I.
+    (2004).
+    *The Rise and Fall of the Environmental Kuznets Curve*.
+    *World Development*, 32(8), 1419--1439.
+    https://doi.org/10.1016/j.worlddev.2004.03.004
 
-2. Dinda, S. (2004). *Environmental Kuznets Curve Hypothesis: A Survey*. *Ecological Economics*, 49(4), 431–455. https://doi.org/10.1016/j.ecolecon.2004.02.011
+2.  Dinda, S.
+    (2004).
+    *Environmental Kuznets Curve Hypothesis: A Survey*.
+    *Ecological Economics*, 49(4), 431--455.
+    https://doi.org/10.1016/j.ecolecon.2004.02.011
 
-3. Stern, D. I. (2017). *The Environmental Kuznets Curve After 25 Years*. *Journal of Bioeconomics*, 19, 7–28. https://doi.org/10.1007/s10818-017-9243-1
+3.  Stern, D. I.
+    (2017).
+    *The Environmental Kuznets Curve After 25 Years*.
+    *Journal of Bioeconomics*, 19, 7--28.
+    https://doi.org/10.1007/s10818-017-9243-1
 
-4. Özcan, B., & Öztürk, I. (2019). *Environmental Kuznets Curve (EKC): A Manual*. Academic Press.
+4.  Özcan, B., & Öztürk, I.
+    (2019).
+    *Environmental Kuznets Curve (EKC): A Manual*.
+    Academic Press.
 
-5. Raworth, K. (2017). *Doughnut Economics: Seven Ways to Think Like a 21st-Century Economist*. Chelsea Green Publishing.
+5.  Raworth, K.
+    (2017).
+    *Doughnut Economics: Seven Ways to Think Like a 21st-Century Economist*.
+    Chelsea Green Publishing.
 
-6. Salin, M. (2020). La « courbe de Kuznets environnementale » et le « découplage » : deux concepts du débat sur la croissance verte. *Regards croisés sur l'économie*, 26(1), 145–152. https://doi.org/10.3917/rce.026.0145
+6.  Salin, M.
+    (2020).
+    La « courbe de Kuznets environnementale » et le « découplage » : deux concepts du débat sur la croissance verte.
+    *Regards croisés sur l'économie*, 26(1), 145--152.
+    https://doi.org/10.3917/rce.026.0145
 
-7. Martínez-Alier, J. (2002). *The Environmentalism of the Poor: A Study of Ecological Conflicts and Valuation*. Northampton, MA: Edward Elgar Publishing.
+7.  Martínez-Alier, J.
+    (2002).
+    *The Environmentalism of the Poor: A Study of Ecological Conflicts and Valuation*.
+    Northampton, MA: Edward Elgar Publishing.
 
-8. Laurent, É. (2009). *Écologie et inégalités*. *Revue de l'OFCE*, 109, 33–57.
+8.  Laurent, É.
+    (2009).
+    *Écologie et inégalités*.
+    *Revue de l'OFCE*, 109, 33--57.
 
-9. Destek, M. A., Ulucak, R., & Dogan, E. (2018). *Analyzing the Environmental Kuznets Curve for the EU Countries: The Role of Ecological Footprint*. *Environmental Science and Pollution Research*, 25(29), 29387–29396.
+9.  Destek, M. A., Ulucak, R., & Dogan, E.
+    (2018).
+    *Analyzing the Environmental Kuznets Curve for the EU Countries: The Role of Ecological Footprint*.
+    *Environmental Science and Pollution Research*, 25(29), 29387--29396.
