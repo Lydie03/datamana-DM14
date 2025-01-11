@@ -117,17 +117,16 @@ The observations are the same as for DALYs, hence the following changes.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 SDG <- SDG %>%
-   rename(
-     Mean_Value = "FactValueNumeric",
-     lowest_value = "FactValueNumericLow",
-     highest_value = "FactValueNumericHigh",
-     Sex = "Dim1",
-     Country = "Location"
-   )
+  rename(
+    Mean_Value = "FactValueNumeric",
+    lowest_value = "FactValueNumericLow",
+    highest_value = "FactValueNumericHigh",
+    Sex = "Dim1",
+    Country = "Location"
+  )
 # we save a new base to have regular name for the columns 
-
-## library(dplyr)
-## write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
+library(dplyr)
+write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
@@ -140,7 +139,7 @@ death_air_pollution <- death_air_pollution %>%
     Country = "Location"
   )
 # we save a new base to have regular name for the columns 
-## write.csv(death_air_pollution, "death_air_pollution_modified.csv", row.names = FALSE)
+write.csv(death_air_pollution, "death_air_pollution_modified.csv", row.names = FALSE)
 ```
 
 ## Data description
@@ -497,7 +496,7 @@ Merged_data <-  DALYs %>%
   inner_join(mean_SDG, by = c("Country"))
 
 Merged_data <- Merged_data %>% 
-  rename(SDGs = `mean_value.x`) %>%
+  rename(SDGs = `Mean_Value.x`) %>%
   rename (deaths_due_to_pollution = `Mean_Value.y`)
 
 ```
@@ -509,14 +508,17 @@ summary(model)
 
 ##### Analysis :
 
-Interpretation of Coefficients The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
+##### Interpretation of Coefficients :
+The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
 
 The slope coefficient is -0.008020, indicating that for every 1-unit increase in GDP, the SDG score decreases by 0.008020.
 This suggests a weak negative relationship between GDP and SDGs, implying that as a country becomes wealthier, it is less likely to meet the Sustainable Development Goals (SDGs).
 
-Significance of Coefficients The t-value and p-value are both very low (\<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
+##### Significance of Coefficients :
+The t-value and p-value are both very low (<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
 
-Model Fit While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
+##### Model Fit :
+While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
 This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
@@ -583,7 +585,7 @@ library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
-\*\* Proposition autre régression linéaire pour interpétation\*\*
+##### Other possible linear regression and their analysis 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
@@ -667,24 +669,48 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
 ```
 
 #### Checking for multicolinearity
-We will use the Variance Inflation Factor (VIP) to assess multicollinearity between deaths due to pollution and gas emissions. 
-```{r}
-library(car)
-vif_values <- vif(model4)
-vif_values
-```
-Contrary to what we could have expected, they do not seem much correlated, since our VIP values do not exceed 5. We might want to add that pollution is way greater than only gas emissions. It seems here adding others indicators might actually help have a better understanding of pollution as a whole. 
 
 #### Explanatory power and tests
-<<<<<<< HEAD
-We perform a Fisher test to assess the explanatory power of the model. 
 
-```{r}
-anova_results <- anova(model4)
-anova_results
+##### Fisher test
 
+##### Chi-2
+
+### Working on specific countries to correct from mean imprecisions
+
+We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada.
+Those choices allow use to represent three UN categories of countries income (very low, medium, high).
+We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data.
+
+#### The case of Burkina Faso
+
+Let's draw a simple model GDP over gas emissions.
+We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
+Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
+Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(2:11)
+
+new_row <- as.data.frame(t(colnames(Burkina_Faso_GDP))) 
+colnames(new_row) <- colnames(Burkina_Faso_GDP)
+
+Burkina_Faso_GDP <- rbind(new_row, Burkina_Faso_GDP)
+colnames(Burkina_Faso_GDP) <- rep("", ncol(Burkina_Faso_GDP))
+
+# wide_data <- Burkina_Faso_GDP %>% pivot_wider (names_from = `1`, values_from = `2`)
+
+library(dplyr)
+# colnames(Burkina_Faso_GDP) <- make.names(colnames(Burkina_Faso_GDP), unique = TRUE) # Burkina_Faso_GDP <- Burkina_Faso_GDP %>% 
+#   mutate(RowName = c("Period", "GDP"))
+
+Burkina_Faso_SDG <- SDG %>% filter(`Country` == "Burkina Faso")
+Burkina_Faso_SDG <- Burkina_Faso_SDG %>% filter(Sex == "Total")
+Burkina_Faso_SDG <- Burkina_Faso_SDG %>% select(Period, `Mean_Value`)
+long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
+                                
 ```
-We obtain very low p-values and hence significant F values. Our model consequently has explanatory power. 
+
 #### The case of Mexico
 
 #### The case of Canada
@@ -712,7 +738,6 @@ We obtain very low p-values and hence significant F values. Our model consequent
     *The Environmental Kuznets Curve After 25 Years*.
     *Journal of Bioeconomics*, 19, 7--28.
     https://doi.org/10.1007/s10818-017-9243-1
->>>>>>> a0eb91974e954cfc93ccdcf17f24f33195c802d3
 
 4.  Özcan, B., & Öztürk, I.
     (2019).
