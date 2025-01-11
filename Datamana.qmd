@@ -519,7 +519,7 @@ Merged_data <- Merged_data %>%
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-model <- lm(SDGs ~ Mean_GDP, data = Merged_data)
+model <- lm(Mean_GDP ~ SDGs  , data = Merged_data)
 summary(model)
 ```
 
@@ -541,34 +541,30 @@ This suggests that GDP alone is not a strong predictor of SDG performance, and o
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
-ggplot(Merged_data, aes(x = Mean_GDP, y = SDGs)) +
+ggplot(Merged_data, aes(x = SDGs, y = Mean_GDP)) +
   geom_point(alpha=0.1) +  # Ajoute les points du nuage
   geom_smooth(method = "lm", se = FALSE) +
   theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" ) +
   labs(
-    x = "GDP",
-    y = "SDG",
-    title ="Regression model (1) : SDG ~ GDP"
+    x = "SDP (pollution)",
+    y = "GDP (economic development)",
+    title ="Regression model (1) : GDP ~ SDG"
   ) +
   theme_minimal()
 ```
 
-Our fitted line implies a quite straightforward relationship between GDP and gas emissions : the richer a country is, the less it will pollute.
+Our fitted line implies a quite straightforward relationship between GDP and gas emissions : the richer a country is, the more it will pollute.
 However, this is not enough to answer our question : has pollution been necessary ?
 In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country.
-It allows us however to get a first global impression on the relationship GDP has with SDGs.
+It allows us however to get a first global impression on the relationship GDP has with SDGs. It consequently seems that the Kuznets curve is not a reality on a global scale. 
 
 #### Explanatory power and Fisher test
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-adj_r_squared <- model$adj.r.squared 
-adj_r_squared
-```
-
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 anova_model <- anova(model) 
 print(anova_model)
 ```
+The low p-value indicates our model has explanatory power. 
 
 ##### Chi-2
 
@@ -736,11 +732,56 @@ print(anova_model3)
 ##### Chi-2
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-chi2_statistic <- chi2_test$statistic p_value <- chi2_test$p.value print(chi2_statistic) print(p_value)
+chi2_statistic <- chi2_test$statistic 
+p_value <- chi2_test$p.value print(chi2_statistic) print(p_value)
 ```
 
 
 #### Analysis
+
+## Study case : South Korea
+We have seen that overall, it seems more pollution generates more GDP per capita. 
+We will now try to analyse this over time, using data from Soith Korea. We made this choice considering its major GDP growth for the last decade, making it a particularly interesting case to study. 
+
+### Quit data load and description
+We will keep working with the World Bank data, loading directly here GDP for Korea for all years available, and simultaneously with air pollution. 
+```{r}
+library(WDI)
+
+gdp_korea <- gdp_data <- WDI(indicator = "NY.GDP.MKTP.CD", country = "KOR", start = 2000, end = 2024)
+
+pollution_korea <- WDI(indicator = "EN.ATM.PM25.MC.M3", country = "KOR", start = 2000, end = 2024)
+
+head(gdp_korea)
+head(pollution_korea)
+```
+
+We then merge those two datasets together in order to get values per year for both GDP and pollution. 
+
+```{r}
+merged_korea <- merge(gdp_korea, pollution_korea, by = "year")
+merged_korea
+```
+In order to get more clarity from the World Bank classification codes, we rename columns. EN.ATM.PM25.MC.M3 and NY.GDP.MKTP.CD become respectively Pollution and GDP. 
+
+```{r}
+merged_korea <- merged_korea %>% 
+  rename( GDP = NY.GDP.MKTP.CD, Pollution = EN.ATM.PM25.MC.M3 )
+```
+
+### Regression model : a Korean environmental Kuznets curve ?
+
+```{r}
+model_korea <- lm(Pollution ~ GDP, data = merged_korea) 
+summary(model_korea)
+```
+```{r}
+ggplot(merged_korea, aes(x = GDP, y = Pollution)) + 
+  geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(title = "Linear Regression of GDP vs. Pollution in South Korea", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
+  theme_minimal()
+```
+Here, it seems the Kuznets curve does not verify. As Korea experiences higher growth per capita, pollution gets worse. We do not yet observe pollution lowering, as it is in theory what we would have expected from the Kuznets environmental curve. 
 
 ## Conclusion
 
