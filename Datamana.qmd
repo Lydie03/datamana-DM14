@@ -508,14 +508,17 @@ summary(model)
 
 ##### Analysis :
 
-Interpretation of Coefficients The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
+##### Interpretation of Coefficients :
+The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
 
 The slope coefficient is -0.008020, indicating that for every 1-unit increase in GDP, the SDG score decreases by 0.008020.
 This suggests a weak negative relationship between GDP and SDGs, implying that as a country becomes wealthier, it is less likely to meet the Sustainable Development Goals (SDGs).
 
-Significance of Coefficients The t-value and p-value are both very low (\<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
+##### Significance of Coefficients :
+The t-value and p-value are both very low (<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
 
-Model Fit While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
+##### Model Fit :
+While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
 This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
@@ -582,7 +585,7 @@ library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
-\*\* Proposition autre régression linéaire pour interpétation\*\*
+##### Other possible linear regression and their analysis 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
@@ -676,7 +679,7 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
 ### Working on specific countries to correct from mean imprecisions
 
 We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada.
-Those choices allow use to reporesent three UN categories of countries income (very low, medium, high).
+Those choices allow use to represent three UN categories of countries income (very low, medium, high).
 We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data.
 
 #### The case of Burkina Faso
