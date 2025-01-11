@@ -475,22 +475,6 @@ We will first make no distinction between countries and time to get a broad view
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(dplyr)
-<<<<<<< HEAD
-## DALYs <- DALYs |> 
-##   rename("Country" = "Country Name")
-
-## mean_gdp <- mean_gdp |> 
-##   rename("Country" = "Country Name")
-
-## mean_DALYs <- mean_DALYs |> 
-##   rename("Country" = "Country Name")
-
-## death_air_pollution <- death_air_pollution |> 
-##   rename("Country" = "Location")
-
-## mean_SDG <- mean_SDG |> 
-##   rename("Country" = "Country Name")
-=======
 #DALYs <- DALYs |> 
  # rename("Country" = "Country Name")
 
@@ -505,7 +489,6 @@ library(dplyr)
 
 #mean_SDG <- mean_SDG |> 
   #rename("Country" = "Country Name")
->>>>>>> a0eb91974e954cfc93ccdcf17f24f33195c802d3
 
 Merged_data <-  DALYs %>%
    inner_join(mean_gdp, by = c("Country")) %>%
@@ -699,60 +682,9 @@ We perform a Fisher test to assess the explanatory power of the model.
 ```{r}
 anova_results <- anova(model4)
 anova_results
-=======
 
-##### Fisher test
-
-##### Chi-2
-
-### Working on specific countries to correct from mean imprecisions
-
-We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada.
-Those choices allow use to reporesent three UN categories of countries income (very low, medium, high).
-We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data.
-
-#### The case of Burkina Faso
-
-Let's draw a simple model GDP over gas emissions.
-We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs.
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
-Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
-Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(2:11)
-
-new_row <- as.data.frame(t(colnames(Burkina_Faso_GDP))) 
-colnames(new_row) <- colnames(Burkina_Faso_GDP)
-
-Burkina_Faso_GDP <- rbind(new_row, Burkina_Faso_GDP)
-colnames(Burkina_Faso_GDP) <- rep("", ncol(Burkina_Faso_GDP))
-
-# wide_data <- Burkina_Faso_GDP %>% pivot_wider (names_from = `1`, values_from = `2`)
-
-library(dplyr)
-# colnames(Burkina_Faso_GDP) <- make.names(colnames(Burkina_Faso_GDP), unique = TRUE) # Burkina_Faso_GDP <- Burkina_Faso_GDP %>% 
-#   mutate(RowName = c("Period", "GDP"))
-
-Burkina_Faso_SDG <- SDG %>% filter(`Country` == "Burkina Faso")
-Burkina_Faso_SDG <- Burkina_Faso_SDG %>% filter(Sex == "Total")
-Burkina_Faso_SDG <- Burkina_Faso_SDG %>% select(Period, `Mean_Value`)
-long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
-                                
->>>>>>> a0eb91974e954cfc93ccdcf17f24f33195c802d3
 ```
 We obtain very low p-values and hence significant F values. Our model consequently has explanatory power. 
-
-<<<<<<< HEAD
-##### Chi-2
-In order to get a more precised analysis of the explanatory variables independance, we then perform a chi-squared test. 
-```{r}
-contingency_table <- table(Merged_data$SDGs, Merged_data$deaths_due_to_pollution) 
-
-chi2_results <- chisq.test(contingency_table)
-chi2_results
-```
-Results show a p value lower than 0,05, hence allowing us to reject the null hypothesis. Deaths due to population seems to be independent from SDGs. 
-=======
 #### The case of Mexico
 
 #### The case of Canada
