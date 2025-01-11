@@ -699,8 +699,6 @@ library(ggplot2)
 fitted_values <- fitted(model3)
 residuals <- residuals(model3)
 
-plot(model3)
-
 library (interactions)
 
 interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.points = TRUE, interval = TRUE) + 
@@ -733,7 +731,8 @@ print(anova_model3)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 chi2_statistic <- chi2_test$statistic 
-p_value <- chi2_test$p.value print(chi2_statistic) print(p_value)
+p_value <- chi2_test$p.value 
+print(chi2_statistic) print(p_value)
 ```
 
 
@@ -769,7 +768,7 @@ merged_korea <- merged_korea %>%
   rename( GDP = NY.GDP.MKTP.CD, Pollution = EN.ATM.PM25.MC.M3 )
 ```
 
-### Regression model : a Korean environmental Kuznets curve ?
+### Testing for a Korean environmental Kuznets curve
 
 ```{r}
 model_korea <- lm(Pollution ~ GDP, data = merged_korea) 
@@ -778,11 +777,44 @@ summary(model_korea)
 ```{r}
 ggplot(merged_korea, aes(x = GDP, y = Pollution)) + 
   geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
-  labs(title = "Linear Regression of GDP vs. Pollution in South Korea", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
+  labs(title = "Linear Regression of GDP vs. Pollution in South Korea (model 6)", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
   theme_minimal()
 ```
 Here, it seems the Kuznets curve does not verify. As Korea experiences higher growth per capita, pollution gets worse. We do not yet observe pollution lowering, as it is in theory what we would have expected from the Kuznets environmental curve. 
 
+## Study case : Finland
+
+### Quick data load and description
+The process is exactly the same as the one we used for Korea. 
+```{r}
+library(WDI)
+
+gdp_finland <- WDI(indicator = "NY.GDP.MKTP.CD", country = "FIN", start = 2000, end = 2024)
+
+pollution_finland <- WDI(indicator = "EN.ATM.PM25.MC.M3", country = "FIN", start = 2000, end = 2024)
+
+head(gdp_finland)
+head(pollution_finland)
+
+merged_finland <- merge(gdp_finland, pollution_finland, by = "year")
+
+merged_finland <- merged_finland %>% 
+  rename( GDP = NY.GDP.MKTP.CD, Pollution = EN.ATM.PM25.MC.M3 )
+```
+
+
+### Testing for a Finland environmental Kuznets curve
+```{r}
+model_korea <- lm(Pollution ~ GDP, data = merged_finland)
+
+summary(model_korea)
+```
+```{r}
+ggplot(merged_finland, aes(x = GDP, y = Pollution)) + 
+  geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(title = "Linear Regression of GDP vs. Pollution in Finland (model 7)", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
+  theme_minimal()
+```
 ## Conclusion
 
 ## References
