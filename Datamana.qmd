@@ -447,17 +447,16 @@ model <- lm(SDGs ~ Mean_GDP, data = Merged_data)
 summary(model)
 ```
 ##### Analysis : 
-Coefficient interpretation : 
-The intercept has a value of 554.7, which significate that for a GDP equal to zero, the predicted value for SDGs is 554.7. 
-The slope coefficient, of -0.02692. It significates that for an increase of 1 of the GDP, we witness a decrease of -0.02692 of the SDGs. 
-This number show a negative relation between the GDP and the SDGs, as to when a country become richer, he is less likely to match the sustainable development goals (SDGs). 
+Interpretation of Coefficients
+The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
 
-Coefficient significativity : 
-We witness a t and p-value very low (<2e-16), which mean that the relation between GDP and SDG is not due to randomness. 
+The slope coefficient is -0.008020, indicating that for every 1-unit increase in GDP, the SDG score decreases by 0.008020. This suggests a weak negative relationship between GDP and SDGs, implying that as a country becomes wealthier, it is less likely to meet the Sustainable Development Goals (SDGs).
 
-Model fit : 
-This model overall is not the most appropriate, considering our very low R squared (0,05283). This indicates that other factors influence SDGs. 
-We also have 32400 observations deleted due to missingness, which can affect the calculation of the linear regression. 
+Significance of Coefficients
+The t-value and p-value are both very low (<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
+
+Model Fit
+While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726). This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
 
 ```{r}
 library(ggplot2)
@@ -481,20 +480,20 @@ model2 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model2)
 ```
 #### Analysis 
-Coefficient interpretation : 
-The intercept is equal to 4756, which significate that for SDGs and number of deaths due to air pollution equal to zero, the predicted value for GDP is 4756. 
+##### Interpretation of Coefficients :
+The intercept has a value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted GDP is 16,780. However, since these values cannot realistically be zero, the intercept has limited real-world interpretability.  
 
-The coefficient for the deaths due to air pollution is -0.009627, an increase of one death due to air pollution lead to a decrease of the GDP of -0.009627. This means that a very weak negative relation between GDP and deaths due to air pollution, which is quite logical, as the death of one person leads to the loss of a potential workforce. 
+The slope coefficient for deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, GDP decreases by 0.02846. This suggests a negative relationship between pollution-related mortality and economic performance, which is quite logical, as the death of one person leads to the loss of a potential workforce. 
 
-The coefficient for the SDGs is equal to -1.978. An increase of one unity of the SDGs lead to a decrease of -1.978 of the GDP. This significates that when a country is more respecting the sustainable development goals, its GDP decrease. The interpretation of this is that pollution is leading to more wealth. 
+The slope coefficient for SDGs is -7.213, meaning that for every 1-unit increase in the SDG score, GDP decreases by 7.213. This suggests that, within this model, higher SDG performance is associated with lower GDP levels. This means that when a country is more respectful of the sustainable development goals, its GDP decrease. The interpretation of this is that pollution is leading to more wealth. 
 
-The coefficient for the interaction between the number of deaths due to air pollution and the SDG is 4.479e-06. This interaction is very weak but positive. 
+The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated. However, the effect size is very small.  
 
-Significativity of the coefficients : 
-The p-value is <2e-16 for all coefficients, which means they are highly significant, the relationships between the variables (deaths due to pollution, SDGs, and average GDP) are statistically significant and unlikely to be due to chance.
+##### Significance of Coefficients :
+The t-values for all coefficients are large in magnitude, and the p-values are extremely low (<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.  
 
-Model fit : 
-This model overall is not the most appropriate, considering our very low R squared (5.56%) and a high residual standard error (5396). This indicates that other factors influence GDP.
+##### Model Fit : 
+While the relationships between GDP, pollution-related deaths, and SDGs are statistically significant, the low R-squared value (0.05905) suggests that these variables explain only 5.9% of the variation in GDP. This indicates that GDP is influenced by many other factors not included in this model.
 
 ```{r}
 library(ggplot2)
@@ -513,23 +512,42 @@ summary(model3)
 model4 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model4)
 ```
-##### Analysis 
-Coefficient interpretation : 
-The intercept is equal to 552,8, which means that when the deaths due to air pollution and the GDP are equal to zero, the predicted value of the SDGs is 552.8. 
-The coefficient for the deaths due to air pollution is 3.821e-04, an increase of one death due to air pollution lead to an increase of the SDGs of 0.0003821. This means that a very weak positive relation between SDGs and deaths due to air pollution, which is quite counterintuitive as an augmentation of the deaths due to air pollution should come from a decrease of the respect of the SDGs, so more pollution. 
-Other factors could explain this relation. 
+#### Analysis 
+##### Model 3 
+##### Interpretation of Coefficients  
+The intercept has an estimated value of 556.3, meaning that when both deaths due to pollution and GDP are zero, the predicted SDG score is 556.3. However, as these variables cannot realistically be zero, this intercept does not have a direct real-world interpretation.
 
-The coefficient for the mean of GDP is equal to -0.02639. An increase of one unity of the PIB lead to a decrease of -0.02639 of the SDGs. This significates that when a country is becoming richer, it is less respecting the goals of the SDGs, especially in the pollution field. 
+The coefficient for the deaths due to pollution is 0.001295, indicating that for every 1-unit increase in pollution-related deaths, the SDG score increases by 0.001295. This suggests a positive relationship between pollution-related mortality and SDG scores, which could reflect the presence of interventions or responses tied to public health measures that may impact SDG outcomes.
 
-The coefficient for the interaction between the number of deaths due to air pollution and the mean of the GDP is -2.58e-07. This interaction is very weak but negative. 
-This indicates that the combined effect of deaths due to pollution and average GDP on the SDGs is slightly influenced by the interaction between the two variables, but the effect remains relatively weak. It suggests that there isn't a strong synergy between these two factors in the model.
+The coefficient for the mean of the GDP is -0.007771, meaning that for every 1-unit increase in GDP, the SDG score decreases by 0.007771. This suggests a negative relationship between GDP and SDG performance, possibly reflecting the prioritization of economic growth over certain SDG objectives, particularly those related to sustainability or inequality.
 
-Coefficient significativity : 
-We witness a t and p-value very low (<2e-16), which mean that the relation between GDP, SDG and the number of deaths due to air pollution is not due to randomness. 
+The interaction term between deaths due to pollution and Mean GDP has a coefficient of -1.799e-07, suggesting that as GDP increases, the positive relationship between deaths due to pollution and SDGs slightly decreases. This indicates a small mitigating effect of GDP on the relationship between pollution-related deaths and SDG performance.
 
-Model fit : 
-This model overall is not the most appropriate, considering our very low R squared (0.05331). This indicates that other factors influence SDGs.
-We also have 32400 observations deleted due to missingness, which can affect the calculation of the linear regression.
+##### Significance of Coefficients  
+All coefficients are statistically significant, as indicated by their extremely low p-values (< 2e-16). This means that the relationships between SDGs, deaths due to pollution, and GDP are unlikely to be due to random chance, and all terms are crucial in explaining SDG scores.
+
+##### Model Fit  
+The R-squared value is 0.05911, indicating that only 5.91% of the variation in SDGs is explained by deaths due to pollution, GDP, and their interaction. This suggests that the model does not capture most of the variation in SDG scores, and other factors not included in the model likely play a more significant role in determining SDG performance.
+
+The F-statistic is 1.086e+05, with a p-value of <2.2e-16, indicating that the overall model is statistically significant. However, the relatively low R-squared suggests that while the model is significant, it may not explain much of the variation in SDGs.
+
+##### Model 4 
+##### Interpretation of Coefficients  
+The intercept has an estimated value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted Mean GDP is 16,780. However, as these values cannot realistically be zero, this intercept has limited real-world interpretability.
+
+The coefficient for the deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, Mean GDP decreases by 0.02846. This suggests a negative relationship between pollution-related mortality and economic performance, meaning that higher deaths due to pollution are associated with lower GDP.
+
+The coefficient for SDGs is -7.213, meaning that for every 1-unit increase in SDG score, Mean GDP decreases by 7.213. This suggests that, within this model, higher SDG performance is associated with lower GDP levels, though this could reflect underlying structural factors, such as the costs associated with achieving certain SDG targets.
+
+The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated. However, the effect size is very small, indicating that while the interaction has some effect, it does not substantially alter the relationship between pollution-related deaths and GDP.
+
+##### Significance of Coefficients  
+The t-values for all coefficients are large in magnitude, and the p-values are extremely low (<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.
+
+##### Model Fit  
+The R-squared value is 0.05905, meaning that these variables explain only 5.91% of the variation in Mean GDP. This indicates that other factors not included in this model likely have a much larger influence on GDP.
+
+The F-statistic is 1.084e+05 with a p-value of <2.2e-16, showing that the model as a whole is statistically significant. However, the relatively low R-squared suggests that although the model is significant, it does not explain much of the variation in GDP.
 
 ```{r}
 library(ggplot2)
@@ -564,6 +582,9 @@ Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
 Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
 Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(2:11)
 
+new_row <- as.data.frame(t(colnames(Burkina_Faso_GDP))) 
+colnames(new_row) <- colnames(Burkina_Faso_GDP)
+
 Burkina_Faso_GDP <- rbind(new_row, Burkina_Faso_GDP)
 colnames(Burkina_Faso_GDP) <- rep("", ncol(Burkina_Faso_GDP))
 
@@ -573,15 +594,11 @@ library(dplyr)
 # colnames(Burkina_Faso_GDP) <- make.names(colnames(Burkina_Faso_GDP), unique = TRUE) # Burkina_Faso_GDP <- Burkina_Faso_GDP %>% 
 #   mutate(RowName = c("Period", "GDP"))
 
-## new_row <- as.data.frame(t(colnames(Burkina_Faso_GDP))) 
-## colnames(new_row) <- colnames(Burkina_Faso_GDP)
-
 Burkina_Faso_SDG <- SDG %>% filter(`Country` == "Burkina Faso")
 Burkina_Faso_SDG <- Burkina_Faso_SDG %>% filter(Sex == "Total")
 Burkina_Faso_SDG <- Burkina_Faso_SDG %>% select(Period, `Mean_Value`)
 long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
-                                    
-                                   
+                                
 ```
 
 
@@ -592,13 +609,6 @@ long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
 
 #### Analysis 
 
-
-## Working on GDP and ambient air pollution
-
-We are now trying to link air pollution to GDP. We will first consider their respective means, then the most recent year available (2022).
-
-### Graphical representation 
-Now, let's see if we can find the graphical representation of the EKC theory. 
 
 
 ## Conclusion 
