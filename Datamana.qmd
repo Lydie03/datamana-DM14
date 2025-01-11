@@ -595,9 +595,6 @@ print(chi2_statistic)
 print(p_value)
 ```
 
-
-
-
 ### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
@@ -701,7 +698,10 @@ new_data$SDGs <- predict(model3, newdata = new_data)
 
 ggplot(new_data, aes(x = deaths_due_to_pollution, y = SDGs, color = factor(Mean_GDP))) + geom_point() + geom_line(data = new_data, aes(y = SDGs), linetype = "solid") + labs(title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs") + theme_minimal() + theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right") # Display the plot
 ```
-For a mean GDP of 13426.43, we have a negative relation between SDGs and deaths due to pollution. The more an imaginary country with this mean GDP disrespect the SDGs, the more it will have a high number of deaths due to pollution. On the contrary, a theorical country respecting more the SDGs will see its number of deaths due to pollution decreasing. 
+
+For a mean GDP of 13426.43, we have a negative relation between SDGs and deaths due to pollution.
+The more an imaginary country with this mean GDP disrespect the SDGs, the more it will have a high number of deaths due to pollution.
+On the contrary, a theorical country respecting more the SDGs will see its number of deaths due to pollution decreasing.
 
 #### Checking for multicolinearity
 
@@ -739,7 +739,7 @@ print(chi2_statistic) print(p_value)
 ## Study case : South Korea
 
 We have seen that overall, it seems more pollution generates more GDP per capita.
-We will now try to analyse this over time, using data from Soith Korea.
+We will now try to analyse this over time, using data from South Korea.
 We made this choice considering its major GDP growth for the last decade, making it a particularly interesting case to study.
 
 ### Quit data load and description
@@ -778,19 +778,29 @@ merged_korea <- merged_korea %>%
 model_korea <- lm(Pollution ~ GDP, data = merged_korea) 
 summary(model_korea)
 ```
-#### Analysis 
+
+#### Analysis
+
 ##### Interpretation of coefficients
-The intercept has an estimated value of 22.92, meaning that when GDP is zero, the predicted SDG score is 22.92. However, this intercept lacks direct real-world meaning, as GDP cannot realistically be zero.
-The coefficient for GDP is 1.853e-12, indicating that for every 1-unit increase in GDP, the SDG score increases by 1.853e-12. While this suggests a positive relationship between GDP and SDG scores, the relationship is quite small, reflecting a minimal effect of GDP on the SDG score.
+
+The intercept has an estimated value of 22.92, meaning that when GDP is zero, the predicted SDG score is 22.92.
+However, this intercept lacks direct real-world meaning, as GDP cannot realistically be zero.
+The coefficient for GDP is 1.853e-12, indicating that for every 1-unit increase in GDP, the SDG score increases by 1.853e-12.
+While this suggests a positive relationship between GDP and SDG scores, the relationship is quite small, reflecting a minimal effect of GDP on the SDG score.
 
 ##### Significance of Coefficients
-The intercept is statistically significant with a p-value of 2.84e-14, which is well below the threshold of 0.001, indicating a strong relationship between the intercept and SDG scores.
-The coefficient for GDP is marginally significant, with a p-value of 0.0608. Although it is just above the common significance level of 0.05, the coefficient suggests a weak but possible relationship between GDP and SDG scores. 
 
-##### Model fit 
-The R-squared value is 0.173, meaning that only 17.3% of the variation in SDGs is explained by GDP. This indicates that the model does not capture most of the variation in SDG scores, and other factors not included in the model may be more significant in determining SDG performance.
+The intercept is statistically significant with a p-value of 2.84e-14, which is well below the threshold of 0.001, indicating a strong relationship between the intercept and SDG scores.
+The coefficient for GDP is marginally significant, with a p-value of 0.0608.
+Although it is just above the common significance level of 0.05, the coefficient suggests a weak but possible relationship between GDP and SDG scores.
+
+##### Model fit
+
+The R-squared value is 0.173, meaning that only 17.3% of the variation in SDGs is explained by GDP.
+This indicates that the model does not capture most of the variation in SDG scores, and other factors not included in the model may be more significant in determining SDG performance.
 The Adjusted R-squared value is 0.1295, which adjusts for the number of predictors and reflects a modest fit of the model, suggesting that the model's explanatory power is limited.
-The F-statistic is 3.974 with a p-value of 0.06076. While the model as a whole is close to being statistically significant, it is not at the conventional threshold (p-value < 0.05), suggesting that the relationship between GDP and SDG performance may not be robust enough to draw strong conclusions from this model.
+The F-statistic is 3.974 with a p-value of 0.06076.
+While the model as a whole is close to being statistically significant, it is not at the conventional threshold (p-value \< 0.05), suggesting that the relationship between GDP and SDG performance may not be robust enough to draw strong conclusions from this model.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 
@@ -828,14 +838,35 @@ merged_finland <- merged_finland %>%
 
 ### Testing for a Finland environmental Kuznets curve
 
-
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model_korea <- lm(Pollution ~ GDP, data = merged_finland)
 
 summary(model_korea)
 ```
 
+#### Analysis
 
+##### Interpretation of coefficients
+
+The intercept has an estimated value of 9.879, meaning that when GDP is zero, the predicted pollution score is 9.879.
+The coefficient for GDP is -1.400e-11, indicating that for each 1-unit increase in GDP, the pollution score decreases by 1.400e-11.
+This suggests a negative relationship between GDP and pollution in Finland, which contrasts with the positive relationship seen in South Korea.
+This difference may reflect distinct economic and environmental contexts between the two countries, as Finland is a developed country for a longer time than South Korea.
+In this case, it is following the Kuznets curve, as now that it became rich, and for a long time, its pollution decrease.
+We should be on the decreasing slope of the Kuznets curve.
+
+##### Significance of coefficients
+
+The intercept is statistically significant with a p-value of 2.97e-10, indicating a strong relationship between the intercept and the pollution score.
+The coefficient for GDP is also statistically significant with a p-value of 0.000802, showing that GDP has a significant negative impact on pollution in Finland.
+This contrasts with South Korea, where the relationship with GDP was marginal (p-value of 0.0608).
+
+##### Model fit
+
+The R-squared value is 0.4547, meaning that 45.47% of the variation in pollution is explained by GDP in Finland.
+This is much higher than the R-squared value for South Korea (0.173), suggesting that GDP plays a more significant role in explaining pollution variation in Finland.
+The F-statistic is 15.84 with a p-value of 0.0008016, indicating that the overall model is statistically significant.
+This result is stronger than that for South Korea (p-value of 0.06076), suggesting that the model for Finland is more robust.
 
 ```{r,echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 ggplot(merged_finland, aes(x = GDP, y = Pollution)) + 
@@ -844,7 +875,15 @@ ggplot(merged_finland, aes(x = GDP, y = Pollution)) +
   theme_minimal()
 ```
 
+This graphic confirms what we saw before, Finland is on the decreasing slope of the Kuznets curve, as its GDP in increasing, its gas emissions are decreasing.
+
 ## Conclusion
+
+Countries show varied perspectives on GDP, pollution, its limitations, and its impacts.
+When examining specific countries at different stages of development, such as Finland and South Korea, we can observe the Kuznets curve in action.
+However, an important question arises: do countries on the downward slope of the Kuznets curve truly have lower pollution levels, or are they simply outsourcing their pollution to less developed countries?
+This question aligns with the work of Esther Duflo, a Nobel Prize-winning economist, who argued in a *Les Échos* article that wealthier countries should compensate poorer nations for their contribution to pollution and help them adapt to climate change, as these populations are often the most vulnerable.
+However, due to the challenges of managing large datasets, we were unable to analyze this issue comprehensively and over a long period.
 
 ## References
 
@@ -896,3 +935,4 @@ ggplot(merged_finland, aes(x = GDP, y = Pollution)) +
     (2018).
     *Analyzing the Environmental Kuznets Curve for the EU Countries: The Role of Ecological Footprint*.
     *Environmental Science and Pollution Research*, 25(29), 29387--29396.
+10. Duflo, Esther. (2024). *Esther Duflo, Prix Nobel d’économie: Il faut offrir une compensation aux citoyens les plus pauvres du monde et les aider à s’adapter au changement climatique*. Tribune publiée dans le journal français *Le Monde*.
