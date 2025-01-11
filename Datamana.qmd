@@ -95,16 +95,17 @@ The observations are the same as for DALYs, hence the following changes.
 
 ```{r}
 SDG <- SDG %>%
-  rename(
-    Mean_Value = "FactValueNumeric",
-    lowest_value = "FactValueNumericLow",
-    highest_value = "FactValueNumericHigh",
-    Sex = "Dim1",
-    Country = "Location"
-  )
+   rename(
+     Mean_Value = "FactValueNumeric",
+     lowest_value = "FactValueNumericLow",
+     highest_value = "FactValueNumericHigh",
+     Sex = "Dim1",
+     Country = "Location"
+   )
 # we save a new base to have regular name for the columns 
-library(dplyr)
-write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
+
+## library(dplyr)
+## write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
 ```
 
 ```{r}
@@ -117,7 +118,7 @@ death_air_pollution <- death_air_pollution %>%
     Country = "Location"
   )
 # we save a new base to have regular name for the columns 
-write.csv(death_air_pollution, "death_air_pollution_modified.csv", row.names = FALSE)
+## write.csv(death_air_pollution, "death_air_pollution_modified.csv", row.names = FALSE)
 ```
 
 ## Data description
@@ -415,20 +416,20 @@ We chose to use the aggregations made by the world bank to get a broad view of G
 We first proceed to merging our data. For a first global view on our data, we used the means over time (2009 to 2019) for GDP per capita and SDGs, grouped by country. We will first make no distinction between countries and time to get a broad view and then precise our analysis. 
 ```{r}
 library(dplyr)
-DALYs <- DALYs |> 
-  rename("Country" = "Country Name")
+## DALYs <- DALYs |> 
+##   rename("Country" = "Country Name")
 
-mean_gdp <- mean_gdp |> 
-  rename("Country" = "Country Name")
+## mean_gdp <- mean_gdp |> 
+##   rename("Country" = "Country Name")
 
-mean_DALYs <- mean_DALYs |> 
-  rename("Country" = "Country Name")
+## mean_DALYs <- mean_DALYs |> 
+##   rename("Country" = "Country Name")
 
-death_air_pollution <- death_air_pollution |> 
-  rename("Country" = "Location")
+## death_air_pollution <- death_air_pollution |> 
+##   rename("Country" = "Location")
 
-mean_SDG <- mean_SDG |> 
-  rename("Country" = "Country Name")
+## mean_SDG <- mean_SDG |> 
+##   rename("Country" = "Country Name")
 
 Merged_data <-  DALYs %>%
    inner_join(mean_gdp, by = c("Country")) %>%
@@ -437,7 +438,7 @@ Merged_data <-  DALYs %>%
   inner_join(mean_SDG, by = c("Country"))
 
 Merged_data <- Merged_data %>% 
-  rename(SDGs = `Mean_Value.x`) %>%
+  rename(SDGs = `mean_value.x`) %>%
   rename (deaths_due_to_pollution = `Mean_Value.y`)
 
 ``` 
@@ -547,59 +548,32 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
 ```
 
 #### Checking for multicolinearity
+We will use the Variance Inflation Factor (VIP) to assess multicollinearity between deaths due to pollution and gas emissions. 
+```{r}
+library(car)
+vif_values <- vif(model4)
+vif_values
+```
+Contrary to what we could have expected, they do not seem much correlated, since our VIP values do not exceed 5. We might want to add that pollution is way greater than only gas emissions. It seems here adding others indicators might actually help have a better understanding of pollution as a whole. 
 
 #### Explanatory power and tests
-##### Fisher test
-##### Chi-2
-
-### Working on specific countries to correct from mean imprecisions
-We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada. Those choices allow use to reporesent three UN categories of countries income (very low, medium, high). We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data. 
-
-#### The case of Burkina Faso 
-Let's draw a simple model GDP over gas emissions. 
-We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs. 
+We perform a Fisher test to assess the explanatory power of the model. 
 
 ```{r}
-Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
-Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
-Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(2:11)
-
-Burkina_Faso_GDP <- rbind(new_row, Burkina_Faso_GDP)
-colnames(Burkina_Faso_GDP) <- rep("", ncol(Burkina_Faso_GDP))
-
-# wide_data <- Burkina_Faso_GDP %>% pivot_wider (names_from = `1`, values_from = `2`)
-
-library(dplyr)
-# colnames(Burkina_Faso_GDP) <- make.names(colnames(Burkina_Faso_GDP), unique = TRUE) # Burkina_Faso_GDP <- Burkina_Faso_GDP %>% 
-#   mutate(RowName = c("Period", "GDP"))
-
-## new_row <- as.data.frame(t(colnames(Burkina_Faso_GDP))) 
-## colnames(new_row) <- colnames(Burkina_Faso_GDP)
-
-Burkina_Faso_SDG <- SDG %>% filter(`Country` == "Burkina Faso")
-Burkina_Faso_SDG <- Burkina_Faso_SDG %>% filter(Sex == "Total")
-Burkina_Faso_SDG <- Burkina_Faso_SDG %>% select(Period, `Mean_Value`)
-long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
-                                    
-                                   
+anova_results <- anova(model4)
+anova_results
 ```
+We obtain very low p-values and hence significant F values. Our model consequently has explanatory power. 
 
+##### Chi-2
+In order to get a more precised analysis of the explanatory variables independance, we then perform a chi-squared test. 
+```{r}
+contingency_table <- table(Merged_data$SDGs, Merged_data$deaths_due_to_pollution) 
 
-#### The case of Mexico
-
-
-#### The case of Canada
-
-#### Analysis 
-
-
-## Working on GDP and ambient air pollution
-
-We are now trying to link air pollution to GDP. We will first consider their respective means, then the most recent year available (2022).
-
-### Graphical representation 
-Now, let's see if we can find the graphical representation of the EKC theory. 
-
+chi2_results <- chisq.test(contingency_table)
+chi2_results
+```
+Results show a p value lower than 0,05, hence allowing us to reject the null hypothesis. Deaths due to population seems to be independent from SDGs. 
 
 ## Conclusion 
 
