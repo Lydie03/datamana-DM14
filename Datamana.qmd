@@ -462,7 +462,24 @@ It seems regions of the world have a very unequal distribution of wealth, especi
 Low incomes seem to match low revenue activities such as agriculture or textile industries, when the OECD countries match group services and technologies.
 Hence supposedly a higher pollution rate induced by low income countries prevalent economical activities.If we refer to our previous graphical representations, we can note however that it is not the case for Africa : agriculture does not pollute as much as textile industries in The East and Pacific Asia.
 
-*ZIP on Moodle*
+### The environmental Kuznets curve - Theoretically, what are we looking for ?
+
+The Kuznets Environmental Curve (KEC) is a hypothesized relationship between environmental quality and economic development. It's an extension of the original Kuznets Curve, which examines the relationship between income inequality and economic development.
+
+The KEC suggests that environmental degradation initially increases with economic development, but after reaching a certain level of income, the trend reverses, and environmental quality improves. The result is an inverted U-shaped curve, similar to the original Kuznets Curve.
+
+We suggest here a simulation to get a visual representation of the theory. 
+
+```{r}
+library(ggplot2)
+
+x <- seq(-50, 50, by = 1) 
+y <- -0.01 * x^2 + 25  
+u_curve_data <- data.frame(Income_Inequality = x, Economic_Development = y) 
+
+ggplot(u_curve_data, aes(x = Income_Inequality, y = Economic_Development)) + geom_line(color = "blue", size = 1) + labs(title = "Theoretical environmental Kuznets inverted U-shaped slope", x = "Economic development", y = "Pollution") + theme_minimal() 
+
+```
 
 ## GDP and gas emission : Kuznets curve (EKC)
 
@@ -611,19 +628,20 @@ library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
-##### Other possible linear regression and their analysis 
+### Improving the modelization of pollution - GDP as a function of gas emissions and deaths due to pollution (model4)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
-summary(model3)
-
-model4 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
+model3 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model4)
+
+model4 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
+summary(model3)
 ```
 
 #### Analysis
 
-##### Model 3
+
+### Inverting causality : air pollution as a function of GDP and deaths due to pollution (model 4)
 
 ##### Interpretation of Coefficients
 
@@ -693,6 +711,7 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
   labs( title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs" ) +
   theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
+This graph allows us to have a quite straightforwards answer, meaning the lower the SDG, the lower deaths due to pollution. 
 
 #### Checking for multicolinearity
 To check for multicolinearity, we compute the Variance Inflation Factor values of the model. 
