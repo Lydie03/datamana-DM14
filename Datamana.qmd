@@ -541,7 +541,9 @@ However, this is not enough to answer our question : has pollution been necessar
 In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country.
 It allows us however to get a first global impression on the relationship GDP has with SDGs.
 
-### Considering GDP as a function of SDGs and deaths due to air pollution
+#### Checking for mul
+
+### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model2 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
@@ -669,51 +671,31 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
 ```
 
 #### Checking for multicolinearity
+To check for multicolinearity, we compute the Variance Inflation Factor values of the model. 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+library(car)
+vif_values <- vif(model3) 
+print(vif_values)
+```
+We obtain Variance Inflation Factors lower than five, and can hence conclude on low multicolinearity between our two explanatory variables.  
 
-#### Explanatory power and tests
+#### Explanatory power and Fisher test
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+adj_r_squared <- summary_model3$adj.r.squared 
+```
 
-##### Fisher test
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+anova_model3 <- anova(model3) 
+print(anova_model3)
+```
 
 ##### Chi-2
 
-### Working on specific countries to correct from mean imprecisions
-
-We will try now to get an environmental Kuznets curve for Burkina Faso, Mexico and Canada.
-Those choices allow use to represent three UN categories of countries income (very low, medium, high).
-We chose those three specific ones first with data availability, second randomly over our dataset corrected from countries with too much missing data.
-
-#### The case of Burkina Faso
-
-Let's draw a simple model GDP over gas emissions.
-We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs.
-
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
-Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
-Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(2:11)
-
-new_row <- as.data.frame(t(colnames(Burkina_Faso_GDP))) 
-colnames(new_row) <- colnames(Burkina_Faso_GDP)
-
-Burkina_Faso_GDP <- rbind(new_row, Burkina_Faso_GDP)
-colnames(Burkina_Faso_GDP) <- rep("", ncol(Burkina_Faso_GDP))
-
-# wide_data <- Burkina_Faso_GDP %>% pivot_wider (names_from = `1`, values_from = `2`)
-
-library(dplyr)
-# colnames(Burkina_Faso_GDP) <- make.names(colnames(Burkina_Faso_GDP), unique = TRUE) # Burkina_Faso_GDP <- Burkina_Faso_GDP %>% 
-#   mutate(RowName = c("Period", "GDP"))
-
-Burkina_Faso_SDG <- SDG %>% filter(`Country` == "Burkina Faso")
-Burkina_Faso_SDG <- Burkina_Faso_SDG %>% filter(Sex == "Total")
-Burkina_Faso_SDG <- Burkina_Faso_SDG %>% select(Period, `Mean_Value`)
-long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
-                                
+chi2_statistic <- chi2_test$statistic p_value <- chi2_test$p.value print(chi2_statistic) print(p_value)
 ```
 
-#### The case of Mexico
-
-#### The case of Canada
 
 #### Analysis
 
