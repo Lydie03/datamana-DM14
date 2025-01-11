@@ -609,9 +609,24 @@ long_data <- Burkina_Faso_SDG %>% pivot_longer(cols = everything())
 
 #### Analysis 
 
-
-
 ## Conclusion 
 
+## REferences 
 
+1. Stern, D. I. (2004). *The Rise and Fall of the Environmental Kuznets Curve*. *World Development*, 32(8), 1419–1439. https://doi.org/10.1016/j.worlddev.2004.03.004
 
+2. Dinda, S. (2004). *Environmental Kuznets Curve Hypothesis: A Survey*. *Ecological Economics*, 49(4), 431–455. https://doi.org/10.1016/j.ecolecon.2004.02.011
+
+3. Stern, D. I. (2017). *The Environmental Kuznets Curve After 25 Years*. *Journal of Bioeconomics*, 19, 7–28. https://doi.org/10.1007/s10818-017-9243-1
+
+4. Özcan, B., & Öztürk, I. (2019). *Environmental Kuznets Curve (EKC): A Manual*. Academic Press.
+
+5. Raworth, K. (2017). *Doughnut Economics: Seven Ways to Think Like a 21st-Century Economist*. Chelsea Green Publishing.
+
+6. Salin, M. (2020). La « courbe de Kuznets environnementale » et le « découplage » : deux concepts du débat sur la croissance verte. *Regards croisés sur l'économie*, 26(1), 145–152. https://doi.org/10.3917/rce.026.0145
+
+7. Martínez-Alier, J. (2002). *The Environmentalism of the Poor: A Study of Ecological Conflicts and Valuation*. Northampton, MA: Edward Elgar Publishing.
+
+8. Laurent, É. (2009). *Écologie et inégalités*. *Revue de l'OFCE*, 109, 33–57.
+
+9. Destek, M. A., Ulucak, R., & Dogan, E. (2018). *Analyzing the Environmental Kuznets Curve for the EU Countries: The Role of Ecological Footprint*. *Environmental Science and Pollution Research*, 25(29), 29387–29396.
