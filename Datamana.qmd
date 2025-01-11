@@ -464,11 +464,13 @@ Hence supposedly a higher pollution rate induced by low income countries prevale
 
 ### The environmental Kuznets curve - Theoretically, what are we looking for ?
 
-The Kuznets Environmental Curve (KEC) is a hypothesized relationship between environmental quality and economic development. It's an extension of the original Kuznets Curve, which examines the relationship between income inequality and economic development.
+The Kuznets Environmental Curve (KEC) is a hypothesized relationship between environmental quality and economic development.
+It's an extension of the original Kuznets Curve, which examines the relationship between income inequality and economic development.
 
-The KEC suggests that environmental degradation initially increases with economic development, but after reaching a certain level of income, the trend reverses, and environmental quality improves. The result is an inverted U-shaped curve, similar to the original Kuznets Curve.
+The KEC suggests that environmental degradation initially increases with economic development, but after reaching a certain level of income, the trend reverses, and environmental quality improves.
+The result is an inverted U-shaped curve, similar to the original Kuznets Curve.
 
-We suggest here a simulation to get a visual representation of the theory. 
+We suggest here a simulation to get a visual representation of the theory.
 
 ```{r}
 library(ggplot2)
@@ -526,15 +528,18 @@ summary(model)
 ##### Analysis :
 
 ##### Interpretation of Coefficients :
+
 The intercept has a value of 559.5, meaning that when GDP is zero, the predicted SDG score is 559.5.
 
 The slope coefficient is -0.008020, indicating that for every 1-unit increase in GDP, the SDG score decreases by 0.008020.
 This suggests a weak negative relationship between GDP and SDGs, implying that as a country becomes wealthier, it is less likely to meet the Sustainable Development Goals (SDGs).
 
 ##### Significance of Coefficients :
-The t-value and p-value are both very low (<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
+
+The t-value and p-value are both very low (\<2e-16), suggesting that the relationship between GDP and SDGs is statistically significant and unlikely to be due to random chance.
 
 ##### Model Fit :
+
 While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
 This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
 
@@ -556,7 +561,8 @@ ggplot(Merged_data, aes(x = SDGs, y = Mean_GDP)) +
 Our fitted line implies a quite straightforward relationship between GDP and gas emissions : the richer a country is, the more it will pollute.
 However, this is not enough to answer our question : has pollution been necessary ?
 In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country.
-It allows us however to get a first global impression on the relationship GDP has with SDGs. It consequently seems that the Kuznets curve is not a reality on a global scale. 
+It allows us however to get a first global impression on the relationship GDP has with SDGs.
+It consequently seems that the Kuznets curve is not a reality on a global scale.
 
 #### Explanatory power and Fisher test
 
@@ -564,7 +570,8 @@ It allows us however to get a first global impression on the relationship GDP ha
 anova_model <- anova(model) 
 print(anova_model)
 ```
-The low p-value indicates our model has explanatory power. 
+
+The low p-value indicates our model has explanatory power.
 
 ##### Chi-2
 
@@ -576,9 +583,6 @@ p_value <- chi2_test$p.value
 print(chi2_statistic) 
 print(p_value)
 ```
-
-
-
 
 ### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
 
@@ -624,22 +628,21 @@ library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
-The different fitted lines in this graphic offer various interpretations of the relationship between GDP, deaths due to air pollution, and the SDGs. The trends of the curves are similar but differ in the steepness of their slopes. When the SDGs decrease by one unit, the relationship between mean GDP and deaths due to pollution is more negative and stronger compared to when the SDGs are at their mean or when they improve by one unit.
+The different fitted lines in this graphic offer various interpretations of the relationship between GDP, deaths due to air pollution, and the SDGs.
+The trends of the curves are similar but differ in the steepness of their slopes.
+When the SDGs decrease by one unit, the relationship between mean GDP and deaths due to pollution is more negative and stronger compared to when the SDGs are at their mean or when they improve by one unit.
 
-This means that when SDGs are less respected, implying that a given country pollutes more, the number of deaths due to air pollution increases more sharply as GDP declines. Poorer countries struggle more to combat pollution and climate change issues because doing so comes at a cost that is often inaccessible given their GDP.
+This means that when SDGs are less respected, implying that a given country pollutes more, the number of deaths due to air pollution increases more sharply as GDP declines.
+Poorer countries struggle more to combat pollution and climate change issues because doing so comes at a cost that is often inaccessible given their GDP.
 
 ### Improving the modelization of pollution - GDP as a function of gas emissions and deaths due to pollution (model3)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model3 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model3)
-
-model4 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
-summary(model4)
 ```
 
 #### Analysis
-
 
 ### Inverting causality : air pollution as a function of GDP and deaths due to pollution (model 4)
 
@@ -670,32 +673,6 @@ This suggests that the model does not capture most of the variation in SDG score
 The F-statistic is 1.086e+05, with a p-value of \<2.2e-16, indicating that the overall model is statistically significant.
 However, the relatively low R-squared suggests that while the model is significant, it may not explain much of the variation in SDGs.
 
-##### Model 4
-
-##### Interpretation of Coefficients
-
-The intercept has an estimated value of 16,780, meaning that when both deaths due to pollution and SDGs are zero, the predicted Mean GDP is 16,780.
-However, as these values cannot realistically be zero, this intercept has limited real-world interpretability.
-
-The coefficient for the deaths due to pollution is -0.02846, indicating that for every 1-unit increase in pollution-related deaths, Mean GDP decreases by 0.02846.
-This suggests a negative relationship between pollution-related mortality and economic performance, meaning that higher deaths due to pollution are associated with lower GDP.
-
-The coefficient for SDGs is -7.213, meaning that for every 1-unit increase in SDG score, Mean GDP decreases by 7.213.
-This suggests that, within this model, higher SDG performance is associated with lower GDP levels, though this could reflect underlying structural factors, such as the costs associated with achieving certain SDG targets.
-
-The interaction term between deaths due to pollution and SDGs has a coefficient of 0.00001712, suggesting that as SDG scores increase, the negative impact of pollution-related deaths on GDP is slightly mitigated.
-However, the effect size is very small, indicating that while the interaction has some effect, it does not substantially alter the relationship between pollution-related deaths and GDP.
-
-##### Significance of Coefficients
-
-The t-values for all coefficients are large in magnitude, and the p-values are extremely low (\<2e-16), indicating that the relationships between GDP, pollution-related deaths, and SDGs are statistically significant and unlikely to be due to random chance.
-
-##### Model Fit
-
-The R-squared value is 0.05905, meaning that these variables explain only 5.91% of the variation in Mean GDP. This indicates that other factors not included in this model likely have a much larger influence on GDP.
-
-The F-statistic is 1.084e+05 with a p-value of \<2.2e-16, showing that the model as a whole is statistically significant.
-However, the relatively low R-squared suggests that although the model is significant, it does not explain much of the variation in GDP.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
@@ -709,22 +686,26 @@ interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.poin
   labs( title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs" ) +
   theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
-This graph allows us to have a quite straightforwards answer, meaning the lower the SDG, the lower deaths due to pollution. 
+
+This graph allows us to have a quite straightforwards answer, meaning the lower the SDG, the lower deaths due to pollution.
 
 #### Checking for multicolinearity
-To check for multicolinearity, we compute the Variance Inflation Factor values of the model. 
+
+To check for multicolinearity, we compute the Variance Inflation Factor values of the model.
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(car)
 vif_values <- vif(model3) 
 print(vif_values)
 ```
-We obtain Variance Inflation Factors lower than five, and can hence conclude on low multicolinearity between our two explanatory variables.  
+
+We obtain Variance Inflation Factors lower than five, and can hence conclude on low multicolinearity between our two explanatory variables.
 
 #### Explanatory power and Fisher test
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 adj_r_squared <- summary_model3$adj.r.squared 
 ```
-
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 anova_model3 <- anova(model3) 
@@ -739,16 +720,18 @@ p_value <- chi2_test$p.value
 print(chi2_statistic) print(p_value)
 ```
 
-
 #### Analysis
 
-
 ## Study case : South Korea
-We have seen that overall, it seems more pollution generates more GDP per capita. 
-We will now try to analyse this over time, using data from Soith Korea. We made this choice considering its major GDP growth for the last decade, making it a particularly interesting case to study. 
+
+We have seen that overall, it seems more pollution generates more GDP per capita.
+We will now try to analyse this over time, using data from Soith Korea.
+We made this choice considering its major GDP growth for the last decade, making it a particularly interesting case to study.
 
 ### Quit data load and description
-We will keep working with the World Bank data, loading directly here GDP for Korea for all years available, and simultaneously with air pollution. 
+
+We will keep working with the World Bank data, loading directly here GDP for Korea for all years available, and simultaneously with air pollution.
+
 ```{r}
 library(WDI)
 
@@ -760,13 +743,15 @@ head(gdp_korea)
 head(pollution_korea)
 ```
 
-We then merge those two datasets together in order to get values per year for both GDP and pollution. 
+We then merge those two datasets together in order to get values per year for both GDP and pollution.
 
 ```{r}
 merged_korea <- merge(gdp_korea, pollution_korea, by = "year")
 merged_korea
 ```
-In order to get more clarity from the World Bank classification codes, we rename columns. EN.ATM.PM25.MC.M3 and NY.GDP.MKTP.CD become respectively Pollution and GDP. 
+
+In order to get more clarity from the World Bank classification codes, we rename columns.
+EN.ATM.PM25.MC.M3 and NY.GDP.MKTP.CD become respectively Pollution and GDP.
 
 ```{r}
 merged_korea <- merged_korea %>% 
@@ -779,18 +764,24 @@ merged_korea <- merged_korea %>%
 model_korea <- lm(Pollution ~ GDP, data = merged_korea) 
 summary(model_korea)
 ```
+
 ```{r}
 ggplot(merged_korea, aes(x = GDP, y = Pollution)) + 
   geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
   labs(title = "Linear Regression of GDP vs. Pollution in South Korea (model 6)", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
   theme_minimal()
 ```
-Here, it seems the Kuznets curve does not verify. As Korea experiences higher growth per capita, pollution gets worse. We do not yet observe pollution lowering, as it is in theory what we would have expected from the Kuznets environmental curve. 
+
+Here, it seems the Kuznets curve does not verify.
+As Korea experiences higher growth per capita, pollution gets worse.
+We do not yet observe pollution lowering, as it is in theory what we would have expected from the Kuznets environmental curve.
 
 ## Study case : Finland
 
 ### Quick data load and description
-The process is exactly the same as the one we used for Korea. 
+
+The process is exactly the same as the one we used for Korea.
+
 ```{r}
 library(WDI)
 
@@ -807,19 +798,21 @@ merged_finland <- merged_finland %>%
   rename( GDP = NY.GDP.MKTP.CD, Pollution = EN.ATM.PM25.MC.M3 )
 ```
 
-
 ### Testing for a Finland environmental Kuznets curve
+
 ```{r}
 model_korea <- lm(Pollution ~ GDP, data = merged_finland)
 
 summary(model_korea)
 ```
+
 ```{r}
 ggplot(merged_finland, aes(x = GDP, y = Pollution)) + 
   geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
   labs(title = "Linear Regression of GDP vs. Pollution in Finland (model 7)", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
   theme_minimal()
 ```
+
 ## Conclusion
 
 ## References
