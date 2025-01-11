@@ -50,7 +50,7 @@ And if so, can we quantify it ?
 
 ## Loading the datasets
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(tidyr)
 library(vroom)
 
@@ -72,7 +72,7 @@ We removed the first four rows that did not contain any data and got a proper da
 Also, the columns are too numerous and do not appear correctly (they end at 2005 instead of 2023).
 We consequently suppress all columns for values previous to 2005 so we can match dates considered in out other datasets.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(readr)
 library(dplyr)
 data <- read_delim("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_76.csv", delim = ",", skip = 4, col_names = TRUE)
@@ -80,7 +80,7 @@ data <- read_delim("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_76.csv", delim = ",", skip 
 GDP_clean <- data %>% select(1, (54:64))
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library (dplyr)
 GDP_clean <- GDP_clean %>%
   rename (
@@ -95,7 +95,7 @@ Hence the following changes.
 Dim1 becomes Sex, and FactValueNumericHigh (Low) beacome Mean_Value, Lowest_Value, Highest_Value.
 To align with the rest of our data, Location becomes Country.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(dplyr)
 
 DALYs <- DALYs %>%
@@ -115,7 +115,7 @@ colnames(DALYs)
 
 The observations are the same as for DALYs, hence the following changes.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 SDG <- SDG %>%
   rename(
     Mean_Value = "FactValueNumeric",
@@ -129,7 +129,7 @@ library(dplyr)
 write.csv(SDG, "SDG_modified.csv", row.names = FALSE)
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 death_air_pollution <- death_air_pollution %>%
   rename(
     Mean_Value = "FactValueNumeric",
@@ -162,7 +162,7 @@ This dataset will then be compared to pollution to answer our final sub research
 
 ##### Data summary per year
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 # Data summary per year
 library(dplyr)
 
@@ -201,7 +201,7 @@ It seems grouping by countries might be more relevant.
 
 ##### Data summary per country
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 # Data summary per country
 mean_DALYs <- DALYs %>%
   group_by(Country) %>%
@@ -233,7 +233,7 @@ We can consequently draw the hypothesis that there might be a negative relations
 
 ##### Data visual representations
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 # Data graphical representations
 
 library(ggplot2)
@@ -272,7 +272,7 @@ It will allow us to get a more precise analysis on the effect of carbone emissio
 
 ##### Summary per country
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(knitr)
 
 death_air_pollution_unique <- death_air_pollution %>%
@@ -301,7 +301,7 @@ Arranged by the number of deaths due to air pollution, we get first two countrie
 
 ##### Visual representation
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
 # Grouping mean over time per country
@@ -330,7 +330,7 @@ We will compare the degree to which some regions are polluted and their GDP over
 
 ##### Summary per country
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(dplyr)
 
 mean_SDG <- SDG %>%
@@ -360,7 +360,7 @@ We get here a partially similar result as for the DALYs, hence a potential corre
 
 ##### Visual representation
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
 # Grouping mean over time per country
@@ -396,7 +396,7 @@ GDP will be our wealth indicator in the simulation of the Kuznet's environmental
 
 ##### Summary per country
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(dplyr)
 library(knitr)
 
@@ -429,7 +429,7 @@ kable(summary_table, caption = "Summary Statistics of GDP per country - from 200
 
 ##### Visual representation
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
 ## Filtering by region
@@ -472,22 +472,22 @@ We first proceed to merging our data.
 For a first global view on our data, we used the means over time (2009 to 2019) for GDP per capita and SDGs, grouped by country.
 We will first make no distinction between countries and time to get a broad view and then precise our analysis.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(dplyr)
-DALYs <- DALYs |> 
-  rename("Country" = "Country Name")
+#DALYs <- DALYs |> 
+ # rename("Country" = "Country Name")
 
-mean_gdp <- mean_gdp |> 
-  rename("Country" = "Country Name")
+#mean_gdp <- mean_gdp |> 
+  #rename("Country" = "Country Name")
 
-mean_DALYs <- mean_DALYs |> 
-  rename("Country" = "Country Name")
+#mean_DALYs <- mean_DALYs |> 
+ # rename("Country" = "Country Name")
 
-death_air_pollution <- death_air_pollution |> 
-  rename("Country" = "Location")
+#death_air_pollution <- death_air_pollution |> 
+ # rename("Country" = "Location")
 
-mean_SDG <- mean_SDG |> 
-  rename("Country" = "Country Name")
+#mean_SDG <- mean_SDG |> 
+  #rename("Country" = "Country Name")
 
 Merged_data <-  DALYs %>%
    inner_join(mean_gdp, by = c("Country")) %>%
@@ -501,7 +501,7 @@ Merged_data <- Merged_data %>%
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model <- lm(SDGs ~ Mean_GDP, data = Merged_data)
 summary(model)
 ```
@@ -518,7 +518,7 @@ Significance of Coefficients The t-value and p-value are both very low (\<2e-16)
 Model Fit While the relationship between GDP and SDGs is statistically significant, the effect size remains very small, as shown by the low R-squared value (0.05726).
 This suggests that GDP alone is not a strong predictor of SDG performance, and other factors likely have a much greater influence.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
 ggplot(Merged_data, aes(x = Mean_GDP, y = SDGs)) +
@@ -540,7 +540,7 @@ It allows us however to get a first global impression on the relationship GDP ha
 
 ### Considering GDP as a function of SDGs and deaths due to air pollution
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model2 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
 summary(model2)
 ```
@@ -572,7 +572,7 @@ The t-values for all coefficients are large in magnitude, and the p-values are e
 While the relationships between GDP, pollution-related deaths, and SDGs are statistically significant, the low R-squared value (0.05905) suggests that these variables explain only 5.9% of the variation in GDP.
 This indicates that GDP is influenced by many other factors not included in this model.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
 fitted_values <- fitted(model2)
@@ -584,7 +584,7 @@ interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points =
 
 \*\* Proposition autre régression linéaire pour interpétation\*\*
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model3 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
 summary(model3)
 
@@ -650,7 +650,7 @@ The R-squared value is 0.05905, meaning that these variables explain only 5.91% 
 The F-statistic is 1.084e+05 with a p-value of \<2.2e-16, showing that the model as a whole is statistically significant.
 However, the relatively low R-squared suggests that although the model is significant, it does not explain much of the variation in GDP.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
 fitted_values <- fitted(model3)
@@ -684,7 +684,7 @@ We chose those three specific ones first with data availability, second randomly
 Let's draw a simple model GDP over gas emissions.
 We will proceed to an additional data cleaning to consider GDP only over 2009 to 2019 to align with SDGs.
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 Burkina_Faso_GDP <- GDP_clean %>% filter(`Country` == "Burkina Faso")
 Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(-2)
 Burkina_Faso_GDP <- Burkina_Faso_GDP %>% select(2:11)
