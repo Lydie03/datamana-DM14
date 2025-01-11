@@ -1,7 +1,7 @@
 ---
 title: "Data Management Project"
 author : Lou Dhiver and Lydie Lazure 
-output: pdf_document
+output: html
 ---
 
 # Phase 2 of the project
@@ -566,20 +566,6 @@ print(anova_model)
 ```
 The low p-value indicates our model has explanatory power. 
 
-##### Chi-2
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-chi2_test <- chisq.test(Merged_data)
-
-chi2_statistic <- chi2_test$statistic 
-p_value <- chi2_test$p.value 
-print(chi2_statistic) 
-print(p_value)
-```
-
-
-
-
 ### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
@@ -693,6 +679,7 @@ The R-squared value is 0.05905, meaning that these variables explain only 5.91% 
 The F-statistic is 1.084e+05 with a p-value of \<2.2e-16, showing that the model as a whole is statistically significant.
 However, the relatively low R-squared suggests that although the model is significant, it does not explain much of the variation in GDP.
 
+******* A CORRIGER *********
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
@@ -701,9 +688,12 @@ residuals <- residuals(model3)
 
 library (interactions)
 
-interact_plot(model3, pred = deaths_due_to_pollution, modx = Mean_GDP, plot.points = TRUE, interval = TRUE) + 
-  labs( title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs" ) +
-  theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
+new_data <- expand.grid (deaths_due_to_pollution = seq(min(Merged_data$deaths_due_to_pollution), max(Merged_data$deaths_due_to_pollution), length.out = 100), Mean_GDP = mean(Merged_data$Mean_GDP)) 
+
+new_data$SDG <- predict(model3, newdata = new_data) 
+
+ggplot(your_data, aes(x = deaths_due_to_pollution, y = SDGs, color = factor(Mean_GDP))) + geom_point() + geom_line(data = new_data, aes(y = SDGs), linetype = "solid") + labs(title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs") + theme_minimal() + theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right") # Display the plot
+print(interaction_plot)
 ```
 This graph allows us to have a quite straightforwards answer, meaning the lower the SDG, the lower deaths due to pollution. 
 
@@ -758,24 +748,24 @@ head(pollution_korea)
 
 We then merge those two datasets together in order to get values per year for both GDP and pollution. 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 merged_korea <- merge(gdp_korea, pollution_korea, by = "year")
 merged_korea
 ```
 In order to get more clarity from the World Bank classification codes, we rename columns. EN.ATM.PM25.MC.M3 and NY.GDP.MKTP.CD become respectively Pollution and GDP. 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 merged_korea <- merged_korea %>% 
   rename( GDP = NY.GDP.MKTP.CD, Pollution = EN.ATM.PM25.MC.M3 )
 ```
 
 ### Testing for a Korean environmental Kuznets curve
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model_korea <- lm(Pollution ~ GDP, data = merged_korea) 
 summary(model_korea)
 ```
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 ggplot(merged_korea, aes(x = GDP, y = Pollution)) + 
   geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
   labs(title = "Linear Regression of GDP vs. Pollution in South Korea (model 6)", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
@@ -787,7 +777,7 @@ Here, it seems the Kuznets curve does not verify. As Korea experiences higher gr
 
 ### Quick data load and description
 The process is exactly the same as the one we used for Korea. 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(WDI)
 
 gdp_finland <- WDI(indicator = "NY.GDP.MKTP.CD", country = "FIN", start = 2000, end = 2024)
@@ -805,12 +795,12 @@ merged_finland <- merged_finland %>%
 
 
 ### Testing for a Finland environmental Kuznets curve
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model_korea <- lm(Pollution ~ GDP, data = merged_finland)
 
 summary(model_korea)
 ```
-```{r}
+```{r,}
 ggplot(merged_finland, aes(x = GDP, y = Pollution)) + 
   geom_point(color = "blue") + geom_smooth(method = "lm", color = "red", se = FALSE) +
   labs(title = "Linear Regression of GDP vs. Pollution in Finland (model 7)", x = "GDP (Current US$)", y = "Pollution (PM2.5)") + 
