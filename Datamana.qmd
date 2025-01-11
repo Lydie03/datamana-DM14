@@ -466,7 +466,7 @@ Hence supposedly a higher pollution rate induced by low income countries prevale
 
 ## GDP and gas emission : Kuznets curve (EKC)
 
-### A first model - global view on gas emissions and GDP
+### A first global view on gas emissions and GDP (model 1)
 
 We first proceed to merging our data.
 For a first global view on our data, we used the means over time (2009 to 2019) for GDP per capita and SDGs, grouped by country.
@@ -541,7 +541,31 @@ However, this is not enough to answer our question : has pollution been necessar
 In other terms, we do not have here yet our environmental Kuznets curve, since we captured a single mean over time for each country.
 It allows us however to get a first global impression on the relationship GDP has with SDGs.
 
-#### Checking for mul
+#### Explanatory power and Fisher test
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+adj_r_squared <- model$adj.r.squared 
+adj_r_squared
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+anova_model <- anova(model) 
+print(anova_model)
+```
+
+##### Chi-2
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+chi2_test <- chisq.test(Merged_data)
+
+chi2_statistic <- chi2_test$statistic 
+p_value <- chi2_test$p.value 
+print(chi2_statistic) 
+print(p_value)
+```
+
+
+
 
 ### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
 
