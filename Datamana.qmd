@@ -687,8 +687,6 @@ This suggests that the model does not capture most of the variation in SDG score
 The F-statistic is 1.086e+05, with a p-value of \<2.2e-16, indicating that the overall model is statistically significant.
 However, the relatively low R-squared suggests that while the model is significant, it may not explain much of the variation in SDGs.
 
-
-******* A CORRIGER *********
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 
@@ -703,8 +701,7 @@ new_data$SDGs <- predict(model3, newdata = new_data)
 
 ggplot(new_data, aes(x = deaths_due_to_pollution, y = SDGs, color = factor(Mean_GDP))) + geom_point() + geom_line(data = new_data, aes(y = SDGs), linetype = "solid") + labs(title = "Interaction Effect of Pollution and GDP on SDGs", x = "Deaths Due to Pollution", y = "SDGs") + theme_minimal() + theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right") # Display the plot
 ```
-
-This graph allows us to have a quite straightforwards answer, meaning the lower the SDG, the lower deaths due to pollution.
+For a mean GDP of 13426.43, we have a negative relation between SDGs and deaths due to pollution. The more an imaginary country with this mean GDP disrespect the SDGs, the more it will have a high number of deaths due to pollution. On the contrary, a theorical country respecting more the SDGs will see its number of deaths due to pollution decreasing. 
 
 #### Checking for multicolinearity
 
@@ -781,7 +778,19 @@ merged_korea <- merged_korea %>%
 model_korea <- lm(Pollution ~ GDP, data = merged_korea) 
 summary(model_korea)
 ```
+#### Analysis 
+##### Interpretation of coefficients
+The intercept has an estimated value of 22.92, meaning that when GDP is zero, the predicted SDG score is 22.92. However, this intercept lacks direct real-world meaning, as GDP cannot realistically be zero.
+The coefficient for GDP is 1.853e-12, indicating that for every 1-unit increase in GDP, the SDG score increases by 1.853e-12. While this suggests a positive relationship between GDP and SDG scores, the relationship is quite small, reflecting a minimal effect of GDP on the SDG score.
 
+##### Significance of Coefficients
+The intercept is statistically significant with a p-value of 2.84e-14, which is well below the threshold of 0.001, indicating a strong relationship between the intercept and SDG scores.
+The coefficient for GDP is marginally significant, with a p-value of 0.0608. Although it is just above the common significance level of 0.05, the coefficient suggests a weak but possible relationship between GDP and SDG scores. 
+
+##### Model fit 
+The R-squared value is 0.173, meaning that only 17.3% of the variation in SDGs is explained by GDP. This indicates that the model does not capture most of the variation in SDG scores, and other factors not included in the model may be more significant in determining SDG performance.
+The Adjusted R-squared value is 0.1295, which adjusts for the number of predictors and reflects a modest fit of the model, suggesting that the model's explanatory power is limited.
+The F-statistic is 3.974 with a p-value of 0.06076. While the model as a whole is close to being statistically significant, it is not at the conventional threshold (p-value < 0.05), suggesting that the relationship between GDP and SDG performance may not be robust enough to draw strong conclusions from this model.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 
