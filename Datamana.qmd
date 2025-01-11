@@ -95,7 +95,7 @@ Hence the following changes.
 Dim1 becomes Sex, and FactValueNumericHigh (Low) beacome Mean_Value, Lowest_Value, Highest_Value.
 To align with the rest of our data, Location becomes Country.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results="hide"}
 library(dplyr)
 
 DALYs <- DALYs %>%
@@ -183,8 +183,6 @@ median_value
 sd <- DALYs %>%
   group_by(DALYs$Country) %>%
   summarise(sd = median(Mean_Value, na.rm = TRUE)) 
-
-
 
 summary_table <- data.frame(
   "Mean DALY" = mean,
@@ -707,7 +705,7 @@ On the contrary, a theorical country respecting more the SDGs will see its numbe
 
 To check for multicolinearity, we compute the Variance Inflation Factor values of the model.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results="hide"}
 library(car)
 vif_values <- vif(model3) 
 print(vif_values)
@@ -759,7 +757,7 @@ head(pollution_korea)
 
 We then merge those two datasets together in order to get values per year for both GDP and pollution.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results="hide"}
 merged_korea <- merge(gdp_korea, pollution_korea, by = "year")
 merged_korea
 ```
@@ -767,7 +765,7 @@ merged_korea
 In order to get more clarity from the World Bank classification codes, we rename columns.
 EN.ATM.PM25.MC.M3 and NY.GDP.MKTP.CD become respectively Pollution and GDP.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results="hide"}
 merged_korea <- merged_korea %>% 
   rename( GDP = NY.GDP.MKTP.CD, Pollution = EN.ATM.PM25.MC.M3 )
 ```
@@ -935,4 +933,8 @@ However, due to the challenges of managing large datasets, we were unable to ana
     (2018).
     *Analyzing the Environmental Kuznets Curve for the EU Countries: The Role of Ecological Footprint*.
     *Environmental Science and Pollution Research*, 25(29), 29387--29396.
-10. Duflo, Esther. (2024). *Esther Duflo, Prix Nobel d’économie: Il faut offrir une compensation aux citoyens les plus pauvres du monde et les aider à s’adapter au changement climatique*. Tribune publiée dans le journal français *Le Monde*.
+
+10. Duflo, Esther.
+    (2024).
+    *Esther Duflo, Prix Nobel d'économie: Il faut offrir une compensation aux citoyens les plus pauvres du monde et les aider à s'adapter au changement climatique*.
+    Tribune publiée dans le journal français *Le Monde*.
