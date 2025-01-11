@@ -624,6 +624,10 @@ library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
+The different fitted lines in this graphic offer various interpretations of the relationship between GDP, deaths due to air pollution, and the SDGs. The trends of the curves are similar but differ in the steepness of their slopes. When the SDGs decrease by one unit, the relationship between mean GDP and deaths due to pollution is more negative and stronger compared to when the SDGs are at their mean or when they improve by one unit.
+
+This means that when SDGs are less respected, implying that a given country pollutes more, the number of deaths due to air pollution increases more sharply as GDP declines. Poorer countries struggle more to combat pollution and climate change issues because doing so comes at a cost that is often inaccessible given their GDP.
+
 ### Improving the modelization of pollution - GDP as a function of gas emissions and deaths due to pollution (model3)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
