@@ -624,14 +624,14 @@ library(interactions)
 interact_plot(model2, pred = deaths_due_to_pollution, modx = SDGs, plot.points = TRUE, interval = TRUE) + labs( title = "Interaction Effect of Pollution and SDGs on GDP", x = "Deaths Due to Pollution", y = "Mean GDP" ) + theme_minimal() + theme( plot.title = element_text(size = 14, face = "bold", hjust = 0.5), axis.title = element_text(size = 12, face = "bold"), legend.title = element_text(size = 10, face = "bold"), legend.position = "right" )
 ```
 
-### Improving the modelization of pollution - GDP as a function of gas emissions and deaths due to pollution (model4)
+### Improving the modelization of pollution - GDP as a function of gas emissions and deaths due to pollution (model3)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 model3 <- lm(Mean_GDP ~ deaths_due_to_pollution * SDGs, data = Merged_data)
-summary(model4)
+summary(model3)
 
 model4 <- lm(SDGs ~ deaths_due_to_pollution * Mean_GDP, data = Merged_data)
-summary(model3)
+summary(model4)
 ```
 
 #### Analysis
@@ -737,6 +737,7 @@ print(chi2_statistic) print(p_value)
 
 
 #### Analysis
+
 
 ## Study case : South Korea
 We have seen that overall, it seems more pollution generates more GDP per capita. 
