@@ -565,7 +565,7 @@ df <- anova_model$"Df"
 p_value <- pchisq(chi_squared, df, lower.tail = FALSE) 
 list(Chi_squared = chi_squared, Degrees_of_freedom = df, P_value = p_value)
 ```
-
+We obtain a very low p value, indicating there is a significant relationship between GD¨and SDG. 
 ### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
@@ -701,7 +701,7 @@ df <- anova_model3$"Df"
 p_value <- pchisq(chi_squared, df, lower.tail = FALSE) 
 list(Chi_squared = chi_squared, Degrees_of_freedom = df, P_value = p_value)
 ```
-
+Our low p value indicates e significant relationship between our explanatories and explained variables. 
 #### Analysis
 
 ## Study case : South Korea
@@ -844,6 +844,9 @@ ggplot(merged_finland, aes(x = GDP, y = Pollution)) +
 ```
 
 This graphic confirms what we saw before, Finland is on the decreasing slope of the Kuznets curve, as its GDP in increasing, its gas emissions are decreasing.
+
+It appears our results are completely different for countries depending on where they are on the globe. We could draw the hypothesis that this is due to the nature of its growth - is the country producing services or textile for inetance. 
+It consequently seems we cannot obtain a perfect environmental Kuznets curve, and the theory, while interesting, has to be confronted to other factors in order to be perfected. 
 
 ## Conclusion
 
