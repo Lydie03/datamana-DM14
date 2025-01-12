@@ -491,20 +491,6 @@ We will first make no distinction between countries and time to get a broad view
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 library(dplyr)
-#DALYs <- DALYs |> 
- # rename("Country" = "Country Name")
-
-#mean_gdp <- mean_gdp |> 
-  #rename("Country" = "Country Name")
-
-#mean_DALYs <- mean_DALYs |> 
- # rename("Country" = "Country Name")
-
-#death_air_pollution <- death_air_pollution |> 
- # rename("Country" = "Location")
-
-#mean_SDG <- mean_SDG |> 
-  #rename("Country" = "Country Name")
 
 Merged_data <-  DALYs %>%
    inner_join(mean_gdp, by = c("Country")) %>%
@@ -574,23 +560,10 @@ The low p-value indicates our model has explanatory power.
 ##### Chi-2
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-chi2_test <- chisq.test(Merged_data)
-
-chi2_statistic <- chi2_test$statistic 
-p_value <- chi2_test$p.value 
-print(chi2_statistic) 
-print(p_value)
-```
-
-##### Chi-2
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-chi2_test <- chisq.test(Merged_data)
-
-chi2_statistic <- chi2_test$statistic 
-p_value <- chi2_test$p.value 
-print(chi2_statistic) 
-print(p_value)
+chi_squared <- anova_model$"Sum Sq"
+df <- anova_model$"Df"
+p_value <- pchisq(chi_squared, df, lower.tail = FALSE) 
+list(Chi_squared = chi_squared, Degrees_of_freedom = df, P_value = p_value)
 ```
 
 ### Considering GDP as a function of SDGs and deaths due to air pollution (model 2)
@@ -727,9 +700,10 @@ print(anova_model3)
 ##### Chi-2
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-chi2_statistic <- chi2_test$statistic 
-p_value <- chi2_test$p.value 
-print(chi2_statistic) print(p_value)
+chi_squared <- anova_model3$"Sum Sq"
+df <- anova_model3$"Df"
+p_value <- pchisq(chi_squared, df, lower.tail = FALSE) 
+list(Chi_squared = chi_squared, Degrees_of_freedom = df, P_value = p_value)
 ```
 
 #### Analysis
