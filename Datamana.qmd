@@ -1,7 +1,7 @@
 ---
 title: "Data Management Project"
 author : Lou Dhiver and Lydie Lazure 
-output: html
+output: pdf
 ---
 
 # Phase 2 of the project
@@ -687,10 +687,6 @@ print(vif_values)
 We obtain Variance Inflation Factors lower than five, and can hence conclude on low multicolinearity between our two explanatory variables.
 
 #### Explanatory power and Fisher test
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-adj_r_squared <- summary_model3$adj.r.squared 
-```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
 anova_model3 <- anova(model3) 
